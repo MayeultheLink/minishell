@@ -19,17 +19,13 @@ int	main(int ac, char **av, char **env)
 	{
 		add_history(str);
 	split_str = ft_split(str, ' ');
-	while (1)
+	if (!strcmp("exit", split_str[0]))
 	{
-		split = ft_split(env[i], '=');
-	
-		if (!strcmp("PATH", split[0]))
-		{
-			path = split[1];
-			break ;
-		}
-		i++;
+		ft_freesplit(split_str);
+		free(str);
+		break ;
 	}
+	path = getenv("PATH");
 	split = ft_split(path, ':');
 	i = 0;
 	while (split[i])
@@ -40,11 +36,13 @@ int	main(int ac, char **av, char **env)
 			break ;
 		i++;
 	}
-	split[i + 1] = 0;
 	if (fork() == 0)
 		execve(split[i], split_str, env);
 	else
 		wait(NULL);
+//	ft_freesplit(split);
+//	ft_freesplit(split_str);
+//	free(str);
 	}
 	}
 	return 0;
