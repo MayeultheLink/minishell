@@ -32,9 +32,9 @@ int	main(int ac, char **av, char **env)
 					break ;
 				i++;
 			}
-			if (fork() == 0)
+			if (split[i] && fork() == 0)
 				execve(split[i], split_str, env);
-			else
+			if (split[i])
 				wait(NULL);
 		}
 	}
