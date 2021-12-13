@@ -1,7 +1,21 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "./libft/libft.h"
+
+void	print_split(char **split)
+{
+	int	i = 0;
+
+	while (split && split[i])
+	{
+		printf("%d = %s", i, split[i]);
+		printf("//\n");
+		i++;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -19,23 +33,33 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(str);
 			split_str = ft_split(str, ' ');
-			if (!strcmp("exit", split_str[0]))
-				break ;
-			path = getenv("PATH");
-			split = ft_split(path, ':');
-			i = 0;
-			while (split[i])
+			if (split_str)
 			{
-				split[i] = strcat(split[i], "/");
-				split[i] = strcat(split[i], split_str[0]);
-				if (!access(split[i], F_OK))
+//			print_split(split_str);
+				if (!strcmp("exit", split_str[0]))
+				{
+					write(1, "exit\n", 5);
 					break ;
-				i++;
+				}
+				path = getenv("PATH");
+				split = ft_split(path, ':');
+				i = 0;
+				while (split[i])
+				{
+					split[i] = strcat(split[i], "/");
+					split[i] = strcat(split[i], split_str[0]);
+					if (!access(split[i], F_OK))
+						break ;
+					i++;
+				}
+				if (split[i] && fork() == 0)
+					execve(split[i], split_str, env);
+				if (split[i])
+					wait(NULL);
 			}
-			if (split[i] && fork() == 0)
-				execve(split[i], split_str, env);
-			if (split[i])
-				wait(NULL);
+			else
+			//	printf("Error\n");
+				write(1, "Error\n", 6);
 		}
 	}
 	return 0;

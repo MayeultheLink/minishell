@@ -1,6 +1,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "./libft/libft.h"
 
 int	main(int ac, char **av, char **env)
