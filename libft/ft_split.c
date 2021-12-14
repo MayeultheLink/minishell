@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 12:20:59 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/13 18:39:17 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:47:19 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_countwords(char const *s, char c)
 	size_t	count;
 
 	if (!s)
-		return (0);
+		return (-1);
 	i = 0;
 	count = 0;
 	while (s[i])
@@ -147,10 +147,10 @@ void	*ft_freesplit(char **split)
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
-	size_t	i;
-	size_t	j;
-	size_t	count;
-	size_t	slen;
+	int		i;
+	int		j;
+	int		count;
+	int		slen;
 
 	i = 0;
 	j = 0;

@@ -6,7 +6,7 @@
 #    By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/26 15:31:23 by mde-la-s          #+#    #+#              #
-#    Updated: 2021/09/02 17:45:40 by mde-la-s         ###   ########.fr        #
+#    Updated: 2021/12/14 14:23:01 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ SRCS	=	ft_atoi.c \
 		ft_putnbr_fd.c \
 		ft_putstr_fd.c \
 		ft_split.c \
+		ft_strcat.c \
 		ft_strchr.c \
+		ft_strcmp.c \
 		ft_strdup.c \
 		ft_strjoin.c \
 		ft_strlcat.c \
@@ -47,16 +49,7 @@ SRCS	=	ft_atoi.c \
 		ft_tolower.c \
 		ft_toupper.c
 
-BONUS	=	ft_lstadd_back.c \
-		ft_lstadd_front.c \
-		ft_lstdelone.c \
-		ft_lstlast.c \
-		ft_lstnew.c \
-		ft_lstsize.c
-
 OBJS	=	${SRCS:.c=.o}
-
-OBJSBONUS = 	${BONUS:.c=.o}
 
 CC	=	clang
 
@@ -68,12 +61,8 @@ $(NAME)	: ${OBJS}
 	${CC} ${CFLAGS} -c ${SRCS}
 	ar rcs ${NAME} ${OBJS}
 
-bonus:	${OBJSBONUS}
-		${CC} ${CFLAGS} -c ${BONUS}
-		ar rcs ${NAME} ${OBJSBONUS}
-
 clean	:
-	rm -f ${OBJS} ${OBJSBONUS}
+	rm -f ${OBJS}
 
 fclean	: clean
 	rm -f ${NAME}

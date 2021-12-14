@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 15:42:40 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/10 22:40:12 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:05:28 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ int				ft_isascii(int c);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
 char			*ft_itoa(int n);
-void			ft_lstadd_back(t_list **alst, t_list *new);
-void			ft_lstadd_front(t_list **alst, t_list *new);
-void			ft_lstclear(t_list **lst, void (*del)(void *));
-void			ft_lstdelone(t_list *lst, void (*del)(void *));
-void			ft_lstiter(t_list *lst, void (*f)(void *));
-t_list			*ft_lstlast(t_list *lst);
-t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*d)(void *));
-t_list			*ft_lstnew(void *content);
-int				ft_lstsize(t_list *lst);
+//void			ft_lstadd_back(t_list **alst, t_list *new);
+//void			ft_lstadd_front(t_list **alst, t_list *new);
+//void			ft_lstclear(t_list **lst, void (*del)(void *));
+//void			ft_lstdelone(t_list *lst, void (*del)(void *));
+//void			ft_lstiter(t_list *lst, void (*f)(void *));
+//t_list			*ft_lstlast(t_list *lst);
+//t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*d)(void *));
+//t_list			*ft_lstnew(void *content);
+//int				ft_lstsize(t_list *lst);
 void			*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -54,7 +54,9 @@ void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr_fd(char *s, int fd);
 char			**ft_split(char const *s, char c);
 void			*ft_freesplit(char **split);
+char			*ft_strcat(char *str1, char *str2, int f);
 char			*ft_strchr(const char *s, int c);
+int				ft_strcmp(char *str1, char *str2);
 char			*ft_strdup(const char *s1);
 char			*ft_strjoin(char const *s1, char const *s2);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
