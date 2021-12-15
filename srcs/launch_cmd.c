@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:30:42 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/14 16:27:54 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:51:19 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ int	exe_cmd(char **split_str, char **split_path, char **env)
 int	launch_cmd(char *str, char **env)
 {
 	char	**split_str;
-	char	*path;
 	char	**split_path;
 	int		i;
 
-	add_history(str);
-	path = getenv("PATH");
-	split_path = ft_split(path, ':');
+	split_path = ft_split(getenv("PATH"), ':');
 	split_str = ft_split(str, ' ');
 	if (split_str && split_path)
 	{

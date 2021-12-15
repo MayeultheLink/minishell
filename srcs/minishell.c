@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/14 14:55:23 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:51:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ int	main(int ac, char **av, char **env)
 		str = readline("minishell> ");
 		if (ft_strlen(str) > 0)
 		{
-			if (!launch_cmd(str, env))
+			add_history(str);
+			if (!parse_str(&str) || !launch_cmd(str, env))
 				break ;
+			printf("str = %s\n", str);
 			free(str);
 		}
 	}

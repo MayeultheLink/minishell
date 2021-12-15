@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2021/12/14 14:36:42 by mde-la-s         ###   ########.fr        #
+#    Updated: 2021/12/15 13:04:02 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	=	minishell
 
 LIBFT	=	libft/libft.a
 SRCS	=	srcs/minishell.c \
-			srcs/launch_cmd.c
+			srcs/launch_cmd.c \
+			srcs/parse_str.c
 
 # Colors
 _GREY=$ \x1b[30m
