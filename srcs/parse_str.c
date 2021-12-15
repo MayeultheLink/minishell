@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 11:53:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/15 14:11:50 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:11:09 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	parse_str(char **str)
 	while (*str && (*str)[i])
 	{
 		if ((*str)[i] == '\'' || (*str)[i] == '"')
-			quotes(str, i);
+			i = quotes(str, i);
 		else if (((*str)[i] == '<' || (*str)[i] == '>')
 				&& (*str)[i + 1] == ' ')
 			*str = parse_chevron(*str, i);
