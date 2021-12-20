@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/17 18:15:19 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:42:41 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ char	*fill_control(char *control, char *str)
 			control[++j] = '0';
 			q = str[i];
 			while (str[++i] && str[i] != q)
-				control[++j] = '1';
+				if (q == '"' && str[i] == '$')
+					control[++j] = '0';
+				else
+					control[++j] = '1';
 			if (!str[i])
 				return (NULL);
 		}
