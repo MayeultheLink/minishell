@@ -6,53 +6,63 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 13:06:45 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:58:08 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_type(t_token *token)
+int	get_type(t_token *token, char c)
 {
-	if (token->str[0] == '|')
+	if (token->str[0] == '|' && c == '0')
 		return (PIPE);
-	else if (token->str[0] == '<' || token->str[0] == '>')
+	else if ((token->str[0] == '<' || token->str[0] == '>') && c == '0')
 		return (REDIR);
-	else if (ft_isalpha(token->str[0])
-			&& (token->previous && (token->previous.type == CMD
-					|| token->previous.type == ARG)))
-		return (ARG);
 	else
 		return (CMD);
 }
 
-t_token	*get_token(char *str, char *control, int beginning, int end)
+t_token	*malloc_token(int end, int beg, int c)
 {
-	t_token	token;
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->str = malloc(sizeof(char) * (end - beg - c) + 1);
+	if (!token->str)
+		return (NULL);
+	return (token);
+}
+
+t_token	*get_token(char *str, char *control, int beg, int end)
+{
+	t_token	*token;
 	int	i;
 	int	c;
 
 	i = -1;
 	c = 0;
-	while (beginning + ++i < end)
-		if ((str[beginning + i] == '"' || str[beginning + i] == '\'') && control[beginning + i] == '0')
+	while (beg + ++i < end)
+		if ((str[beg + i] == '"' || str[beg + i] == '\'')
+				&& control[beg + i] == '0')
 			c++;
-	token.str = malloc(sizeof(char) * (end - beginning - c) + 1);
-	if (!token.str)
-		return (NULL);
-	while (beginning < end)
+	token = malloc_token(end, beg, c);
+	c = beg - 1;
+	i = 0;
+	while (++c + i < end)
 	{
-		while ((str[beginning] == '"' || str[beginning] == '\'') && control[beginning] == '0')
-			beginning++;
-		token.str[beginning] == str[beginning];
-		beginning++;
+		while ((str[c + i] == '"' || str[c + i] == '\'')
+				&& control[c + i] == '0')
+			i++;
+		token->str[c - beg] = str[c + i];
 	}
-	token.str[beginning] = 0;
-	token.type = get_type(token);
+	token->str[c - beg] = 0;
+	token->type = get_type(token, control[beg]);
 	return (token);
 }
 
-t_lst	*lst_add(t_lst *lst, t_token token)
+t_lst	*lst_add(t_lst *lst, t_token *token)
 {
 	t_lst	*lst_start;
 
@@ -81,18 +91,29 @@ t_lst	*lst_add(t_lst *lst, t_token token)
 t_lst	*split_minishell(char *str, char *control)
 {
 	t_lst	*lst;
-	t_token	token;
 	int	beginning;
 	int	end;
 
 	lst = NULL;
 	beginning = 0;
-	end = -1;
+	end = 0;
+	while (str[end] && !(str[end] == ' ' && control[end] == '0'))
+		end++;
+	lst = lst_add(lst, get_token(str, control, beginning, end));
+	beginning = end;
+	while (str[++beginning] == ' ')
+		end++;
 	while (str[++end])
-		if (str[end] == ' ' && str[end - 1] != ' ' && control[end] == '0')
+	{
+		if (str[end] == ' ' && control[end] == '0')
 		{
 			lst = lst_add(lst, get_token(str, control, beginning, end));
-			beginning = end + 1;
+			beginning = end;
+			while (str[++beginning] == ' ')
+				end++;
 		}
+	}
+	if (str[beginning])
+		lst = lst_add(lst, get_token(str, control, beginning, end));
 	return (lst);
 }

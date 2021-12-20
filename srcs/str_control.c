@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 10:42:41 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:45:10 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	*fill_control(char *control, char *str)
 
 char	*str_control(char *str)
 {
-	char	*control;
 	char	*new;
 
 	new = malloc(sizeof(char) * ft_strlen(str) + 1);

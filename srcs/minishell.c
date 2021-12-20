@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/15 13:51:59 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:25:08 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,26 @@ void	parse_str(char *str)
 
 int	main(int ac, char **av, char **env)
 {
+	t_lst	*lst;
 	char	*str;
 
 	(void)ac;
 	(void)av;
+	(void)env;
 	while (1)
 	{
 		str = readline("minishell> ");
 		if (ft_strlen(str) > 0)
 		{
 			add_history(str);
-			if (!parse_str(&str) || !launch_cmd(str, env))
+			if (!launch_cmd(str, env))
 				break ;
-			printf("str = %s\n", str);
+			lst = split_minishell(str, str_control(str));
+			while (lst)
+			{
+				printf("%s\n", lst->token->str);
+				lst = lst->next;
+			}
 			free(str);
 		}
 	}

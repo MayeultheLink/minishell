@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 11:50:26 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:19:55 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct		s_token
 
 typedef struct		s_lst
 {
-	struct s_token	token;
+	struct s_token	*token;
 	struct s_lst	*previous;
 	struct s_lst	*next;
 }			t_lst;
@@ -40,5 +40,6 @@ typedef struct		s_lst
 int		launch_cmd(char *str, char **env);
 int		parse_str(char **str);
 char	*str_control(char *str);
+t_lst	*split_minishell(char *str, char *control);
 
 #endif
