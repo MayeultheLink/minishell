@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 15:58:08 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:31:07 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 				&& control[beg + i] == '0')
 			c++;
 	token = malloc_token(end, beg, c);
+	if (!token)
+		return (NULL);
 	c = beg - 1;
 	i = 0;
 	while (++c + i < end)
@@ -115,5 +117,6 @@ t_lst	*split_minishell(char *str, char *control)
 	}
 	if (str[beginning])
 		lst = lst_add(lst, get_token(str, control, beginning, end));
+	lst = parse_lst(lst);
 	return (lst);
 }

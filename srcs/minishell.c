@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 15:25:08 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:16:25 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	main(int ac, char **av, char **env)
 			lst = split_minishell(str, str_control(str));
 			while (lst)
 			{
-				printf("%s\n", lst->token->str);
+				printf("str = %s\n", lst->token->str);
+				printf("type = %d\n", lst->token->type);
 				lst = lst->next;
 			}
 			free(str);

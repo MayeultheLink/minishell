@@ -6,34 +6,49 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 14:45:10 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:15:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "minishell.h"
+
+char	*fill_special(char *str, char *control, int *i, int *j)
+{
+	char	q;
+
+	if (str[*i] == '"' || str[*i] == '\'')
+	{
+		control[++(*j)] = '0';
+		q = str[*i];
+		while (str[++(*i)] && str[*i] != q)
+			if (q == '"' && str[*i] == '$')
+				control[++(*j)] = '0';
+			else
+				control[++(*j)] = '1';
+		if (!str[*i])
+			return (NULL);
+	}
+	else if ((str[*i] == '<' || str[*i] == '>') && (*i)++)
+	{
+		control[++(*j)] = '0';
+		if ((str[*i] == '<' || str[*i] == '>') && (*i)++)
+			control[++(*j)] = '0';
+		while (str[*i] == ' ' && (*i)++)
+			control[++(*j)] = '1';
+	}
+	return (control);
+}
 
 char	*fill_control(char *control, char *str)
 {
 	int		i;
 	int		j;
-	char	q;
 
 	i = -1;
 	j = -1;
 	while (str[++i])
 	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			control[++j] = '0';
-			q = str[i];
-			while (str[++i] && str[i] != q)
-				if (q == '"' && str[i] == '$')
-					control[++j] = '0';
-				else
-					control[++j] = '1';
-			if (!str[i])
-				return (NULL);
-		}
+		control = fill_special(str, control, &i, &j);
 		control[++j] = '0';
 	}
 	control[++j] = '\0';

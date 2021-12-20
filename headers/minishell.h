@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 15:19:55 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:26:30 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 #include <sys/wait.h>
 
 # define CMD 0
-# define ARG 1
-# define PIPE 2
-# define REDIR 3
+# define PIPE 1
+# define REDIR 2
 
 typedef struct		s_token
 {
 	char		*str;
+	char		**cmd;
 	int		type;
 }			t_token;
 
