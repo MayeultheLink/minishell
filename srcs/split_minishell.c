@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 17:31:07 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:25:53 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 		token->str[c - beg] = str[c + i];
 	}
 	token->str[c - beg] = 0;
+	while (str[beg] != token->str[0])
+		beg++;
 	token->type = get_type(token, control[beg]);
 	return (token);
 }
@@ -117,6 +119,6 @@ t_lst	*split_minishell(char *str, char *control)
 	}
 	if (str[beginning])
 		lst = lst_add(lst, get_token(str, control, beginning, end));
-	lst = parse_lst(lst);
+//	lst = parse_lst(lst);
 	return (lst);
 }

@@ -6,31 +6,31 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:31:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 17:46:00 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:36:39 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*parse_lst(t_lst *lst)
+int	error_pipe(t_lst *lst)
 {
-	t_lst	*lst_start;
-	t_lst	*lst_tmp;
-	int	i;
-
-	lst_start = lst;
-	i = 0;
+	if (lst->token->type == PIPE)
+		return (0);
 	while (lst)
 	{
-		if (lst->token->type == CMD)
-		{
-			while (lst && lst->token->type == CMD)
-			{
-				lst = lst->next;
-				i++;
-			}
-		}
-		else
+		while (lst && lst->token->type != PIPE)
 			lst = lst->next;
+		if (!lst)
+			return (1);
+		if (!lst->next || lst->next->token->type == PIPE)
+			return (0);
+		lst = lst->next;
 	}
+	return (1);
+}
+
+t_lst	*lst_error(t_lst *lst)
+{
+	if (!error_pipe(lst))
+		return (NULL);
 }
