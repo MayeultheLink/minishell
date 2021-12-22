@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:31:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/21 17:36:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/22 16:36:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,56 @@ int	error_pipe(t_lst *lst)
 	return (1);
 }
 
-t_lst	*lst_error(t_lst *lst)
+t_lst	*del_spaces_redir(t_lst *lst)
 {
+	char	*new;
+	int	i;
+	int	j;
+
+	while (lst)
+	{
+		if (lst->token->type == REDIR)
+		{
+			i = -1;
+			j = 0;
+			while (lst->token->str[++i])
+				if (lst->token->str[i] != ' ')
+					j++;
+			new = malloc(sizeof(char) * j + 1);
+			if (!new)
+				return (NULL);
+			new[j] = 0;
+			while (--i >= 0)
+				if (lst->token->str[i] != ' ')
+					new[--j] = lst->token->str[i];
+			free(lst->token->str);
+			lst->token->str = ft_strdup(new);
+			free(new);
+		}
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+t_lst	*get_arg(t_lst *lst)
+{
+	
+}
+
+t_lst	*parse_lst(t_lst *lst)
+{
+	t_lst	*lst_start;
+
 	if (!error_pipe(lst))
 		return (NULL);
+	lst_start = lst;
+	lst = del_spaces_redir(lst);
+	if (!lst)
+		return (NULL);
+	lst = lst_start;
+	lst = get_arg(lst);
+	if (!lst)
+		return (NULL);
+	lst = lst_start;
+	return (lst);
 }
