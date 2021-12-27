@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/27 19:08:17 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/27 20:07:17 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	create_files(t_lst *lst)
 
 t_lst	*get_redir(t_lst *lst)
 {
-
 }
 
 t_lst	*del_spaces(t_lst *lst)
@@ -91,6 +90,8 @@ t_lst	*del_spaces(t_lst *lst)
 			if (!lst->token->str)
 				return (NULL);
 		}
+		if (!lst->next)
+			break ;
 		lst = lst->next;
 	}
 	return (ft_lststart(lst));
