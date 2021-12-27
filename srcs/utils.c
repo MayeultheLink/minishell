@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/20 18:04:40 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/27 16:40:55 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,11 @@ char	*my_getenv(char *var, char **env)
 		i++;
 	}
 	return (NULL);
+}
+
+t_lst	*ft_lststart(t_lst *lst)
+{
+	while (lst->previous)
+		lst = lst->previous;
+	return (lst);
 }
