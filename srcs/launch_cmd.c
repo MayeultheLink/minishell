@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:30:42 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/27 18:05:05 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/29 11:47:13 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exe_cmd(char **split_str, char **split_path, char **env)
 	if (!ft_strcmp("exit", split_str[0]))
 	{
 		write(1, "exit\n", 5);
-		return (1);
+		return (0);
 	}
 	i = 0;
 	while (split_path[i])

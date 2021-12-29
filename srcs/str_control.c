@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/21 15:51:35 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:47:56 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ char	*str_control(char *str)
 	if (!new)
 		return (NULL);
 	new = fill_control(new, str);
-	printf("control = %s\n", new);
 	return (new);
 }

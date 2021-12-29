@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/27 18:16:51 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/29 15:25:29 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_lst	*free_arg(t_lst *lst)
 			lst->token->str = NULL;
 			lst = lst->previous;
 			lst->next = lst->next->next;
+			lst->next->previous = lst;
 		}
 		if (!lst->next)
 			break ;
