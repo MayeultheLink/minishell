@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2021/12/22 16:38:14 by mde-la-s         ###   ########.fr        #
+#    Updated: 2021/12/30 18:51:13 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,15 @@ LIBFT	=	libft/libft.a
 SRCS	=	srcs/minishell.c \
 			srcs/launch_cmd.c \
 			srcs/str_control.c \
-			srcs/split_minishell.c
+			srcs/utils.c \
+			srcs/split_minishell.c \
+			srcs/parsing/check_error.c \
+			srcs/parsing/cmd.c \
+			srcs/parsing/parse_lst.c \
+			srcs/parsing/pipe.c \
+			srcs/parsing/redirections/create_files.c \
+			srcs/parsing/redirections/get_redir.c \
+			srcs/parsing/redirections/redir.c
 
 # Colors
 _GREY=$ \x1b[30m

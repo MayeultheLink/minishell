@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/21 17:25:53 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/30 19:18:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,25 +100,23 @@ t_lst	*split_minishell(char *str, char *control)
 
 	lst = NULL;
 	beginning = 0;
-	end = 0;
-	while (str[end] && !(str[end] == ' ' && control[end] == '0'))
-		end++;
-	lst = lst_add(lst, get_token(str, control, beginning, end));
-	beginning = end;
-	while (str[++beginning] == ' ')
-		end++;
+	while (str[beginning] && str[beginning] == ' ')
+		beginning++;
+	end = beginning;
 	while (str[++end])
 	{
-		if (str[end] == ' ' && control[end] == '0')
+		if ((str[end] == ' ' || ((str[end] == '<' || str[end] == '>') && str[end - 1] != str[end])) 
+				&& control[end] == '0')
 		{
 			lst = lst_add(lst, get_token(str, control, beginning, end));
 			beginning = end;
-			while (str[++beginning] == ' ')
-				end++;
+			while (str[beginning] == ' ')
+				beginning++;
+			end = beginning;
 		}
 	}
 	if (str[beginning])
 		lst = lst_add(lst, get_token(str, control, beginning, end));
-//	lst = parse_lst(lst);
-	return (lst);
+	lst = parse_lst(lst);
+	return (ft_lststart(lst));
 }

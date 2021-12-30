@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/29 12:32:22 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/30 18:59:08 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	create_files(t_lst *lst)
 {
 	int	fd;
 	char	**name;
+	int	i;
 
 	while (lst)
 	{
@@ -86,6 +87,7 @@ void	create_files(t_lst *lst)
 				write(1, "Error\n", 6);
 				return ;
 			}
+			i = 0;
 			while (name[i])
 			{
 				fd = open(name[i], O_CREAT);

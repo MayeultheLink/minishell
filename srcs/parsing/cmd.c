@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/29 15:25:29 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2021/12/30 19:21:16 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,17 @@ char	**fill_cmd(t_lst *lst, int c)
 	{
 		if (lst->token->type == CMD)
 		{
-			(*cmd)[i] = ft_strdup(lst->token->str);
+			if (i == 0)
+				cmd[i] = error_cmd(lst);
+			else
+				cmd[i] = ft_strdup(lst->token->str);
 			if (!(*cmd)[i])
+			{
+				write(2, "Command not found : ", 20);
+				write(2, &lst->token->str, ft_strlen(lst->token->str));
+				write(2, "\n", 1);
 				return (NULL);
+			}
 			i++;
 		}
 		if (!lst->next)
@@ -72,7 +80,7 @@ t_lst	*get_arg(t_lst *lst)
 	}
 	while (lst->previous && lst->previous->token->type != PIPE)
 		lst = lst->previous;
-	while (lst->next && lst->token->type != CMD)
+	while (lst && lst->token->type != CMD)
 		lst = lst->next;
 	lst->token->cmd = fill_cmd(lst, c);
 	lst = free_arg(lst->next);
@@ -83,15 +91,14 @@ t_lst	*get_arg(t_lst *lst)
 
 t_lst	*cmd(t_lst *lst)
 {
-	while (lst->next)
+	while (lst)
 	{
 		lst = get_arg(lst);
 		if (!lst)
 			return (NULL);
-		if (lst->next)
-			lst = lst->next;
+		if (!lst->next)
+			break ;
+		lst = lst->next;
 	}
-	if (!error_cmd(ft_lststart(lst)))
-		return (NULL);
 	return (ft_lststart(lst));
 }
