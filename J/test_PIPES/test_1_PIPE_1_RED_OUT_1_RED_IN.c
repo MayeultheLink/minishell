@@ -134,5 +134,7 @@ printf("s: %s, i : %d\n", cmd, i);
 		free(cmd);
 	if (split)
 		freetab(split);
+	if (split_str)
+		freetab(split_str);
 	return 0;
 }
