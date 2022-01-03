@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/30 19:18:03 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/03 18:24:10 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,17 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 
 	i = -1;
 	c = 0;
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->str = NULL;
+	token->cmd = NULL;
+	token->redir_in = NULL;
+	token->redir_out = NULL;
+	token->builtin = 0;
+	token->type_redir_in = -1;
+	token->type_redir_out = -1;
+	token->type = -1;
 	while (beg + ++i < end)
 		if ((str[beg + i] == '"' || str[beg + i] == '\'')
 				&& control[beg + i] == '0')

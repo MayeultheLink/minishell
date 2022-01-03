@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/30 19:10:34 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/03 18:43:56 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct		s_token
 {
 	char		*str;
 	char		**cmd;
+	int		builtin;
 	char		*redir_in;
 	int		type_redir_in;
 	char		*redir_out;
@@ -58,5 +59,6 @@ int	error_redir(t_lst *lst);
 void	create_files(t_lst *lst);
 t_lst	*get_redir(t_lst *lst);
 t_lst	*cmd(t_lst *lst);
+void	freelst(t_lst *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/30 19:01:42 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/03 18:49:07 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,30 @@
 
 t_lst	*del_redir(t_lst *lst)
 {
+	t_lst	*tmp;
+
 	if (lst->token->type == REDIR)
 	{
 		free(lst->token->str);
 		lst = lst->next;
+		free(lst->previous);
 		lst->previous = NULL;
 	}
-	else
-		lst = lst->next;
-	while (lst->next)
+	while (lst)
 	{
-		if (lst->token->type == REDIR)
+		if (lst->previous && lst->token->type == REDIR)
 		{
 			free(lst->token->str);
+			tmp = lst;
 			lst = lst->previous;
 			lst->next = lst->next->next;
-			lst->next->previous = lst;
+			if (lst->next)
+				lst->next->previous = lst;
+			free(tmp);
 		}
+		if (!lst->next)
+			break ;
 		lst = lst->next;
-	}
-	if (lst->token->type == REDIR)
-	{
-		free(lst->token->str);
-		lst = NULL;
 	}
 	return (ft_lststart(lst));
 }

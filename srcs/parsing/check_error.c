@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:57:21 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/30 18:52:35 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:37:37 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ char	*error_cmd(t_lst *lst)
 	char	**split_path;
 	int	i;
 
+	if (!ft_strcmp(lst->token->str, "echo") || !ft_strcmp(lst->token->str, "cd")
+		|| !ft_strcmp(lst->token->str, "pwd") || !ft_strcmp(lst->token->str, "export")
+		|| !ft_strcmp(lst->token->str, "unset") || !ft_strcmp(lst->token->str, "env")
+		|| !ft_strcmp(lst->token->str, "exit"))
+		return (lst->token->str);
 	split_path = ft_split(getenv("PATH"), ':');
 	if (!split_path)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2021/12/30 15:13:43 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/03 18:40:28 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,31 @@ int	main(int ac, char **av, char **env)
 		//	if (!launch_cmd(str, env))
 		//		break ;
 			lst = split_minishell(str, str_control(str));
+			int	j = 0;
 			while (lst)
 			{
-				printf("%s\n", lst->token->str);
+			int	i = 0;
+				j++;
+				printf("Cellule %d :\n", j);
+				printf("str = %s\n", lst->token->str);
+				while (lst->token->cmd && lst->token->cmd[i])
+				{
+					printf("cmd[%d] = %s\n", i, lst->token->cmd[i]);
+					i++;
+				}
+		//		if (lst->token->redir_in)
+		//			printf("redirection in = %s\n", lst->token->redir_in);
+				if (lst->token->type_redir_in == 1)
+					printf("redirection in append\n");
+		//		if (lst->token->redir_out)
+		//			printf("redirection out = %s\n", lst->token->redir_out);
+				if (lst->token->type_redir_out == 1)
+					printf("redirection out append\n");
+				if (!lst->next)
+					break ;
 				lst = lst->next;
 			}
+			freelst(ft_lststart(lst));
 			free(str);
 		}
 	}
