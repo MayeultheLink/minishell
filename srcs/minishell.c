@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 18:48:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:32:52 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-//	(void)env;
+	(void)env;
 //	int	i;
 //	int	j;
 	lst = NULL;
@@ -102,11 +102,14 @@ int	main(int ac, char **av, char **env)
 				lst = lst->next;
 			}*/
 			
-			cmd_manager(lst, env);
+//			cmd_manager(lst, env);
 
 			freelst(ft_lststart(lst));
 			free(str);
 		}
 	}
+	rl_clear_history();
+	freelst(ft_lststart(lst));
+	free(str);
 	return (0);
 }
