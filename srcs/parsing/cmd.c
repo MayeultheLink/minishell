@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 16:42:43 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:13:05 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ t_lst	*free_arg(t_lst *lst)
 	{
 		if (lst->token->type == CMD)
 		{
-			free(lst->token->str);
-			lst->token->str = NULL;
 			tmp = lst;
 			lst = lst->previous;
 			lst->next = tmp->next;
 			if (lst->next)
 				lst->next->previous = lst;
+			free(tmp->token->str);
+			free(tmp->token);
 			free(tmp);
 		}
 		if (!lst->next)
@@ -53,6 +53,14 @@ char	**fill_cmd(t_lst *lst, int c)
 			if (i == 0)
 			{
 				cmd[i] = error_cmd(lst);
+				if (!cmd[0])
+				{
+					write(2, "Command not found : ", 20);
+					write(2, lst->token->str, ft_strlen(lst->token->str));
+					write(2, "\n", 1);
+					ft_freesplit(cmd);
+					return (NULL);
+				}
 				if (!ft_strcmp(cmd[0], "echo") || !ft_strcmp(cmd[0], "cd")
 					|| !ft_strcmp(cmd[0], "pwd") || !ft_strcmp(cmd[0], "export")
 					|| !ft_strcmp(cmd[0], "unset") || !ft_strcmp(cmd[0], "env")
@@ -60,14 +68,6 @@ char	**fill_cmd(t_lst *lst, int c)
 					lst->token->builtin = 1;
 				else
 					lst->token->builtin = 0;
-			}
-			if (!cmd[0])
-			{
-				write(2, "Command not found : ", 20);
-				write(2, lst->token->str, ft_strlen(lst->token->str));
-				write(2, "\n", 1);
-				ft_freesplit(cmd);
-				return (NULL);
 			}
 			if (i)
 				cmd[i] = ft_strdup(lst->token->str);

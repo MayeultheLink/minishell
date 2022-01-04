@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 19:32:52 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:11:07 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,11 @@ int	main(int ac, char **av, char **env)
 			}*/
 			
 //			cmd_manager(lst, env);
-
-			freelst(ft_lststart(lst));
 			free(str);
+			freelst(lst);
 		}
 	}
-	rl_clear_history();
-	freelst(ft_lststart(lst));
 	free(str);
+	rl_clear_history();
 	return (0);
 }

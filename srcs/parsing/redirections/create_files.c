@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 16:55:09 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:08:30 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*fill_name(char *name, char *str, int i)
 	j = 1;
 	while (str[i] && str[i] != '<' && str[i] != '>')
 		name[j++] = str[i++];
-	name = ft_strcat(getcwd(NULL, 0), name, 2);
+	name = ft_strcat(getcwd(NULL, 0), name, 3);
 	return (name);
 }
 

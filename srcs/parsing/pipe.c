@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:47:26 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/03 18:36:21 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:18:09 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ t_lst	*del_pipes(t_lst *lst)
 	{
 		if (lst->token->type == PIPE)
 		{
-			free(lst->token->str);
 			tmp = lst;
 			lst = lst->previous;
 			lst->next = tmp->next;
 			lst->next->previous = lst;
+			free(tmp->token->str);
+			free(tmp->token);
 			free(tmp);
 		}
 		lst = lst->next;
