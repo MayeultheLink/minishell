@@ -6,13 +6,33 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/03 20:49:40 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/01/04 15:23:51 by jpauline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
 
 #include "../../headers/minishell.h"
+
+//void free_char_tab(char **tab)
+//{
+//	int i;
+//
+//	i = 0;
+//	while (tab[i])
+//		free(tab[i++]);
+//	free(tab);
+//}
+
+void free_int_tab(int **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
 
 int cmd_count(t_lst *cmd_lst)
 {
@@ -80,7 +100,7 @@ void	wait_all_pid(int *tab, int n)
 	}
 }
 
-int cmd_manager(t_lst *cmd_lst)
+int cmd_manager(t_lst *cmd_lst, char **env)
 {
 	int	cmd_nbr;
 	int	**tab_fd;
@@ -134,8 +154,8 @@ int cmd_manager(t_lst *cmd_lst)
 	}
 	close_all_fd(tab_fd);
 	wait_all_pid(tab_pid, cmd_nbr);
-	free_tab(tab_fd);
-	free_tab(tab_fd);
+	free_int_tab(tab_fd);
+	free(tab_pid);
 }
 
 int main()
