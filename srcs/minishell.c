@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 20:11:07 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/05 15:50:19 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-//	int	i;
-//	int	j;
+	int	i;
+	i = 0;
+	int	j;
 	lst = NULL;
 	str = NULL;
 	while (1)
@@ -77,7 +78,7 @@ int	main(int ac, char **av, char **env)
 			if (!ft_strcmp(str, "exit"))
 				break;
 			lst = split_minishell(str, str_control(str));
-/*			j = 0;
+			j = 0;
 			while (lst)
 			{
 				i = 0;
@@ -100,11 +101,11 @@ int	main(int ac, char **av, char **env)
 				if (!lst->next)
 					break ;
 				lst = lst->next;
-			}*/
+			}
 			
 //			cmd_manager(lst, env);
+			freelst(ft_lststart(lst));
 			free(str);
-			freelst(lst);
 		}
 	}
 	free(str);

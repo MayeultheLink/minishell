@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 20:03:07 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:55:10 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ t_lst	*del_redir(t_lst *lst)
 {
 	t_lst	*tmp;
 
-	if (lst->token->type == REDIR)
+	while (lst->token->type == REDIR)
 	{
 		free(lst->token->str);
 		free(lst->token);
+		tmp = lst;
 		lst = lst->next;
-		free(lst->previous);
 		lst->previous = NULL;
+		free(tmp);
 	}
 	while (lst)
 	{
@@ -30,7 +31,7 @@ t_lst	*del_redir(t_lst *lst)
 		{
 			tmp = lst;
 			lst = lst->previous;
-			lst->next = lst->next->next;
+			lst->next = tmp->next;
 			if (lst->next)
 				lst->next->previous = lst;
 			free(tmp->token->str);
@@ -63,9 +64,9 @@ t_lst	*del_spaces(t_lst *lst)
 
 t_lst	*check_redir(t_lst *lst)
 {
-	if (!error_redir(lst))
+	if (!error_redir(ft_lststart(lst)))
 		return (NULL);
-	lst = del_spaces(lst);
+	lst = del_spaces(ft_lststart(lst));
 	if (!lst)
 		return (NULL);
 	create_files(lst);

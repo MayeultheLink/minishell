@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 20:08:30 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/05 12:50:04 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,6 @@ char	*fill_name(char *name, char *str, int i)
 	while (str[i] && str[i] != '<' && str[i] != '>')
 		name[j++] = str[i++];
 	name = ft_strcat(getcwd(NULL, 0), name, 3);
-	return (name);
-}
-
-char	**malloc_name(char *str)
-{
-	char	**name;
-	int	c;
-	int	i;
-
-	c = 0;
-	i = -1;
-	while (str[++i])
-		if ((str[i] == '<' || str[i] == '>') && str[i + 1] != str[i])
-			c++;
-	name = NULL;
-	name = malloc(sizeof(char*) * (c + 1));
-	if (!name)
-		return (NULL);
-	name[c] = NULL;
 	return (name);
 }
 
@@ -61,7 +42,6 @@ char	**getname(char *str)
 	if (!name)
 		return (NULL);
 	name[k] = NULL;
-//name = malloc_name(str);
 	i = 0;
 	j = 0;
 	while (j < k)
@@ -103,7 +83,8 @@ void	create_files(t_lst *lst)
 			while (name[i])
 			{
 				fd = open(name[i], O_WRONLY | O_CREAT, 0666);
-				close(fd);
+				if (fd > -1)
+					close(fd);
 				i++;
 			}
 			ft_freesplit(name);

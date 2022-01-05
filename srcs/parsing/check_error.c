@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:57:21 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 12:17:43 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:01:06 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,25 @@ int	error_redir(t_lst *lst)
 				if (lst->token->str[i] == '<' || lst->token->str[i] == '>')
 				{
 					c++;
-					if (lst->token->str[i + 1] == ' ')
+					if (!lst->token->str[i + 1] || lst->token->str[i + 1] == ' ')
 					{
 						b = 1;
 						i++;
 					}
 				}
 				if (c > 2)
+				{
+					write(1, "syntax error near unexpected token `>'\n", 39);
 					return (0);
+				}
 				while (lst->token->str[i] && lst->token->str[i] == ' ')
 					i++;
 				if (b == 1 && (!lst->token->str[i]
 						|| (lst->token->str[i] == '<' || lst->token->str[i] == '>')))
+				{
+					write(1, "syntax error near unexpected token `>'\n", 39);
 					return (0);
+				}
 			}
 		}
 		lst = lst->next;
@@ -84,7 +90,10 @@ int	error_redir(t_lst *lst)
 int	error_pipe(t_lst *lst)
 {
 	if (lst->token->type == PIPE)
+	{
+		write (1, "syntax error near unexpected token `|'\n", 39);
 		return (0);
+	}
 	while (lst)
 	{
 		while (lst && lst->token->type != PIPE)
@@ -92,7 +101,10 @@ int	error_pipe(t_lst *lst)
 		if (!lst)
 			return (1);
 		if (!lst->next || lst->next->token->type == PIPE)
+		{
+			write (1, "syntax error near unexpected token `|'\n", 39);
 			return (0);
+		}
 		lst = lst->next;
 	}
 	return (1);

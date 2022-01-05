@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 16:46:58 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:13:54 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,20 @@ char	*fill_special(char *str, char *control, int *i, int *j)
 		if (!str[*i])
 			return (NULL);
 	}
-	else if ((str[*i] == '<' || str[*i] == '>') && (*i)++)
+	else if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
 	{
+		(*i)++;
 		control[++(*j)] = '0';
-		if ((str[*i] == '<' || str[*i] == '>') && (*i)++)
+		if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
+		{
+			(*i)++;
 			control[++(*j)] = '0';
-		while (str[*i] == ' ' && (*i)++)
+		}
+		while (str[*i] && str[*i] == ' ')
+		{
+			(*i)++;
 			control[++(*j)] = '1';
+		}
 	}
 	return (control);
 }
@@ -44,14 +51,14 @@ char	*fill_control(char *control, char *str)
 	int		i;
 	int		j;
 
-	i = -1;
+	i = 0;
 	j = -1;
-	while (str[++i])
+	while (str[i])
 	{
+		i++;
 		control = fill_special(str, control, &i, &j);
 		control[++j] = '0';
 	}
-	control[++j] = '\0';
 	return (control);
 }
 
@@ -62,6 +69,7 @@ char	*str_control(char *str)
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
 		return (NULL);
+	new[ft_strlen(str)] = 0;
 	new = fill_control(new, str);
 	return (new);
 }
