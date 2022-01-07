@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:57:21 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 12:10:20 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:14:19 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ char	*error_cmd(t_lst *lst)
 		return (ft_strdup(lst->token->str));
 	split_path = ft_split(getenv("PATH"), ':');
 	if (!split_path)
-	{
-		freelst(ft_lststart(lst));
 		return (NULL);
-	}
 	i = 0;
 	while (split_path[i])
 	{
@@ -43,7 +40,6 @@ char	*error_cmd(t_lst *lst)
 		i++;
 	}
 	ft_freesplit(split_path);
-	freelst(ft_lststart(lst));
 	return (NULL);
 }
 
@@ -74,7 +70,6 @@ int	error_redir(t_lst *lst)
 				if (c > 2)
 				{
 					write(1, "syntax error near unexpected token `>'\n", 39);
-					freelst(ft_lststart(lst));
 					return (0);
 				}
 				while (lst->token->str[i] && lst->token->str[i] == ' ')
@@ -83,7 +78,6 @@ int	error_redir(t_lst *lst)
 						|| (lst->token->str[i] == '<' || lst->token->str[i] == '>')))
 				{
 					write(1, "syntax error near unexpected token `>'\n", 39);
-					freelst(ft_lststart(lst));
 					return (0);
 				}
 			}
@@ -98,7 +92,6 @@ int	error_pipe(t_lst *lst)
 	if (lst->token->type == PIPE)
 	{
 		write (1, "syntax error near unexpected token `|'\n", 39);
-		freelst(ft_lststart(lst));
 		return (0);
 	}
 	while (lst)
@@ -108,15 +101,15 @@ int	error_pipe(t_lst *lst)
 		if (lst->next && lst->next->token->type == PIPE)
 		{
 			write (1, "syntax error near unexpected token `|'\n", 39);
-			freelst(ft_lststart(lst));
 			return (0);
 		}
 		if (!lst->next && lst->token->type == PIPE)
 		{
 			write (1, "syntax error near unexpected token `|'\n", 39);
-			freelst(ft_lststart(lst));
 			return (0);
 		}
+		if (!lst->next)
+			break ;
 		lst = lst->next;
 	}
 	return (1);

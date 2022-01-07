@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_old.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 12:20:59 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 12:23:27 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:48:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ char	*ft_fillarray(char *split, const char *s, size_t j, char c)
 	return (split);
 }
 
-void	*ft_freesplit(char **split)
+/*void	*ft_freesplit(char **split)
 {
 	size_t	i;
 
@@ -252,7 +252,7 @@ void	*ft_freesplit(char **split)
 	}
 	free(split);
 	return (NULL);
-}
+}*/
 
 char	**ft_split(char const *s, char c)
 {

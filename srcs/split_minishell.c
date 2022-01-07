@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 12:12:52 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 18:04:30 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 				&& control[beg + i] == '0')
 			c++;
 	}
+	if (c == (int)ft_strlen(str))
+		return (NULL);
 	token = init_token(end, beg, c);
 	if (!token)
 		return (NULL);
@@ -81,13 +83,16 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 
 t_lst	*lst_add(t_lst *lst, t_token *token)
 {
+	t_lst	*tmp;
+
+	tmp = lst;
 	if (!token)
-		return (0);
+		return (NULL);
 	if (!lst)
 	{
 		lst = malloc(sizeof(t_lst));
 		if (!lst)
-			return (0);
+			return (NULL);
 		lst->token = token;
 		lst->previous = NULL;
 		lst->next = NULL;
@@ -97,7 +102,10 @@ t_lst	*lst_add(t_lst *lst, t_token *token)
 		lst = lst->next;
 	lst->next = malloc(sizeof(t_lst));
 	if (!lst->next)
+	{
+		freelst(tmp);
 		return (NULL);
+	}
 	lst->next->previous = lst;
 	lst->next->token = token;
 	lst->next->next = NULL;
@@ -116,6 +124,8 @@ t_lst	*split_minishell(char *str, char *control)
 	beginning = 0;
 	while (str[beginning] && str[beginning] == ' ')
 		beginning++;
+	if (!str[beginning])
+		return (NULL);
 	end = beginning;
 	while (str[++end])
 	{
@@ -125,10 +135,7 @@ t_lst	*split_minishell(char *str, char *control)
 		{
 			lst = lst_add(lst, get_token(str, control, beginning, end));
 			if (!lst)
-			{
-				freelst(ft_lststart(lst));
 				return (NULL);
-			}
 			beginning = end;
 			while (str[beginning] == ' ')
 				beginning++;
@@ -138,6 +145,8 @@ t_lst	*split_minishell(char *str, char *control)
 	if (str[beginning])
 		lst = lst_add(lst, get_token(str, control, beginning, end));
 	free(control);
+	if (!lst)
+		return (NULL);
 	if (!parse_lst(ft_lststart(lst)))
 	{
 		freelst(ft_lststart(lst));

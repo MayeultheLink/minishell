@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 11:43:56 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 18:14:04 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	free_arg(t_lst *lst)
 			if (lst->next)
 				lst->next->previous = lst;
 			free(tmp->token->str);
+			tmp->token->str = NULL;
 			free(tmp->token);
+			tmp->token = NULL;
 			free(tmp);
+			tmp = NULL;
 		}
 		if (!lst->next)
 			break ;

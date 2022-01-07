@@ -6,53 +6,11 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/06 15:45:45 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 18:26:00 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-void	print_split(char **split)
-{
-	int	i = 0;
-
-	while (split && split[i])
-	{
-		printf("%d = %s", i, split[i]);
-		printf("//\n");
-		i++;
-	}
-}
-
-void	parse_str(char *str)
-{
-	char *tmp;
-	int	i = 0;
-	int	j = 0;
-
-	i = ft_strlen(str);
-	while (j < ft_strlen(str))
-	{
-		if ((str[j] == '<' || str[j] == '>') && str[j + 1] == ' ')
-			i--;
-		j++;
-	}
-	j = 0;
-	while (j < ft_strlen(str))
-	{
-		if (str[j] == '\'')
-		{
-			j++;
-			while (str[j] != '\'')
-				j++;
-			j++;
-		}
-		if (str[j] == '$')
-		{}
-		j++;
-	}
-}*/
 
 int	main(int ac, char **av, char **env)
 {
@@ -73,13 +31,15 @@ int	main(int ac, char **av, char **env)
 		if (ft_strlen(str) > 0)
 		{
 			add_history(str);
-	//		if (!launch_cmd(str, env))
-	//			break ;
 			if (!ft_strcmp(str, "exit"))
-				break;
+			{
+				free(str);
+				rl_clear_history();
+				return (0);
+			}
 			lst = split_minishell(str, str_control(str));
 			j = 0;
-			while (lst)
+/*			while (lst)
 			{
 				i = 0;
 				j++;
@@ -101,10 +61,12 @@ int	main(int ac, char **av, char **env)
 				if (!lst->next)
 					break ;
 				lst = lst->next;
+			}*/
+			if (lst)
+			{
+				cmd_manager(lst, env);
+				freelst(lst);
 			}
-			
-//			cmd_manager(lst, env);
-			freelst(ft_lststart(lst));
 			free(str);
 		}
 	}
