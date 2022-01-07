@@ -6,13 +6,13 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/05 16:55:10 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/06 15:29:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*del_redir(t_lst *lst)
+void	del_redir(t_lst *lst)
 {
 	t_lst	*tmp;
 
@@ -42,10 +42,9 @@ t_lst	*del_redir(t_lst *lst)
 			break ;
 		lst = lst->next;
 	}
-	return (ft_lststart(lst));
 }
 
-t_lst	*del_spaces(t_lst *lst)
+int	del_spaces(t_lst *lst)
 {
 	while (lst)
 	{
@@ -53,28 +52,22 @@ t_lst	*del_spaces(t_lst *lst)
 		{
 			lst->token->str = ft_delchar(lst->token->str, ' ');
 			if (!lst->token->str)
-				return (NULL);
+				return (0);
 		}
 		if (!lst->next)
 			break ;
 		lst = lst->next;
 	}
-	return (ft_lststart(lst));
+	return (1);
 }
 
-t_lst	*check_redir(t_lst *lst)
+int	check_redir(t_lst *lst)
 {
-	if (!error_redir(ft_lststart(lst)))
-		return (NULL);
-	lst = del_spaces(ft_lststart(lst));
-	if (!lst)
-		return (NULL);
-	create_files(lst);
-	lst = get_redir(lst);
-	if (!lst)
-		return (NULL);
-	lst = del_redir(lst);
-	if (!lst)
-		return (NULL);
-	return (lst);
+	if (!error_redir(ft_lststart(lst)) || !del_spaces(ft_lststart(lst)))
+		return (0);
+	create_files(ft_lststart(lst));
+	if (!get_redir(ft_lststart(lst)))
+		return (0);
+	del_redir(ft_lststart(lst));
+	return (1);
 }

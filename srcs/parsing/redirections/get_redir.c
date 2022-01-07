@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/05 15:17:23 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 11:46:27 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,11 @@ char	*fill_redir(t_lst *lst, int *type_redir, int io)
 	int	i;
 	int	j;
 
-//printf("io = %d\n", io);
-//printf("str = %s\n", lst->token->str);
 	while (io-- > 0 && lst->next)
 		lst = lst->next;
-//printf("io2 = %d\n", io);
-//printf("str = %s\n", lst->token->str);
 	if (lst->token->str[1] && (lst->token->str[1] == '<' || lst->token->str[1] == '>'))
 		(*type_redir)++;
 	redir = malloc(sizeof(char) * (ft_strlen(lst->token->str) - (*type_redir)));
-//printf("length = %d\n", (int)ft_strlen(lst->token->str) - (*type_redir));
 	if (!redir)
 		return (NULL);
 	i = (*type_redir);
@@ -61,15 +56,14 @@ char	*fill_redir(t_lst *lst, int *type_redir, int io)
 	while (lst->token->str[++i])
 		redir[++j] = lst->token->str[i];
 	redir[++j] = 0;
-//printf("redir = %s\n", redir);
 	return (redir);
 }
 
-t_lst	*get_redir(t_lst *lst)
+int	get_redir(t_lst *lst)
 {
 	t_lst	*lst_cmd;
-	int	in;
-	int	out;
+	int		in;
+	int		out;
 
 	while (lst)
 	{
@@ -85,24 +79,19 @@ t_lst	*get_redir(t_lst *lst)
 			lst_cmd->token->type_redir_out = 0;
 		if (in >= 0)
 			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_in, in);
-//	printf("redir in = %s\n", lst->token->redir_in);
-//	printf("out = %d\n", out);
 		if (out >= 0)
 			lst_cmd->token->redir_out = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_out, out);
-//	printf("redir out = %s\n", lst->token->redir_out);
 		if ((in >= 0 && !lst_cmd->token->redir_in) || (out >= 0 && !lst_cmd->token->redir_out))
-			return (NULL);
+			return (0);
 		if (in < 0)
 			lst_cmd->token->redir_in = NULL;
 		if (out < 0)
 			lst_cmd->token->redir_out = NULL;
 		while (lst->next && lst->token->type != PIPE)
 			lst = lst->next;
-//		if (lst->token->type == PIPE)
-//			get_redir(lst->next);
 		if (!lst->next)
 			break ;
 		lst = lst->next;
 	}
-	return (ft_lststart(lst));
+	return (1);
 }

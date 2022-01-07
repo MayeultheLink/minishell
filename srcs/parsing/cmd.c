@@ -6,13 +6,13 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 20:13:05 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 11:43:56 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*free_arg(t_lst *lst)
+void	free_arg(t_lst *lst)
 {
 	t_lst	*tmp;
 
@@ -33,7 +33,6 @@ t_lst	*free_arg(t_lst *lst)
 			break ;
 		lst = lst->next;
 	}
-	return (lst);
 }
 
 char	**fill_cmd(t_lst *lst, int c)
@@ -100,22 +99,22 @@ t_lst	*get_arg(t_lst *lst)
 	lst->token->cmd = NULL;
 	lst->token->cmd = fill_cmd(lst, c);
 	if (lst->next && lst->next->token->type != PIPE)
-		lst = free_arg(lst->next);
+		free_arg(lst->next);
 	while (lst->next && lst->token->type != PIPE)
 		lst = lst->next;
 	return (lst);
 }
 
-t_lst	*cmd(t_lst *lst)
+int	cmd(t_lst *lst)
 {
 	while (lst)
 	{
 		lst = get_arg(lst);
 		if (!lst)
-			return (NULL);
+			return (0);
 		if (!lst->next)
 			break ;
 		lst = lst->next;
 	}
-	return (lst);
+	return (1);
 }

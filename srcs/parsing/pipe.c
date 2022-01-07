@@ -6,13 +6,13 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:47:26 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/04 20:18:09 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/07 11:16:28 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*del_pipes(t_lst *lst)
+int	del_pipes(t_lst *lst)
 {
 	t_lst	*tmp;
 
@@ -30,5 +30,5 @@ t_lst	*del_pipes(t_lst *lst)
 		}
 		lst = lst->next;
 	}
-	return (ft_lststart(lst));
+	return (1);
 }

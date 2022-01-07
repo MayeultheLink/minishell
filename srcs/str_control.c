@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/05 17:13:54 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/06 14:30:07 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,17 @@ char	*fill_special(char *str, char *control, int *i, int *j)
 		control[++(*j)] = '0';
 		q = str[*i];
 		while (str[++(*i)] && str[*i] != q)
+		{
 			if (q == '"' && str[*i] == '$')
 				control[++(*j)] = '0';
 			else
 				control[++(*j)] = '1';
+		}
 		if (!str[*i])
+		{
+			free(control);
 			return (NULL);
+		}
 	}
 	else if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
 	{
@@ -55,9 +60,14 @@ char	*fill_control(char *control, char *str)
 	j = -1;
 	while (str[i])
 	{
-		i++;
 		control = fill_special(str, control, &i, &j);
+		if (!control)
+		{
+			write(1, "Error with quotes\n", ft_strlen("Error with quotes\n"));
+			return (NULL);
+		}
 		control[++j] = '0';
+		i++;
 	}
 	return (control);
 }
