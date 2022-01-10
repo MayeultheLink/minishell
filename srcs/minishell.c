@@ -6,17 +6,27 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 15:48:35 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 17:25:10 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handler(int sig)
+{
+	if (sig == SIGINT)
+		write(1, "\nminishell> ", 12);
+	else
+		write(1, "\b\b  \b\b", 6);
+}
 
 int	main(int ac, char **av, char **env)
 {
 	t_lst	*lst;
 	char	*str;
 
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 	if (ac >= 2 && !ft_strncmp(av[1], "-c", 2))
 	{
 		if (ac < 3)
@@ -33,6 +43,11 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		str = readline("minishell> ");
+		if (!str)
+		{
+			write(1, "exit\n", 5);
+			return (0);
+		}
 		if (ft_strlen(str) > 0)
 		{
 			add_history(str);
@@ -44,7 +59,7 @@ int	main(int ac, char **av, char **env)
 				return (0);
 			}
 			lst = split_minishell(str, str_control(str));
-			if (parse_lst(lst))
+			if (lst && parse_lst(lst))
 				cmd_manager(lst, env);
 			freelst(lst);
 			free(str);

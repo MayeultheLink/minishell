@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 11:57:08 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 16:52:20 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	freelst(t_lst *lst)
 {
 	t_lst	*tmp;
 
+	if (!lst)
+		return ;
 	while (lst->previous)
 		lst = lst->previous;
 	while (lst)
