@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 18:17:12 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 11:57:08 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char	*my_getenv(char *var, char **env)
 
 t_lst	*ft_lststart(t_lst *lst)
 {
-	while (lst->previous)
+	if (!lst)
+		return (NULL);
+	while (lst && lst->previous)
 		lst = lst->previous;
 	return (lst);
 }

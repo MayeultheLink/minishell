@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/06 15:29:26 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 11:34:18 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ void	del_redir(t_lst *lst)
 	while (lst->token->type == REDIR)
 	{
 		free(lst->token->str);
+		lst->token->str = NULL;
 		free(lst->token);
+		lst->token = NULL;
 		tmp = lst;
 		lst = lst->next;
 		lst->previous = NULL;
 		free(tmp);
+		tmp = NULL;
 	}
 	while (lst)
 	{
@@ -35,8 +38,11 @@ void	del_redir(t_lst *lst)
 			if (lst->next)
 				lst->next->previous = lst;
 			free(tmp->token->str);
+			tmp->token->str = NULL;
 			free(tmp->token);
+			tmp->token = NULL;
 			free(tmp);
+			tmp = NULL;
 		}
 		if (!lst->next)
 			break ;

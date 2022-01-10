@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/06 16:51:00 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:01:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,10 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 				dup2(fd_file_in, STDIN_FILENO);
 			if (node->token->redir_out)
 				dup2(fd_file_out, STDOUT_FILENO);
-			execve(node->token->cmd[0], node->token->cmd, env);
+			if (node->token->cmd)
+				execve(node->token->cmd[0], node->token->cmd, env);
+			else
+				exit(0);
 		}
 		if (node->token->redir_in)
 			close(fd_file_in);

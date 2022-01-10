@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 18:04:30 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 14:08:02 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,10 @@ t_lst	*split_minishell(char *str, char *control)
 	while (str[beginning] && str[beginning] == ' ')
 		beginning++;
 	if (!str[beginning])
+	{
+		free(control);
 		return (NULL);
+	}
 	end = beginning;
 	while (str[++end])
 	{
@@ -147,10 +150,12 @@ t_lst	*split_minishell(char *str, char *control)
 	free(control);
 	if (!lst)
 		return (NULL);
-	if (!parse_lst(ft_lststart(lst)))
-	{
-		freelst(ft_lststart(lst));
-		return (NULL);
-	}
+//	lst = ft_lststart(lst);
+//	if (!parse_lst(lst))
+//	{
+//		lst = ft_lststart(lst);
+//		freelst(lst);
+//		return (NULL);
+//	}
 	return (ft_lststart(lst));
 }

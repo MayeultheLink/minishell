@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 18:26:00 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 15:48:35 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,45 @@ int	main(int ac, char **av, char **env)
 	t_lst	*lst;
 	char	*str;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	int	i;
-	i = 0;
-	int	j;
-	lst = NULL;
-	str = NULL;
+	if (ac >= 2 && !ft_strncmp(av[1], "-c", 2))
+	{
+		if (ac < 3)
+		{
+			write(2, "minishell: -c: option requires an argument\n", 43);
+			return (1);
+		}
+		lst = split_minishell(av[2], str_control(av[2]));
+		if (parse_lst(lst))
+			cmd_manager(lst, env);
+		freelst(lst);
+		return (0);
+	}
 	while (1)
 	{
 		str = readline("minishell> ");
 		if (ft_strlen(str) > 0)
 		{
 			add_history(str);
-			if (!ft_strcmp(str, "exit"))
+			if (!ft_strncmp(str, "exit", 4))
 			{
 				free(str);
 				rl_clear_history();
+				write(1, "exit\n", 5);
 				return (0);
 			}
 			lst = split_minishell(str, str_control(str));
-			j = 0;
-/*			while (lst)
+			if (parse_lst(lst))
+				cmd_manager(lst, env);
+			freelst(lst);
+			free(str);
+		}
+	}
+	return (0);
+}
+
+/*			j = 0;
+			int	i;
+			while (lst)
 			{
 				i = 0;
 				j++;
@@ -61,16 +77,5 @@ int	main(int ac, char **av, char **env)
 				if (!lst->next)
 					break ;
 				lst = lst->next;
-			}*/
-			if (lst)
-			{
-				cmd_manager(lst, env);
-				freelst(lst);
 			}
-			free(str);
-		}
-	}
-	free(str);
-	rl_clear_history();
-	return (0);
-}
+			lst = ft_lststart(lst);*/
