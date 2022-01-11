@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 16:50:07 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/11 14:07:05 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ t_lst	*lst_add(t_lst *lst, t_token *token)
 	return (lst);
 }
 
-t_lst	*split_minishell(char *str, char *control)
+t_lst	*split_minishell(char *str, char *control, char **env)
 {
+	char	*new;
 	t_lst	*lst;
 	int		beginning;
 	int		end;
@@ -122,40 +123,36 @@ t_lst	*split_minishell(char *str, char *control)
 		return (NULL);
 	lst = NULL;
 	beginning = 0;
-	while (str[beginning] && str[beginning] == ' ')
+//(void)env;
+//	new = ft_strdup(str);
+	new = treat_dollar(str, control, env);
+	while (new[beginning] && new[beginning] == ' ')
 		beginning++;
-	if (!str[beginning])
+	if (!new[beginning])
 	{
 		free(control);
 		return (NULL);
 	}
 	end = beginning;
-	while (str[++end])
+	while (new[++end])
 	{
-		if ((str[end] == ' ' || ((str[end] == '<' || str[end] == '>') && str[end - 1] != str[end])
-					|| str[end] == '|' || str[end - 1] == '|') 
-				&& control[end] == '0')
+		if (control[end] == '0' && (new[end] == ' ' || ((new[end] == '<' || new[end] == '>')
+				&& new[end - 1] != new[end]) || new[end] == '|' || new[end - 1] == '|'))
 		{
-			lst = lst_add(lst, get_token(str, control, beginning, end));
+			lst = lst_add(lst, get_token(new, control, beginning, end));
 			if (!lst)
 				return (NULL);
 			beginning = end;
-			while (str[beginning] == ' ')
+			while (new[beginning] == ' ')
 				beginning++;
 			end = beginning;
 		}
 	}
-	if (str[beginning])
-		lst = lst_add(lst, get_token(str, control, beginning, end));
+	if (new[beginning])
+		lst = lst_add(lst, get_token(new, control, beginning, end));
 	free(control);
+	free(new);
 	if (!lst)
 		return (NULL);
-//	lst = ft_lststart(lst);
-//	if (!parse_lst(lst))
-//	{
-//		lst = ft_lststart(lst);
-//		freelst(lst);
-//		return (NULL);
-//	}
 	return (ft_lststart(lst));
 }

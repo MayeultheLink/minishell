@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/06 14:30:07 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/10 17:35:13 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*fill_control(char *control, char *str)
 
 	i = 0;
 	j = -1;
-	while (str[i])
+	while (i < (int)ft_strlen(str))
 	{
 		control = fill_special(str, control, &i, &j);
 		if (!control)

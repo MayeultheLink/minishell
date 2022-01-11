@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 16:52:20 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:05:33 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*my_getenv(char *var, char **env)
 {
 	char	*result;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (env[i])
@@ -27,9 +27,9 @@ char	*my_getenv(char *var, char **env)
 			if (!result)
 				return (NULL);
 			j = 0;
-			while (env[i][j + ft_strlen(var)])
+			while (env[i][j + ft_strlen(var) + 1])
 			{
-				result[j] = env[i][j + ft_strlen(var)];
+				result[j] = env[i][j + ft_strlen(var) + 1];
 				j++;
 			}
 			result[j] = 0;
@@ -80,4 +80,89 @@ void	freelst(t_lst *lst)
 		free(tmp);
 		tmp = NULL;
 	}
+}
+
+char	*name_var(char *str)
+{
+	char	*name;
+	int		i;
+
+	i = 0;
+	if (ft_isdigit(str[i]))
+		return (NULL);
+	while (str[i] && str[i] != ' ' && str[i] != '"')
+		i++;
+	name = malloc(sizeof(char) * (i + 1));
+	if (!name)
+		return (NULL);
+	name[i] = 0;
+	while (--i >= 0)
+		name[i] = str[i];
+	return (name);
+}
+
+char	*treat_dollar(char *str, char *control, char **env)
+{
+	char	*new;
+	char	*name;
+	char	*tmp;
+	int		i;
+	int		j;
+	int		c;
+
+	c = ft_strlen(str);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && control[i] == '0' && str[i + 1])
+		{
+			name = name_var(&str[i + 1]);
+			if (!name)
+				return (NULL);
+			tmp = my_getenv(name, env);
+			if (!tmp)
+			{
+				free(name);
+				return (NULL);
+			}
+			c += ft_strlen(tmp) - ft_strlen(name) - 1;
+			free(name);
+			free(tmp);
+		}
+		i++;
+	}
+	new = malloc(sizeof(char) * (c + 1));
+	if (!new)
+		return (NULL);
+	new[c] = 0;
+	i = 0;
+	j = 0;
+	while (str[j])
+	{
+		if (str[j] == '$' && control[j] == '0')
+		{
+			name = name_var(&str[j + 1]);
+			if (!name)
+			{
+				free(new);
+				return (NULL);
+			}
+			tmp = my_getenv(name, env);
+			if (!tmp)
+			{
+				free(new);
+				free(name);
+				return (NULL);
+			}
+			c = 0;
+			while (tmp[c])
+				new[i++] = tmp[c++];
+			j += ft_strlen(name) + 1;
+			free(name);
+			free(tmp);
+		}
+		if (str[j])
+			new[i++] = str[j++];
+	}
+	return (new);
 }

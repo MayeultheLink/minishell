@@ -6,39 +6,55 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 17:25:10 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/11 16:55:15 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler(int sig)
+void	handler()
 {
-	if (sig == SIGINT)
-		write(1, "\nminishell> ", 12);
-	else
-		write(1, "\b\b  \b\b", 6);
+	write(1, "\nminishell> ", 12);
+	g_c = 1;
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_lst	*lst;
 	char	*str;
+	int		i;
 
 	signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
-	if (ac >= 2 && !ft_strncmp(av[1], "-c", 2))
+	signal(SIGQUIT, SIG_IGN);
+	if (ac >= 2)
 	{
-		if (ac < 3)
+		if (!ft_strncmp(av[1], "-c", 2))
 		{
-			write(2, "minishell: -c: option requires an argument\n", 43);
+			i = 1;
+			while (av[1][++i])
+			{
+				if (av[1][i] != 'c')
+				{
+					write(2, "invalid option for minishell\n", 29);
+					return (1);
+				}
+			}
+			if (ac < 3)
+			{
+				write(2, "minishell: -c: option requires an argument\n", 43);
+				return (1);
+			}
+			lst = split_minishell(av[2], str_control(av[2]), env);
+			if (parse_lst(lst))
+				cmd_manager(lst, env);
+			freelst(lst);
+			return (0);
+		}
+		else
+		{
+			write(2, "invalid option for minishell\n", 29);
 			return (1);
 		}
-		lst = split_minishell(av[2], str_control(av[2]));
-		if (parse_lst(lst))
-			cmd_manager(lst, env);
-		freelst(lst);
-		return (0);
 	}
 	while (1)
 	{
@@ -47,6 +63,12 @@ int	main(int ac, char **av, char **env)
 		{
 			write(1, "exit\n", 5);
 			return (0);
+		}
+		if (g_c == 1)
+		{
+			free(str);
+			str = NULL;
+			g_c = 0;
 		}
 		if (ft_strlen(str) > 0)
 		{
@@ -58,7 +80,7 @@ int	main(int ac, char **av, char **env)
 				write(1, "exit\n", 5);
 				return (0);
 			}
-			lst = split_minishell(str, str_control(str));
+			lst = split_minishell(str, str_control(str), env);
 			if (lst && parse_lst(lst))
 				cmd_manager(lst, env);
 			freelst(lst);
@@ -68,7 +90,7 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-/*			j = 0;
+/*			int j = 0;
 			int	i;
 			while (lst)
 			{

@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/04 18:33:37 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/10 18:01:36 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME	=	minishell
 
 LIBFT	=	libft/libft.a
 SRCS	=	srcs/minishell.c \
-			srcs/launch_cmd.c \
 			srcs/str_control.c \
 			srcs/utils.c \
 			srcs/split_minishell.c \

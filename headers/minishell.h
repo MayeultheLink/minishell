@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 18:17:21 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/11 16:55:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define CMD 0
 # define PIPE 1
 # define REDIR 2
+
+int	g_c;
 
 typedef struct		s_token
 {
@@ -47,7 +49,7 @@ typedef struct		s_lst
 int		launch_cmd(char *str, char **env);
 int		parse_str(char **str);
 char	*str_control(char *str);
-t_lst	*split_minishell(char *str, char *control);
+t_lst	*split_minishell(char *str, char *control, char **env);
 t_lst	*ft_lststart(t_lst *lst);
 int		parse_lst(t_lst *lst);
 char	*error_cmd(t_lst *lst);
@@ -60,7 +62,7 @@ void	create_files(t_lst *lst);
 int		get_redir(t_lst *lst);
 int		cmd(t_lst *lst);
 void	freelst(t_lst *lst);
-
-int	cmd_manager(t_lst *cmd_lst, char **env);
+char	*treat_dollar(char *str, char *control, char **env);
+int		cmd_manager(t_lst *cmd_lst, char **env);
 
 #endif
