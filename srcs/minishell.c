@@ -6,18 +6,26 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/11 17:13:34 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:30:23 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_c = 0;
+int	g_g;
 
 void	handler()
 {
-	write(1, "\nminishell> ", 12);
-	g_c = 1;
+	if (g_g == 1)
+		return ;
+//		write(1, "\n", 1);
+	else
+	{
+		write(0, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -26,8 +34,7 @@ int	main(int ac, char **av, char **env)
 	char	*str;
 	int		i;
 
-	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_IGN);
+	g_g = 0;
 	if (ac >= 2)
 	{
 		if (!ft_strncmp(av[1], "-c", 2))
@@ -47,7 +54,7 @@ int	main(int ac, char **av, char **env)
 				return (1);
 			}
 			lst = split_minishell(av[2], str_control(av[2]), env);
-			if (parse_lst(lst))
+			if (lst && parse_lst(lst))
 				cmd_manager(lst, env);
 			freelst(lst);
 			return (0);
@@ -58,6 +65,8 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		}
 	}
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		str = readline("minishell> ");
@@ -66,18 +75,13 @@ int	main(int ac, char **av, char **env)
 			write(1, "exit\n", 5);
 			return (0);
 		}
-		if (g_c == 1)
-		{
-			free(str);
-			str = NULL;
-			g_c = 0;
-		}
 		if (ft_strlen(str) > 0)
 		{
 			add_history(str);
-			if (!ft_strncmp(str, "exit", 4))
+			if (!ft_strcmp(str, "exit"))
 			{
 				free(str);
+				str = NULL;
 				rl_clear_history();
 				write(1, "exit\n", 5);
 				return (0);
@@ -85,7 +89,9 @@ int	main(int ac, char **av, char **env)
 			lst = split_minishell(str, str_control(str), env);
 			if (lst && parse_lst(lst))
 				cmd_manager(lst, env);
+		//	if (g_g == 0)
 			freelst(lst);
+			g_g = 0;
 			free(str);
 		}
 	}
@@ -94,6 +100,7 @@ int	main(int ac, char **av, char **env)
 
 /*			int j = 0;
 			int	i;
+			parse_lst(lst);
 			while (lst)
 			{
 				i = 0;

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/11 14:07:05 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:25:06 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ t_lst	*split_minishell(char *str, char *control, char **env)
 		return (NULL);
 	lst = NULL;
 	beginning = 0;
-//(void)env;
-//	new = ft_strdup(str);
 	new = treat_dollar(str, control, env);
 	while (new[beginning] && new[beginning] == ' ')
 		beginning++;

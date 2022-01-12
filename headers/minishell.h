@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/11 17:13:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:46:50 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define CMD 0
 # define PIPE 1
 # define REDIR 2
+
+extern int	g_g;
 
 typedef struct		s_token
 {

@@ -6,12 +6,9 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/10 13:01:26 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:22:19 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <sys/wait.h>
-#include <stdlib.h>
 
 #include "minishell.h"
 
@@ -106,6 +103,7 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 			fd_file_out = open(node->token->redir_out, O_WRONLY, 0666);
 		if (fd_file_in == -1 || fd_file_out == -1)
 			return (1); //error
+		g_g = 1;
 		tab_pid[i - 1] = fork();
 		if (tab_pid[i - 1] == -1)
 			return (1); //error

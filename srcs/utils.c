@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/11 15:05:33 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:24:49 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,12 @@ char	*treat_dollar(char *str, char *control, char **env)
 
 	c = ft_strlen(str);
 	i = 0;
+	j = 0;
 	while (str[i])
 	{
 		if (str[i] == '$' && control[i] == '0' && str[i + 1])
 		{
+			j++;
 			name = name_var(&str[i + 1]);
 			if (!name)
 				return (NULL);
@@ -131,6 +133,8 @@ char	*treat_dollar(char *str, char *control, char **env)
 		}
 		i++;
 	}
+	if (!j)
+		return (ft_strdup(str));
 	new = malloc(sizeof(char) * (c + 1));
 	if (!new)
 		return (NULL);
