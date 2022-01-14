@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:57:21 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 14:02:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/14 14:28:06 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*error_cmd(t_lst *lst)
 		|| !ft_strcmp(lst->token->str, "exit"))
 		return (ft_strdup(lst->token->str));
 	if (!(access(lst->token->str, F_OK)))
-		return(lst->token->str);
+		return(ft_strdup(lst->token->str));
 	split_path = ft_split(getenv("PATH"), ':');
 	if (!split_path)
 		return (NULL);
@@ -91,6 +91,8 @@ int	error_redir(t_lst *lst)
 
 int	error_pipe(t_lst *lst)
 {
+	if (!lst)
+		return (0);
 	if (lst->token->type == PIPE)
 	{
 		write(2, "Syntax error : pipe\n", ft_strlen("Syntax error : pipe\n"));

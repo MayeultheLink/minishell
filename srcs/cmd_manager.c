@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/12 18:22:19 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/14 14:47:32 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 			fd_file_out = open(node->token->redir_out, O_WRONLY, 0666);
 		if (fd_file_in == -1 || fd_file_out == -1)
 			return (1); //error
-		g_g = 1;
 		tab_pid[i - 1] = fork();
 		if (tab_pid[i - 1] == -1)
 			return (1); //error
@@ -123,6 +122,8 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 			else
 				exit(0);
 		}
+		else if (tab_pid[i - 1] > 0)
+			g_g = 1;
 		if (node->token->redir_in)
 			close(fd_file_in);
 		if (node->token->redir_out)
@@ -136,6 +137,7 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 		free(tab_fd);
 	}
 	wait_all_pid(tab_pid, cmd_nbr);
+g_g = 0;
 	free(tab_pid);
 	return (0);
 }

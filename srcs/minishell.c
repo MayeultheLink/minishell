@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/12 18:30:23 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/14 15:06:53 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ int	main(int ac, char **av, char **env)
 			lst = split_minishell(str, str_control(str), env);
 			if (lst && parse_lst(lst))
 				cmd_manager(lst, env);
-		//	if (g_g == 0)
 			freelst(lst);
-			g_g = 0;
 			free(str);
 		}
 	}

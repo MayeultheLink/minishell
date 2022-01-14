@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/12 16:24:49 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/14 15:08:36 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char	*treat_dollar(char *str, char *control, char **env)
 		i++;
 	}
 	if (!j)
-		return (ft_strdup(str));
+		return (ft_strtrim(str, " "));
 	new = malloc(sizeof(char) * (c + 1));
 	if (!new)
 		return (NULL);
@@ -168,5 +168,7 @@ char	*treat_dollar(char *str, char *control, char **env)
 		if (str[j])
 			new[i++] = str[j++];
 	}
-	return (new);
+	tmp = ft_strtrim(new, " ");
+	free(new);
+	return (tmp);
 }
