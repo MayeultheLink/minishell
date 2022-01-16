@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/14 15:08:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/16 15:23:52 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void	freelst(t_lst *lst)
 			if (lst->token->str)
 				free(lst->token->str);
 			lst->token->str = NULL;
+			if (lst->token->path)
+				free(lst->token->path);
+			lst->token->path = NULL;
 			if (lst->token->cmd)
 				ft_freesplit(lst->token->cmd);
 			if (lst->token->redir_in)

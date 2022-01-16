@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/14 11:19:02 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/16 14:50:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ extern int	g_g;
 typedef struct		s_token
 {
 	char		*str;
+	char		*path;
 	char		**cmd;
 	int		builtin;
 	char		*redir_in;

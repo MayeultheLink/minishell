@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/13 15:55:40 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/16 15:22:35 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_token	*init_token(int end, int beg, int c)
 	if (!token)
 		return (NULL);
 	token->str = NULL;
+	token->path = NULL;
 	token->cmd = NULL;
 	token->redir_in = NULL;
 	token->redir_out = NULL;

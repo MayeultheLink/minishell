@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 18:14:04 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/16 15:21:55 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ char	**fill_cmd(t_lst *lst, int c)
 		{
 			if (i == 0)
 			{
-				cmd[i] = error_cmd(lst);
-				if (!cmd[0])
+cmd[0] = ft_strdup(lst->token->str);
+//				cmd[i] = error_cmd(lst);
+//				if (!cmd[0])
+lst->token->path = error_cmd(lst);
+/*				if (!lst->token->path)
 				{
 					write(2, "Command not found : ", 20);
 					write(2, lst->token->str, ft_strlen(lst->token->str));
@@ -69,7 +72,7 @@ char	**fill_cmd(t_lst *lst, int c)
 					|| !ft_strcmp(cmd[0], "exit"))
 					lst->token->builtin = 1;
 				else
-					lst->token->builtin = 0;
+					lst->token->builtin = 0;*/
 			}
 			if (i)
 				cmd[i] = ft_strdup(lst->token->str);
@@ -77,6 +80,8 @@ char	**fill_cmd(t_lst *lst, int c)
 				return (NULL);
 			i++;
 		}
+		if (!lst->next)
+			break ;
 		lst = lst->next;
 	}
 	return (cmd);
