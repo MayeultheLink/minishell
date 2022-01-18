@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 15:42:40 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 17:48:53 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/16 15:52:22 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				ft_isalnum(int c);
 int				ft_isalpha(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
+int				ft_isnum(int c);
 int				ft_isprint(int c);
 char			*ft_itoa(int n);
 //void			ft_lstadd_back(t_list **alst, t_list *new);

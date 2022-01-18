@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 11:46:27 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:17:00 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	find_redir(t_lst *lst, int *i, int *o)
 	}
 }
 
-char	*fill_redir(t_lst *lst, int *type_redir, int io)
+char	*fill_redir(t_lst *lst, int *type_redir, int *fd_redir_in, int io)
 {
 	char	*redir;
 	int	i;
@@ -48,6 +48,11 @@ char	*fill_redir(t_lst *lst, int *type_redir, int io)
 		lst = lst->next;
 	if (lst->token->str[1] && (lst->token->str[1] == '<' || lst->token->str[1] == '>'))
 		(*type_redir)++;
+	if (lst->token->str[1] == '<')
+	{
+		*fd_redir_in = lst->token->fd_redir_in;
+		return (NULL);
+	}
 	redir = malloc(sizeof(char) * (ft_strlen(lst->token->str) - (*type_redir)));
 	if (!redir)
 		return (NULL);
@@ -78,11 +83,16 @@ int	get_redir(t_lst *lst)
 		if (out >= 0)
 			lst_cmd->token->type_redir_out = 0;
 		if (in >= 0)
-			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_in, in);
+		{
+			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_in,
+													&lst_cmd->token->fd_redir_in, in);
+//			if (!lst_cmd->token->redir_in)
+//				lst_cmd->token->fd_redir_in = lst->token->fd_redir_in;
+		}
 		if (out >= 0)
-			lst_cmd->token->redir_out = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_out, out);
-		if ((in >= 0 && !lst_cmd->token->redir_in) || (out >= 0 && !lst_cmd->token->redir_out))
-			return (0);
+			lst_cmd->token->redir_out = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_out, 0, out);
+//		if ((in >= 0 && !lst_cmd->token->type_redir_in < 0) || (out >= 0 && !lst_cmd->token->redir_out))
+//			return (0);
 		if (in < 0)
 			lst_cmd->token->redir_in = NULL;
 		if (out < 0)

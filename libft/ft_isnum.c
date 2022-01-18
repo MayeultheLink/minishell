@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_lst.c                                        :+:      :+:    :+:   */
+/*   ft_isnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/20 17:31:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/18 17:11:07 by mde-la-s         ###   ########.fr       */
+/*   Created: 2022/01/16 15:51:03 by mde-la-s          #+#    #+#             */
+/*   Updated: 2022/01/16 15:52:34 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	parse_lst(t_lst *lst)
+int	ft_isnum(int c)
 {
-	if (!error_pipe(ft_lststart(lst))
-		|| !cmd(ft_lststart(lst)) || !check_redir(ft_lststart(lst))
-		|| !del_pipes(ft_lststart(lst)))
-		return (0);
-	return (1);
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
