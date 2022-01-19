@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/18 18:08:47 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/18 20:58:20 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 		if (node->token->redir_out)
 			fd_file_out = open(node->token->redir_out, O_WRONLY, 0666);
 		if (fd_file_in == -1 || fd_file_out == -1)
+		{
+			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
 			return (1); //error
+		}
 		tab_pid[i - 1] = fork();
 		if (tab_pid[i - 1] == -1)
 			return (1); //error
@@ -122,9 +125,6 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 				dup2(fd_file_in, STDIN_FILENO);
 			if (node->token->redir_out)
 				dup2(fd_file_out, STDOUT_FILENO);
-//char	tmp[1];
-//read(fd_file_in, tmp, 1);
-//write(1, tmp, 1);
 			if (node->token->cmd)
 				execve(node->token->path, node->token->cmd, env);
 			else
@@ -133,6 +133,8 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 		else if (tab_pid[i - 1] > 0)
 		{
 			g_g = 1;
+			if (!ft_strcmp(node->token->path, "./minishell"))
+				g_g = 2;
 		}
 		if (node->token->type_redir_in >= 0)
 			close(fd_file_in);

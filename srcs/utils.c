@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/16 15:23:52 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:25:41 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*name_var(char *str)
 	return (name);
 }
 
-char	*treat_dollar(char *str, char *control, char **env)
+char	*treat_dollar(char *str, char *control, char **env, int trim)
 {
 	char	*new;
 	char	*name;
@@ -137,7 +137,15 @@ char	*treat_dollar(char *str, char *control, char **env)
 		i++;
 	}
 	if (!j)
-		return (ft_strtrim(str, " "));
+	{
+		tmp = ft_strtrim(str, " ");
+		if (!tmp || !tmp[0])
+		{
+			free(tmp);
+			tmp = NULL;
+		}
+		return (tmp);
+	}
 	new = malloc(sizeof(char) * (c + 1));
 	if (!new)
 		return (NULL);
@@ -171,7 +179,16 @@ char	*treat_dollar(char *str, char *control, char **env)
 		if (str[j])
 			new[i++] = str[j++];
 	}
-	tmp = ft_strtrim(new, " ");
-	free(new);
-	return (tmp);
+	if (trim)
+	{
+		tmp = ft_strtrim(new, " ");
+		if (!tmp || !tmp[0])
+		{
+			free(tmp);
+			tmp = NULL;
+		}
+		free(new);
+		return (tmp);
+	}
+	return (new);
 }

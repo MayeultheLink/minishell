@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/16 15:22:35 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:26:21 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,19 @@ t_lst	*lst_add(t_lst *lst, t_token *token)
 
 	tmp = lst;
 	if (!token)
+	{
+		freelst(lst);
 		return (NULL);
+	}
 	if (!lst)
 	{
 		lst = malloc(sizeof(t_lst));
 		if (!lst)
+		{
+			free(token);
+			token = NULL;
 			return (NULL);
+		}
 		lst->token = token;
 		lst->previous = NULL;
 		lst->next = NULL;
@@ -105,6 +112,8 @@ t_lst	*lst_add(t_lst *lst, t_token *token)
 	if (!lst->next)
 	{
 		freelst(tmp);
+		free(token);
+		token = NULL;
 		return (NULL);
 	}
 	lst->next->previous = lst;
@@ -124,10 +133,10 @@ t_lst	*split_minishell(char *str, char *control, char **env)
 		return (NULL);
 	lst = NULL;
 	beginning = 0;
-	new = treat_dollar(str, control, env);
-	while (new[beginning] && new[beginning] == ' ')
+	new = treat_dollar(str, control, env, 1);
+	while (new && new[beginning] && new[beginning] == ' ')
 		beginning++;
-	if (!new[beginning])
+	if (!new || !new[beginning])
 	{
 		free(control);
 		return (NULL);
@@ -140,7 +149,11 @@ t_lst	*split_minishell(char *str, char *control, char **env)
 		{
 			lst = lst_add(lst, get_token(new, control, beginning, end));
 			if (!lst)
+			{
+				free(new);
+				free(control);
 				return (NULL);
+			}
 			beginning = end;
 			while (new[beginning] && new[beginning] == ' ')
 				beginning++;

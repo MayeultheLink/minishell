@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/18 18:12:29 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:51:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,17 @@ char	**getname(char *str)
 			c++;
 		name[j] = malloc(sizeof(char) * (c + 2));
 		if (!name[j])
+		{
+			ft_freesplit(name);
 			return (NULL);
+		}
 		name[j][c + 1] = 0;
 		name[j] = fill_name(name[j], str, i);
+		if (!name[j])
+		{
+			ft_freesplit(name);
+			return (NULL);
+		}
 		while (str[i] && str[i] != '<' && str[i] != '>')
 			i++;
 		j++;
@@ -83,6 +91,12 @@ int	heredoc(char *delim)
 	while (1)
 	{
 		str = readline("> ");
+		if (!str)
+		{
+			write(2, "\nheredoc error : ended by end-of-file\n", 38);
+			return (-1);
+		}
+	//	str = treat_dollar(str, str_control(str), env, 0);
 		if (ft_strcmp(delim, str))
 		{
 			write(fd[1], str, ft_strlen(str));
@@ -111,14 +125,11 @@ void	create_files(t_lst *lst)
 		{
 			if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
 				lst->token->fd_redir_in = heredoc(&lst->token->str[2]);
-			else
+			else if (lst->token->str[0] == '>')
 			{
 				name = getname(lst->token->str);
 				if (!name)
-				{
-					write(1, "Error\n", 6);
 					return ;
-				}
 				i = 0;
 				while (name[i])
 				{

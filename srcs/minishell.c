@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/18 18:01:45 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:27:09 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ int	g_g;
 
 void	handler()
 {
-	if (g_g == 1)
+	if (g_g == 2)
 		return ;
+	if (g_g == 1)
+		write(1, "\n", 1);
 	else
 	{
 		write(0, "\n", 1);
@@ -53,9 +55,11 @@ int	main(int ac, char **av, char **env)
 				return (1);
 			}
 			lst = split_minishell(av[2], str_control(av[2]), env);
-			if (lst && parse_lst(lst))
+			lst = parse_lst(lst);
+			if (lst)
 				cmd_manager(lst, env);
-			freelst(lst);
+			if (lst)
+				freelst(lst);
 			return (0);
 		}
 		else
@@ -71,12 +75,13 @@ int	main(int ac, char **av, char **env)
 		str = readline("minishell> ");
 		if (!str)
 		{
+			free(str);
+			rl_clear_history();
 			write(1, "exit\n", 5);
 			return (0);
 		}
 		if (ft_strlen(str) > 0)
 		{
-			add_history(str);
 			if (!ft_strcmp(str, "exit"))
 			{
 				free(str);
@@ -85,19 +90,22 @@ int	main(int ac, char **av, char **env)
 				write(1, "exit\n", 5);
 				return (0);
 			}
+			add_history(str);
 			lst = split_minishell(str, str_control(str), env);
-			if (lst && parse_lst(lst))
+			lst = parse_lst(lst);
+			if (lst)
 				cmd_manager(lst, env);
-			freelst(lst);
-			free(str);
+			if (lst)
+				freelst(lst);
 		}
+		free(str);
 	}
 	return (0);
 }
 
 /*			int j = 0;
 			int	i;
-			parse_lst(lst);
+			lst = parse_lst(lst);
 			while (lst)
 			{
 				i = 0;

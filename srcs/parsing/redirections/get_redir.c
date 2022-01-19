@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/18 18:17:00 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:51:58 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	find_redir(t_lst *lst, int *i, int *o)
 char	*fill_redir(t_lst *lst, int *type_redir, int *fd_redir_in, int io)
 {
 	char	*redir;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	while (io-- > 0 && lst->next)
 		lst = lst->next;
@@ -80,19 +80,18 @@ int	get_redir(t_lst *lst)
 			lst_cmd = lst_cmd->next;
 		if (in >= 0)
 			lst_cmd->token->type_redir_in = 0;
-		if (out >= 0)
-			lst_cmd->token->type_redir_out = 0;
 		if (in >= 0)
-		{
 			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_in,
 													&lst_cmd->token->fd_redir_in, in);
-//			if (!lst_cmd->token->redir_in)
-//				lst_cmd->token->fd_redir_in = lst->token->fd_redir_in;
-		}
+		if (out >= 0)
+			lst_cmd->token->type_redir_out = 0;
 		if (out >= 0)
 			lst_cmd->token->redir_out = fill_redir(ft_lststart(lst), &lst_cmd->token->type_redir_out, 0, out);
-//		if ((in >= 0 && !lst_cmd->token->type_redir_in < 0) || (out >= 0 && !lst_cmd->token->redir_out))
-//			return (0);
+		if ((lst_cmd->token->type_redir_in == 0 && !lst_cmd->token->redir_in) || (out >= 0 && !lst_cmd->token->redir_out))
+		{
+			freelst(ft_lststart(lst));
+			return (0);
+		}
 		if (in < 0)
 			lst_cmd->token->redir_in = NULL;
 		if (out < 0)
