@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 15:55:57 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/20 15:35:39 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_lst
 	struct s_token	*token;
 	struct s_lst	*previous;
 	struct s_lst	*next;
+	char			**env;
 }			t_lst;
 
 int		launch_cmd(char *str, char **env);

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 17:26:21 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/20 21:17:05 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,17 @@ t_lst	*split_minishell(char *str, char *control, char **env)
 	lst = NULL;
 	beginning = 0;
 	new = treat_dollar(str, control, env, 1);
-	while (new && new[beginning] && new[beginning] == ' ')
-		beginning++;
-	if (!new || !new[beginning])
+	if (!new)
 	{
 		free(control);
+		return (NULL);
+	}
+	while (new && new[beginning] && new[beginning] == ' ')
+		beginning++;
+	if (!new[beginning])
+	{
+		free(control);
+		free(new);
 		return (NULL);
 	}
 	end = beginning;
@@ -162,8 +168,10 @@ t_lst	*split_minishell(char *str, char *control, char **env)
 	}
 	if (new[beginning])
 		lst = lst_add(lst, get_token(new, control, beginning, end));
-	free(control);
+	if (lst)
+		ft_lststart(lst)->env = ft_duptab(env);
 	free(new);
+	free(control);
 	if (!lst)
 		return (NULL);
 	return (ft_lststart(lst));

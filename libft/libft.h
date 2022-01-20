@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 15:42:40 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/16 15:52:22 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/20 20:32:39 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ typedef struct s_list
 }				t_list;
 
 int				get_next_line(char **line);
+char			*alloc_with(int d, char c);
 int				ft_atoi(const char *str);
 void			ft_bzero(void *s, size_t n);
 void			*ft_calloc(size_t count, size_t size);
+int				ft_charthere(char *str, char c);
 char			*ft_delchar(char *str, char c);
+char			**ft_duptab(char **tab);
 void			ft_freesplit(char **split);
 int				ft_isalnum(int c);
 int				ft_isalpha(int c);

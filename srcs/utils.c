@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 17:25:41 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/20 20:43:41 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	freelst(t_lst *lst)
 		return ;
 	while (lst->previous)
 		lst = lst->previous;
+	ft_freesplit(lst->env);
 	while (lst)
 	{
 		if (lst->token)
@@ -116,6 +117,15 @@ char	*treat_dollar(char *str, char *control, char **env, int trim)
 	c = ft_strlen(str);
 	i = 0;
 	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			j++;
+		i++;
+	}
+	if (!j)
+		return (ft_strdup(str));
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '$' && control[i] == '0' && str[i + 1])

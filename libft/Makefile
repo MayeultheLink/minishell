@@ -6,16 +6,19 @@
 #    By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/26 15:31:23 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/16 15:52:47 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/20 21:22:46 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	libft.a
 
 SRCS	=	ft_atoi.c \
+		alloc_with.c \
 		ft_bzero.c \
 		ft_calloc.c \
+		ft_charthere.c \
 		ft_delchar.c \
+		ft_duptab.c \
 		ft_freesplit.c \
 		ft_isalnum.c \
 		ft_isalpha.c \
@@ -54,7 +57,7 @@ SRCS	=	ft_atoi.c \
 
 OBJS	=	${SRCS:.c=.o}
 
-CC	=	clang
+CC	=	cc
 
 CFLAGS	=	-Wall -Wextra -Werror
 

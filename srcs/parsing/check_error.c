@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:57:21 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/16 15:14:00 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/20 21:00:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	error_redir(t_lst *lst)
 		c = 0;
 		if (lst->token->type == REDIR)
 		{
-			i = -1;
-			while (lst->token->str[++i])
+			i = 0;
+			while (lst->token->str[i])
 			{
 				b = 0;
 				if (lst->token->str[i] == '<' || lst->token->str[i] == '>')
@@ -82,6 +82,8 @@ int	error_redir(t_lst *lst)
 					write(2, "Syntax error : redirections\n", ft_strlen("Syntax error : redirections\n"));
 					return (0);
 				}
+				if (lst->token->str[i])
+					i++;
 			}
 		}
 		lst = lst->next;

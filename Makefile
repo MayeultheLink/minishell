@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/10 18:01:36 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/20 21:22:25 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ _CYAN=$ \x1b[36m
 _WHITE=$ \x1b[37m
 _END=$ \x1b[0m
 
-CC		=	clang
+CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -I./headers
 CFLAGSR	=	-Wall -Wextra -Werror -I./headers -lreadline
 

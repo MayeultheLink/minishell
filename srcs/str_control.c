@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/10 17:35:13 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/20 21:36:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 char	*fill_special(char *str, char *control, int *i, int *j)
 {
 	char	q;
+	int		heredoc;
 
-	if (str[*i] == '"' || str[*i] == '\'')
+	if (str[*i] && (str[*i] == '"' || str[*i] == '\''))
 	{
 		control[++(*j)] = '0';
 		q = str[*i];
@@ -37,16 +38,50 @@ char	*fill_special(char *str, char *control, int *i, int *j)
 	{
 		(*i)++;
 		control[++(*j)] = '0';
+		heredoc = 0;
+		if (str[*i] && str[*i] == '<' && str[*i - 1] == '<')
+			heredoc = 1;
 		if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
 		{
 			(*i)++;
 			control[++(*j)] = '0';
+			if (heredoc)
+			{
+				while (str[*i] && str[*i] != ' ')
+				{
+					if (str[*i] && (str[*i] == '"' || str[*i] == '\''))
+					{
+						q = str[*i];
+						control[++(*j)] = '1';
+						(*i)++;
+						while (str[*i] && str[*i] != q)
+						{
+							control[++(*j)] = '1';
+							(*i)++;
+						}
+						if (!str[*i])
+						{
+							free(control);
+							return (NULL);
+						}
+						control[++(*j)] = '1';
+						(*i)++;
+					}
+					if (!str[*i])
+						break ;
+					if (str[*i] == '$')
+						control[++(*j)] = '1';
+					else
+						control[++(*j)] = '0';
+					(*i)++;
+				}
+			}
 		}
-		while (str[*i] && str[*i] == ' ')
-		{
-			(*i)++;
-			control[++(*j)] = '1';
-		}
+//		while (!heredoc && str[*i] && str[*i] == ' ')
+//		{
+//			(*i)++;
+///			control[++(*j)] = '1';
+//		}
 	}
 	return (control);
 }
@@ -64,6 +99,7 @@ char	*fill_control(char *control, char *str)
 		if (!control)
 		{
 			write(1, "Error with quotes\n", ft_strlen("Error with quotes\n"));
+			free(control);
 			return (NULL);
 		}
 		control[++j] = '0';
