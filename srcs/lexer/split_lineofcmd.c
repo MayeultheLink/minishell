@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:27:55 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:42:57 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_lst	*generate_lst(char *new, char *control, int beginning, int end)
 	while (new[++end])
 	{
 		if (control[end] == '0' && (new[end] == ' ' || ((new[end] == '<'
-				|| new[end] == '>') && new[end - 1] != new[end])
+						|| new[end] == '>') && new[end - 1] != new[end])
 				|| new[end] == '|' || new[end - 1] == '|'))
 		{
 			token = get_token(new, control, beginning, end);

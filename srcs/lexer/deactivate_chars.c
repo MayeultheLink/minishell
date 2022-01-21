@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:14:38 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:41:52 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*heredoc_control(char *str, char *control, int *i, int *j)
 			while (str[++(*i)] && str[*i] != q)
 				control[++(*j)] = '1';
 			if (!str[*i])
-				return (write(1, "Error with quotes\n", 18), free(control), NULL);
+				return (write(1, "Error with quotes\n", 18),
+					free(control), NULL);
 			control[++(*j)] = '1';
 			(*i)++;
 		}
