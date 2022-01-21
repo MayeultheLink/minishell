@@ -6,7 +6,7 @@
 #    By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/26 15:31:23 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/20 21:22:46 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/21 12:17:06 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS	=	ft_atoi.c \
 		ft_strncmp.c \
 		ft_strnstr.c \
 		ft_strrchr.c \
+		ft_strthere.c \
 		ft_strtrim.c \
 		ft_substr.c \
 		ft_tolower.c \

@@ -1,42 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_strthere.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 13:55:55 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 16:11:56 by mde-la-s         ###   ########.fr       */
+/*   Created: 2022/01/21 12:14:53 by mde-la-s          #+#    #+#             */
+/*   Updated: 2022/01/21 12:16:18 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcatf(char *str1, char *str2, int f)
+int	ft_strthere(char *str, char *there)
 {
-	char	*str;
-	int		i;
-	int		j;
+	int	i;
 
-	str = malloc(sizeof(char) * ft_strlen(str1) + ft_strlen(str2) + 1);
-	if (!str)
-		return (NULL);
 	i = 0;
-	j = 0;
-	while (str1[i])
-		str[j++] = str1[i++];
-	i = 0;
-	while (str2[i])
-		str[j++] = str2[i++];
-	str[j] = '\0';
-	if (f == 1)
-		free(str1);
-	if (f == 2)
-		free(str2);
-	if (f == 3)
+	while (str[i])
 	{
-		free(str1);
-		free(str2);
+		if (!ft_strncmp(str, there, ft_strlen(there)))
+			return (1);
+		i++;
 	}
-	return (str);
+	return (0);
 }

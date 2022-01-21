@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 15:42:40 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/20 20:32:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:12:08 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr_fd(char *s, int fd);
 char			**ft_split(char const *s, char c);
-char			*ft_strcat(char *str1, char *str2, int f);
+char			*ft_strcatf(char *str1, char *str2, int f);
 char			*ft_strchr(const char *s, int c);
 int				ft_strcmp(char *str1, char *str2);
 char			*ft_strdup(const char *s1);
 char			*ft_strjoin(char const *s1, char const *s2);
+int				ft_strthere(char *str, char *there);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlen(const char *src);
