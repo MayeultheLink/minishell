@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 16:39:54 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:26:00 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ char	**fill_cmd(t_lst *lst, int c)
 			{
 				cmd[0] = ft_strdup(lst->token->str);
 				if (!cmd[0])
+				{
+					free(cmd);
 					return (NULL);
+				}
 				lst->token->path = error_cmd(lst);
 				if (!lst->token->path)
 				{

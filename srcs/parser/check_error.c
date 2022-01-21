@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:57:21 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/20 21:00:59 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:13:14 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ char	*error_cmd(t_lst *lst)
 	i = 0;
 	while (split_path[i])
 	{
-		split_path[i] = ft_strcat(split_path[i], "/", 1);
-		split_path[i] = ft_strcat(split_path[i], lst->token->str, 1);
+		split_path[i] = ft_strcatf(split_path[i], "/", 1);
+		split_path[i] = ft_strcatf(split_path[i], lst->token->str, 1);
 		if (!access(split_path[i], F_OK))
 		{
 			str = ft_strdup(split_path[i]);

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/20 15:35:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:22:44 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define PIPE 1
 # define REDIR 2
 
-extern int	g_g;
+extern int	g_signal;
 
 typedef struct	s_token
 {
@@ -39,6 +39,7 @@ typedef struct	s_token
 	char		*redir_out;
 	int			type_redir_out;
 	int			type;
+	int			echo;
 }				t_token;
 
 typedef struct		s_lst
@@ -49,10 +50,17 @@ typedef struct		s_lst
 	char			**env;
 }			t_lst;
 
+void	freetoken(t_token *token);
+t_token	*get_token(char *str, char *control, int beg, int end);
+t_lst	*parse_lineofcmd(char *str, char **env);
+int		launch_not_interactive(int ac, char **av, char **env);
+int		launch_interactive(char **env);
+int		exit_minishell(char *str);
+void	handler();
 int		launch_cmd(char *str, char **env);
 int		parse_str(char **str);
-char	*str_control(char *str);
-t_lst	*split_minishell(char *str, char *control, char **env);
+char	*deactivate_chars(char *str);
+t_lst	*split_lineofcmd(char *str, char *control, char **env);
 t_lst	*ft_lststart(t_lst *lst);
 t_lst	*parse_lst(t_lst *lst);
 char	*error_cmd(t_lst *lst);
@@ -66,6 +74,7 @@ int		get_redir(t_lst *lst);
 int		cmd(t_lst *lst);
 void	freelst(t_lst *lst);
 char	*treat_dollar(char *str, char *control, char **env, int trim);
+void	echo(char **cmd);
 int		cmd_manager(t_lst *cmd_lst, char **env);
 
 #endif

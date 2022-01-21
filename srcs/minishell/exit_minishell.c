@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   exit_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 14:43:31 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 16:07:57 by mde-la-s         ###   ########.fr       */
+/*   Created: 2022/01/21 15:55:52 by mde-la-s          #+#    #+#             */
+/*   Updated: 2022/01/21 15:57:36 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal;
-
-int	main(int ac, char **av, char **env)
+int	exit_minishell(char *str)
 {
-	if (ac >= 2)
-		return(launch_not_interactive(ac, av, env));
-	return (launch_interactive(env));
+	rl_clear_history();
+	free(str);
+	str = NULL;
+	write(1, "exit\n", 5);
+	return (0);
 }

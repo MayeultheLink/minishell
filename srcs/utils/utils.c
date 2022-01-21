@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/20 20:43:41 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:22:28 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,29 @@ void	freelst(t_lst *lst)
 		lst = lst->next;
 		free(tmp);
 		tmp = NULL;
+	}
+}
+
+void	freetoken(t_token *token)
+{
+	if (token)
+	{
+		if (token->str)
+			free(token->str);
+		token->str = NULL;
+		if (token->path)
+			free(token->path);
+		token->path = NULL;
+		if (token->cmd)
+			ft_freesplit(token->cmd);
+		if (token->redir_in)
+			free(token->redir_in);
+		token->redir_in = NULL;
+		if (token->redir_out)
+			free(token->redir_out);
+		token->redir_out = NULL;
+		free(token);
+		token = NULL;
 	}
 }
 

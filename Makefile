@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/20 21:22:25 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/21 19:07:29 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,23 @@ NAME	=	minishell
 
 LIBFT	=	libft/libft.a
 SRCS	=	srcs/minishell.c \
-			srcs/str_control.c \
-			srcs/utils.c \
-			srcs/split_minishell.c \
-			srcs/parsing/check_error.c \
-			srcs/parsing/cmd.c \
-			srcs/parsing/parse_lst.c \
-			srcs/parsing/pipe.c \
-			srcs/parsing/redirections/create_files.c \
-			srcs/parsing/redirections/get_redir.c \
-			srcs/parsing/redirections/redir.c \
-			srcs/cmd_manager.c
+			srcs/minishell/launch_minishell.c \
+			srcs/minishell/parse_lineofcmd.c \
+			srcs/minishell/handler.c \
+			srcs/minishell/exit_minishell.c \
+			srcs/lexer/split_lineofcmd.c \
+			srcs/lexer/deactivate_chars.c \
+			srcs/lexer/token.c \
+			srcs/parser/check_error.c \
+			srcs/parser/cmd.c \
+			srcs/parser/parse_lst.c \
+			srcs/parser/pipe.c \
+			srcs/parser/redirections/create_files.c \
+			srcs/parser/redirections/get_redir.c \
+			srcs/parser/redirections/redir.c \
+			srcs/builtins/echo.c \
+			srcs/utils/utils.c \
+			srcs/cmd/cmd_manager.c
 
 # Colors
 _GREY=$ \x1b[30m

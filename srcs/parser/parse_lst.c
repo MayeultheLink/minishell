@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:31:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 16:54:31 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:29:38 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,13 @@ int	check_cmd(t_lst *lst)
 
 t_lst	*parse_lst(t_lst *lst)
 {
-	if (!lst)
-		return (NULL);
-	if (!check_cmd(lst))
-	{
-		freelst(lst);
-		return (NULL);
-	}
-	if (!error_pipe(ft_lststart(lst)))
-	{
-		freelst(lst);
-		return (NULL);
-	}
-	if (!cmd(ft_lststart(lst)))
-		return (NULL);
+	if (!check_cmd(ft_lststart(lst)) || !error_pipe(ft_lststart(lst))
+		|| !cmd(ft_lststart(lst)))
+		return (freelst(ft_lststart(lst)), NULL);
 	lst = check_redir(ft_lststart(lst));
 	if (!lst)
 		return (NULL);
 	if (!del_pipes(ft_lststart(lst)))
-	{
-		freelst(lst);
-		return (NULL);
-	}
+		return (freelst(ft_lststart(lst)), NULL);
 	return (ft_lststart(lst));
 }

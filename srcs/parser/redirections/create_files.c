@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/20 21:28:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:12:54 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*fill_name(char *name, char *str, int i)
 	j = 1;
 	while (str[i] && str[i] != '<' && str[i] != '>')
 		name[j++] = str[i++];
-	name = ft_strcat(getcwd(NULL, 0), name, 3);
+	name = ft_strcatf(getcwd(NULL, 0), name, 3);
 	return (name);
 }
 
@@ -161,12 +161,10 @@ int	heredoc(t_lst *lst)
 	parsed = NULL;
 	pipe(fd);
 	i = check_for_quotes(&lst->token->str[2]);
-printf("str = |%s|\n", &lst->token->str[2]);
 	if (i)
 		delim = del_quotes(&lst->token->str[2]);
 	else
 		delim = ft_strdup(&lst->token->str[2]);
-printf("delim = |%s|\n", delim);
 	while (1)
 	{
 		str = readline("> ");
@@ -235,7 +233,7 @@ void	create_files(t_lst *lst)
 				i = 0;
 				while (name[i])
 				{
-					fd = open(name[i], O_WRONLY | O_CREAT, 0666);
+					fd = open(name[i], O_WRONLY | O_CREAT, 0644);
 					if (fd > -1)
 						close(fd);
 					i++;
