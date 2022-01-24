@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:47:26 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/07 18:08:55 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/24 16:21:29 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,34 @@ int	del_pipes(t_lst *lst)
 			free(tmp);
 			tmp = NULL;
 		}
+		lst = lst->next;
+	}
+	return (1);
+}
+
+int	error_pipe(t_lst *lst)
+{
+	if (lst->token->type == PIPE)
+	{
+		write(2, "Syntax error : pipe\n", ft_strlen("Syntax error : pipe\n"));
+		return (0);
+	}
+	while (lst)
+	{
+		while (lst->next && lst->token->type != PIPE)
+			lst = lst->next;
+		if (lst->next && lst->next->token->type == PIPE)
+		{
+			write(2, "Syntax error : pipe\n", ft_strlen("Syntax error : pipe\n"));
+			return (0);
+		}
+		if (!lst->next && lst->token->type == PIPE)
+		{
+			write(2, "Syntax error : pipe\n", ft_strlen("Syntax error : pipe\n"));
+			return (0);
+		}
+		if (!lst->next)
+			break ;
 		lst = lst->next;
 	}
 	return (1);

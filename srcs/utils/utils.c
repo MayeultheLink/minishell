@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:22:28 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/24 15:09:14 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,15 @@ char	*name_var(char *str)
 	while (--i >= 0)
 		name[i] = str[i];
 	return (name);
+}
+
+int	is_builtin(char *str)
+{
+	if (!ft_strcmp(str, "echo") || !ft_strcmp(str, "cd") || !ft_strcmp(str, "pwd")
+		|| !ft_strcmp(str, "export") || !ft_strcmp(str, "unset")
+		|| !ft_strcmp(str, "env") || !ft_strcmp(str, "exit"))
+		return (1);
+	return (0);
 }
 
 char	*treat_dollar(char *str, char *control, char **env, int trim)

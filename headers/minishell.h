@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:22:44 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/24 15:32:29 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct		s_lst
 	char			**env;
 }			t_lst;
 
+char	*get_cmd(t_lst *lst);
+int	check_if_cmd(t_lst *lst);
 void	freetoken(t_token *token);
 t_token	*get_token(char *str, char *control, int beg, int end);
 t_lst	*parse_lineofcmd(char *str, char **env);
