@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:41:52 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:52:42 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,21 @@ char	*heredoc_control(char *str, char *control, int *i, int *j)
 
 char	*redir(char *str, char *control, int *i, int *j)
 {
-	int	heredoc;
-
-	heredoc = 0;
 	if (str[*i] && str[*i] == '<' && str[*i - 1] == '<')
-		heredoc = 1;
+	{
+		++(*i);
+		++(*j);
+		control = heredoc_control(str, control, i, j);
+	}
 	if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
 	{
 		++(*i);
 		++(*j);
-		if (heredoc)
-			control = heredoc_control(str, control, i, j);
-		if (!control)
-			return (NULL);
+	}
+	while (str[*i] && str[*i] == ' ')
+	{
+		control[++(*j)] = '1';
+		++(*i);
 	}
 	return (control);
 }

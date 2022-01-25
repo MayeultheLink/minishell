@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:42:57 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:16:44 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_lst	*generate_lst(char *new, char *control, int beginning, int end)
 	return (lst);
 }
 
-t_lst	*split_lineofcmd(char *str, char *control, char **env)
+t_lst	*split_lineofcmd(char *str, char *control)
 {
 	char	*new;
 	t_lst	*lst;
@@ -91,8 +91,5 @@ t_lst	*split_lineofcmd(char *str, char *control, char **env)
 	if (!lst)
 		return (free(new), NULL);
 	free(new);
-	ft_lststart(lst)->env = ft_duptab(env);
-	if (!ft_lststart(lst)->env)
-		return (write(2, "Failed malloc\n", 14), freelst(lst), NULL);
 	return (ft_lststart(lst));
 }

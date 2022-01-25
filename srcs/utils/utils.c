@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/24 15:09:14 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:11:28 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*my_getenv(char *var, char **env)
 		}
 		i++;
 	}
-	return (NULL);
+	return (ft_strdup("/"));
 }
 
 t_lst	*ft_lststart(t_lst *lst)

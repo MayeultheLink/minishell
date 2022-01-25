@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/24 15:09:14 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 17:57:32 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*my_getenv(char *var, char **env)
 		{
 			result = malloc(sizeof(char) * (ft_strlen(env[i]) - ft_strlen(var)));
 			if (!result)
-				return (NULL);
+				return (write(2, "Failed malloc\n", 14), NULL);
 			j = 0;
 			while (env[i][j + ft_strlen(var) + 1])
 			{
@@ -37,7 +37,8 @@ char	*my_getenv(char *var, char **env)
 		}
 		i++;
 	}
-	return (NULL);
+//	write(2, "Can't find env variable\n", 24);
+	return (ft_strdup("/"));
 }
 
 t_lst	*ft_lststart(t_lst *lst)

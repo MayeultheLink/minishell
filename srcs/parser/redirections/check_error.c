@@ -6,53 +6,45 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 12:17:50 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 12:18:09 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:00:09 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	check_str_redir(char *str)
+{
+	int	c;
+	int	i;
+
+	c = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '<' || str[i] == '>')
+		{
+			while (str[i] && (str[i] == '<' || str[i] == '>'))
+			{
+				c++;
+				i++;
+			}
+			while (str[i] && str[i] == ' ')
+				i++;
+			if (c > 2 || !str[i] || str[i] == '<' || str[i] == '>')
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	error_redir(t_lst *lst)
 {
-	int	i;
-	int	b;
-	int	c;
-
 	while (lst)
 	{
-		c = 0;
 		if (lst->token->type == REDIR)
-		{
-			i = 0;
-			while (lst->token->str[i])
-			{
-				b = 0;
-				if (lst->token->str[i] == '<' || lst->token->str[i] == '>')
-				{
-					c++;
-					if (!lst->token->str[i + 1] || lst->token->str[i + 1] == ' ')
-					{
-						b = 1;
-						i++;
-					}
-				}
-				if (c > 2)
-				{
-					write(2, "Syntax error : redirections\n", ft_strlen("Syntax error : redirections\n"));
-					return (0);
-				}
-				while (lst->token->str[i] && lst->token->str[i] == ' ')
-					i++;
-				if (b == 1 && (!lst->token->str[i]
-						|| (lst->token->str[i] == '<' || lst->token->str[i] == '>')))
-				{
-					write(2, "Syntax error : redirections\n", ft_strlen("Syntax error : redirections\n"));
-					return (0);
-				}
-				if (lst->token->str[i])
-					i++;
-			}
-		}
+			if (!check_str_redir(lst->token->str))
+				return (write(2, "Syntax error : redirections\n", 28), 0);
 		lst = lst->next;
 	}
 	return (1);

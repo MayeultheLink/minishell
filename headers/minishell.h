@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 14:34:26 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:18:32 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	handler();
 int		launch_cmd(char *str, char **env);
 int		parse_str(char **str);
 char	*deactivate_chars(char *str);
-t_lst	*split_lineofcmd(char *str, char *control, char **env);
+t_lst	*split_lineofcmd(char *str, char *control);
 t_lst	*ft_lststart(t_lst *lst);
-t_lst	*parse_lst(t_lst *lst);
+t_lst	*parse_lst(t_lst *lst, char **env);
 char	*error_cmd(t_lst *lst);
 int		error_pipe(t_lst *lst);
 t_lst	*check_redir(t_lst *lst);

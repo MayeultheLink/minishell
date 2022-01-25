@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/25 17:25:23 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:05:38 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 
 	cmd_nbr = cmd_count(cmd_lst);
 
-	if (cmd_nbr == 1 && cmd_lst->token)
+	if (cmd_nbr == 1 && cmd_lst->token->builtin)
 	{
 		fd_file_out = 1;
 		if (cmd_lst->token->redir_out)
-			fd_file_out = open(cmd_lst->token->redir_out, O_WRONLY, 0666);
+			fd_file_out = open(cmd_lst->token->redir_out, O_WRONLY, 0644);
 		if (fd_file_out == -1)
 		{
 			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
@@ -133,12 +133,12 @@ int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 		if (node->token->type_redir_in >= 0)
 		{
 			if (node->token->type_redir_in == 0)
-				fd_file_in = open(node->token->redir_in, O_RDONLY, 0666);
+				fd_file_in = open(node->token->redir_in, O_RDONLY, 0644);
 			if (node->token->type_redir_in == 1)
 				fd_file_in = node->token->fd_redir_in;
 		}
 		if (node->token->redir_out)
-			fd_file_out = open(node->token->redir_out, O_WRONLY, 0666);
+			fd_file_out = open(node->token->redir_out, O_WRONLY, 0644);
 		if (fd_file_in == -1 || fd_file_out == -1)
 		{
 			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));

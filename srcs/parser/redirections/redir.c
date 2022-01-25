@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 14:33:37 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:42:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	del_redir(t_lst *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		lst->env = ft_duptab(tmp->env);
 		free_redir(tmp);
 		lst->previous = NULL;
 	}
@@ -59,10 +60,8 @@ int	del_spaces(t_lst *lst)
 		{
 			lst->token->str = ft_delchar(lst->token->str, ' ');
 			if (!lst->token->str)
-				return (0);
+				return (write(2, "Failed malloc\n", 14), 0);
 		}
-		if (!lst->next)
-			break ;
 		lst = lst->next;
 	}
 	return (1);
