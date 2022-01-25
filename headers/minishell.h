@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 15:18:32 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:17:24 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct		s_lst
 	char			**env;
 }			t_lst;
 
+int		is_fake_cmd(char *cmd);
+int		heredoc(t_lst *lst);
 int		get_cmd_with_arg(t_lst *lst);
 int		is_builtin(char *str);
 char	*my_getenv(char *str, char **env);

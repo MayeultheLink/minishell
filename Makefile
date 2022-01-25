@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/25 12:32:03 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/25 20:10:46 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/parser/redirections/redir.c \
 			srcs/parser/redirections/get_redir.c \
 			srcs/parser/redirections/create_files.c \
+			srcs/parser/redirections/heredoc.c \
 			srcs/parser/redirections/check_error.c \
 			srcs/parser/pipe/pipe.c \
 			srcs/builtins/echo.c \

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 15:04:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 12:36:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:23:17 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_path(char *cmd, char **split_path)
 	int		i;
 
 	i = 0;
-	while (split_path[i])
+	while (split_path[i] && !is_fake_cmd(cmd))
 	{
 		split_path[i] = ft_strcatf(split_path[i], "/", 1);
 		if (!split_path[i])
@@ -51,7 +51,7 @@ char	*get_cmd_with_path(t_lst *lst)
 		lst->token->builtin = 1;
 		return (ft_strdup(lst->token->str));
 	}
-	if (!(access(lst->token->str, F_OK)))
+	if (!access(lst->token->str, F_OK) && !is_fake_cmd(lst->token->str))
 		return (ft_strdup(lst->token->str));
 	str = my_getenv("PATH", ft_lststart(lst)->env);
 	if (!str)
