@@ -1,37 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_error_cmd.c                                  :+:      :+:    :+:   */
+/*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 15:04:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/24 16:10:03 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:36:36 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_if_cmd(t_lst *lst)
-{
-	while (lst)
-	{
-		if (lst->token->type == CMD)
-			return (1);
-		if (!lst->next)
-		{
-			write(2, "Error : no command\n", 19);
-			return (0);
-		}
-		lst = lst->next;
-	}
-	return (1);
-}
-
 char	*get_path(char *cmd, char **split_path)
 {
 	char	*path;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (split_path[i])
@@ -61,7 +45,6 @@ char	*get_cmd_with_path(t_lst *lst)
 {
 	char	*str;
 	char	**split_path;
-	int	i;
 
 	if (is_builtin(lst->token->str))
 	{
@@ -69,8 +52,8 @@ char	*get_cmd_with_path(t_lst *lst)
 		return (ft_strdup(lst->token->str));
 	}
 	if (!(access(lst->token->str, F_OK)))
-		return(ft_strdup(lst->token->str));
-	str = my_getenv("PATH");
+		return (ft_strdup(lst->token->str));
+	str = my_getenv("PATH", ft_lststart(lst)->env);
 	if (!str)
 		return (write(2, "Failed malloc\n", 14), NULL);
 	split_path = ft_split(str, ':');

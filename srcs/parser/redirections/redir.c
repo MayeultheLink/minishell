@@ -6,24 +6,34 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 16:43:09 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:33:37 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*del_redir(t_lst *lst)
+void	free_redir(t_lst *lst)
+{
+	if (lst && lst->token && lst->token->str)
+		free(lst->token->str);
+	lst->token->str = NULL;
+	if (lst && lst->token)
+		free(lst->token);
+	lst->token = NULL;
+	if (lst)
+		free(lst);
+	lst = NULL;
+}
+
+void	del_redir(t_lst *lst)
 {
 	t_lst	*tmp;
 
 	while (lst->token->type == REDIR)
 	{
-		free(lst->token->str);
-		lst->token->str = NULL;
-		free(lst->token);
-		lst->token = NULL;
+		tmp = lst;
 		lst = lst->next;
-		free(lst->previous);
+		free_redir(tmp);
 		lst->previous = NULL;
 	}
 	while (lst)
@@ -35,18 +45,10 @@ t_lst	*del_redir(t_lst *lst)
 			lst->next = tmp->next;
 			if (lst->next)
 				lst->next->previous = lst;
-			free(tmp->token->str);
-			tmp->token->str = NULL;
-			free(tmp->token);
-			tmp->token = NULL;
-			free(tmp);
-			tmp = NULL;
+			free_redir(tmp);
 		}
-		if (!lst->next)
-			break ;
 		lst = lst->next;
 	}
-	return (lst);
 }
 
 int	del_spaces(t_lst *lst)
@@ -79,6 +81,6 @@ t_lst	*check_redir(t_lst *lst)
 		freelst(ft_lststart(lst));
 		return (NULL);
 	}
-	lst = del_redir(ft_lststart(lst));
+	del_redir(ft_lststart(lst));
 	return (ft_lststart(lst));
 }

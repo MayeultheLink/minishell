@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/24 16:18:18 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:39:02 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	free_arg(t_lst *lst)
 char	**fill_cmd(t_lst *lst, int c)
 {
 	char	**cmd;
-	int	i;
+	int		i;
 
-	cmd = malloc(sizeof(char*) * (c + 1));
+	cmd = malloc(sizeof(char *) * (c + 1));
 	if (!cmd)
 		return (write(2, "Failed malloc\n", 14), NULL);
 	cmd[c] = NULL;

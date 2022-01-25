@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 16:12:54 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:55:48 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,9 +215,9 @@ int	heredoc(t_lst *lst)
 
 void	create_files(t_lst *lst)
 {
-	int	fd;
+	int		fd;
 	char	**name;
-	int	i;
+	int		i;
 
 	while (lst)
 	{

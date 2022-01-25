@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:02:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/21 19:41:09 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:11:24 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,8 @@ int	get_type(t_token *token, char c)
 		return (CMD);
 }
 
-t_token	*init_token(int end, int beg, int c)
+t_token	*set_all_to_null(t_token *token)
 {
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (write(2, "Failed malloc\n", 14), NULL);
 	token->str = NULL;
 	token->path = NULL;
 	token->cmd = NULL;
@@ -38,19 +33,40 @@ t_token	*init_token(int end, int beg, int c)
 	token->type_redir_in = -1;
 	token->type_redir_out = -1;
 	token->type = -1;
+	return (token);
+}
+
+t_token	*init_token(char *str, char *control, int end, int beg)
+{
+	t_token	*token;
+	int		c;
+	int		i;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (write(2, "Failed malloc\n", 14), NULL);
+	token = set_all_to_null(token);
+	c = 0;
+	i = -1;
+	while (beg + ++i < end)
+		if ((str[beg + i] == '"' || str[beg + i] == '\'')
+			&& control[beg + i] == '0')
+			c++;
+	if (c == (int)ft_strlen(str))
+		return (free(token), NULL);
 	token->str = alloc_with((end - beg - c), '0');
 	if (!token->str)
 		return (write(2, "Failed malloc\n", 14), free(token), NULL);
 	return (token);
 }
 
-t_token	*fill_token(char *str, char *control, int beg, int end)
+t_token	*get_token(char *str, char *control, int beg, int end)
 {
 	t_token	*token;
 	int		i;
 	int		c;
 
-	token = init_token(end, beg, c);
+	token = init_token(str, control, end, beg);
 	if (!token)
 		return (NULL);
 	c = beg - 1;
@@ -66,25 +82,5 @@ t_token	*fill_token(char *str, char *control, int beg, int end)
 	}
 	token->str[c - beg] = 0;
 	token->type = get_type(token, control[beg]);
-	return (token);
-}
-
-t_token	*get_token(char *str, char *control, int beg, int end)
-{
-	t_token	*token;
-	int		i;
-	int		c;
-
-	i = -1;
-	c = 0;
-	while (beg + ++i < end)
-	{
-		if ((str[beg + i] == '"' || str[beg + i] == '\'')
-			&& control[beg + i] == '0')
-			c++;
-	}
-	if (c == (int)ft_strlen(str))
-		return (NULL);
-	token = fill_token(str, control, beg, end);
 	return (token);
 }
