@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:02:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 13:11:24 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/27 15:51:38 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*set_all_to_null(t_token *token)
 	return (token);
 }
 
-t_token	*init_token(char *str, char *control, int end, int beg)
+t_token	*init_token(char *str, char *control, int beg, int end)
 {
 	t_token	*token;
 	int		c;
@@ -66,7 +66,7 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 	int		i;
 	int		c;
 
-	token = init_token(str, control, end, beg);
+	token = init_token(str, control, beg, end);
 	if (!token)
 		return (NULL);
 	c = beg - 1;

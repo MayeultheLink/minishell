@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 20:12:19 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/27 15:25:24 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_for_quotes(char *str)
 	return (c);
 }
 
-char	*del_quotes(char *new, char *delim)
+void	del_quotes(char *new, char *delim)
 {
 	char	q;
 	int		i;
@@ -63,9 +63,9 @@ char	*del_quotes(char *new, char *delim)
 			j++;
 		}
 		new[i] = delim[i + j];
-		i++;
+		if (delim[i + j])
+			i++;
 	}
-	return (new);
 }
 
 char	*manage_quotes(char *delim)
@@ -78,7 +78,7 @@ char	*manage_quotes(char *delim)
 		new = alloc_with(ft_strlen(delim) - check_for_quotes(delim), '0');
 	if (!new)
 		return (write(2, "Failed malloc\n", 14), NULL);
-	new = del_quotes(new, delim);
+	del_quotes(new, delim);
 	return (new);
 }
 
@@ -94,7 +94,7 @@ char	*parse_str_readline(char *str, t_lst *lst)
 		control = alloc_with(ft_strlen(str), '0');
 		if (!control)
 			return (write(2, "Failed malloc\n", 14), free(str), NULL);
-		parsed = treat_dollar(str, control, ft_lststart(lst)->env, 0);
+		parsed = treat_dollar(str, control, ft_lststart(lst)->env);
 		free(control);
 	}
 	else

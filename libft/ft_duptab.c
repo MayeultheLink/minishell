@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:45:34 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/20 15:48:33 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:10:24 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**ft_duptab(char **tab)
 	i = 0;
 	while (tab[i])
 		i++;
-	new = malloc(sizeof(char*) * (i + 1));
+	new = malloc(sizeof(char *) * (i + 1));
 	if (!new)
 		return (NULL);
 	new[i] = NULL;

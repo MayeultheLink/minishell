@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/25 20:10:46 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/27 14:43:57 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/lexer/deactivate_chars.c \
 			srcs/lexer/token.c \
 			srcs/parser/parse_lst.c \
+			srcs/parser/treat_dollar.c \
 			srcs/parser/command/get_cmd.c \
 			srcs/parser/command/get_path.c \
 			srcs/parser/command/check_error.c \
@@ -33,6 +34,7 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/parser/pipe/pipe.c \
 			srcs/builtins/echo.c \
 			srcs/utils/utils.c \
+			srcs/utils/free_stuff.c \
 			srcs/execute/cmd_manager.c
 
 # Colors

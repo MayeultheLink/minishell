@@ -6,20 +6,20 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 20:17:24 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:25:39 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+# include "../libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define CMD 0
 # define PIPE 1
@@ -27,7 +27,7 @@
 
 extern int	g_signal;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	char		*str;
 	char		*path;
@@ -42,7 +42,7 @@ typedef struct	s_token
 	int			echo;
 }				t_token;
 
-typedef struct		s_lst
+typedef struct s_lst
 {
 	struct s_token	*token;
 	struct s_lst	*previous;
@@ -50,40 +50,39 @@ typedef struct		s_lst
 	char			**env;
 }			t_lst;
 
-int		is_fake_cmd(char *cmd);
-int		heredoc(t_lst *lst);
-int		get_cmd_with_arg(t_lst *lst);
-int		is_builtin(char *str);
-char	*my_getenv(char *str, char **env);
-void	free_arg(t_lst *lst);
-char	*get_cmd_with_path(t_lst *lst);
-char	*get_cmd(t_lst *lst);
-int	check_if_cmd(t_lst *lst);
-void	freetoken(t_token *token);
-t_token	*get_token(char *str, char *control, int beg, int end);
-t_lst	*parse_lineofcmd(char *str, char **env);
-int		launch_not_interactive(int ac, char **av, char **env);
-int		launch_interactive(char **env);
-int		exit_minishell(char *str);
-void	handler();
-int		launch_cmd(char *str, char **env);
-int		parse_str(char **str);
+int		check_if_cmd(t_lst *lst);
+t_lst	*check_redir(t_lst *lst);
+int		cmd(t_lst *lst);
+int		cmd_manager(t_lst *cmd_lst, char **env);
+void	create_files(t_lst *lst);
 char	*deactivate_chars(char *str);
-t_lst	*split_lineofcmd(char *str, char *control);
-t_lst	*ft_lststart(t_lst *lst);
-t_lst	*parse_lst(t_lst *lst, char **env);
+int		del_pipes(t_lst *lst);
 char	*error_cmd(t_lst *lst);
 int		error_pipe(t_lst *lst);
-t_lst	*check_redir(t_lst *lst);
-t_lst	*get_arg(t_lst *lst);
-int		del_pipes(t_lst *lst);
 int		error_redir(t_lst *lst);
-void	create_files(t_lst *lst);
-int		get_redir(t_lst *lst);
-int		cmd(t_lst *lst);
+int		exit_minishell(char *str);
+void	free_arg(t_lst *lst);
 void	freelst(t_lst *lst);
-char	*treat_dollar(char *str, char *control, char **env, int trim);
-void	echo(char **cmd);
-int		cmd_manager(t_lst *cmd_lst, char **env);
+void	freetoken(t_token *token);
+t_lst	*ft_lststart(t_lst *lst);
+t_lst	*get_arg(t_lst *lst);
+char	*get_cmd(t_lst *lst);
+int		get_cmd_with_arg(t_lst *lst);
+char	*get_cmd_with_path(t_lst *lst);
+int		get_redir(t_lst *lst);
+t_token	*get_token(char *str, char *control, int beg, int end);
+void	handler(void);
+int		heredoc(t_lst *lst);
+int		is_builtin(char *str);
+int		is_fake_cmd(char *cmd);
+int		launch_cmd(char *str, char **env);
+int		launch_interactive(char **env);
+int		launch_not_interactive(int ac, char **av, char **env);
+char	*my_getenv(char *str, char **env);
+t_lst	*parse_lineofcmd(char *str, char **env);
+t_lst	*parse_lst(t_lst *lst, char **env);
+int		parse_str(char **str);
+t_lst	*split_lineofcmd(char *str, char *control, char **env);
+char	*treat_dollar(char *str, char *control, char **env);
 
 #endif
