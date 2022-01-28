@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/27 14:43:57 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/01/28 20:31:04 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME	=	minishell
 LIBFT	=	libft/libft.a
 SRCS	=	srcs/main/minishell.c \
 			srcs/main/launch_minishell.c \
-			srcs/main/parse_lineofcmd.c \
 			srcs/main/handler.c \
+			srcs/main/parse_lineofcmd.c \
 			srcs/main/exit_minishell.c \
 			srcs/lexer/split_lineofcmd.c \
 			srcs/lexer/deactivate_chars.c \
@@ -35,6 +35,7 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/builtins/echo.c \
 			srcs/utils/utils.c \
 			srcs/utils/free_stuff.c \
+			srcs/execute/builtins_long.c \
 			srcs/execute/cmd_manager.c
 
 # Colors
@@ -49,18 +50,15 @@ _WHITE=$ \x1b[37m
 _END=$ \x1b[0m
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -I./headers
-CFLAGSR	=	-Wall -Wextra -Werror -I./headers -lreadline
-
+CFLAGS	=	-Wall -Wextra -Werror -I./headers 
 OBJS	=	${SRCS:.c=.o}
 
 all		:	${NAME}
 
 $(NAME)	:	${OBJS}
 		${MAKE} -C ./libft
-#		${MAKE} bonus -C ./libft#
 		@echo "$(_GREEN)LIBFT OK${_END}"
-		${CC} ${CFLAGSR} -o $(NAME) ${OBJS} ${LIBFT}
+		${CC} ${CFLAGS} -o $(NAME) -lreadline ${OBJS} ${LIBFT}
 		@echo "$(_GREEN)MANDATORY OK${_END}"
 
 clean	:

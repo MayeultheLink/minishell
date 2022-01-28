@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:02:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/27 15:51:38 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 18:30:37 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_token	*set_all_to_null(t_token *token)
 	token->builtin = 0;
 	token->type_redir_in = -1;
 	token->type_redir_out = -1;
+	token->fd_redir_in = -2;
 	token->type = -1;
 	return (token);
 }

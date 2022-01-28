@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 17:21:12 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:05:13 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char		**make_envtab(char **envtab, t_envlst *lst);
 
 void		write_export(t_envlst *lst, int fd);
 int			my_env(t_envlst *lst, int fd);
+int			my_echo(char **cmd);
 int			my_export(char **cmd, t_envlst **lst, int act, int fd);
 int			my_pwd(int fd);
 void		cd_error_message(char *str);

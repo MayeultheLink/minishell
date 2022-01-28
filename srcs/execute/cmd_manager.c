@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/21 16:06:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:16:40 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,39 @@ void	close_all_fd(int *tab_fd, int n)
 	}
 }
 
-void	wait_all_pid(int *tab, int n)
+int	wait_all_pid(int *tab, int n)
 {
 	int	i;
+	int	status;
 
 	i = 0;
-	while (i < n)
+	while (i < n - 1)
 	{
 		waitpid(tab[i], NULL, 0);
 		i++;
 	}
+	waitpid(tab[i], &status, WEXITSTATUS(status));
+	return (status);
 }
 
-int	cmd_manager(t_lst *cmd_lst, char **env)
+int	launch_builtin(char **cmd, t_envlst **envlst, int act, int fd)
+{
+	if (!ft_strcmp(cmd[0], "echo"))
+		return (my_echo(cmd));
+	if (!ft_strcmp(cmd[0], "cd"))
+		return (my_cd(cmd, envlst, act));
+	if (!ft_strcmp(cmd[0], "pwd"))
+		return (my_pwd(fd));
+	if (!ft_strcmp(cmd[0], "export"))
+		return (my_export(cmd, envlst, act, fd));
+	if (!ft_strcmp(cmd[0], "unset"))
+		return (my_unset(cmd, envlst, act));
+	if (!ft_strcmp(cmd[0], "env"))
+		return (my_env(*envlst, fd));
+	return (1);
+}
+
+int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 {
 	int		cmd_nbr;
 	int		*tab_fd;
@@ -85,6 +105,23 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 	int		fd_file_out;
 
 	cmd_nbr = cmd_count(cmd_lst);
+
+	if (cmd_nbr == 1 && cmd_lst->token->builtin)
+	{
+		fd_file_out = 1;
+		if (cmd_lst->token->redir_out)
+			fd_file_out = open(cmd_lst->token->redir_out, O_WRONLY, 0644);
+		if (fd_file_out == -1)
+		{
+			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
+			return (1); //error
+		}
+		launch_builtin(cmd_lst->token->cmd, envlst, 1, fd_file_out);
+		if (cmd_lst->token->redir_out)
+			close(fd_file_out);
+		return (0); //modif pour prendre en compte la valeur de retour
+	}
+
 	tab_fd = NULL;
 	if (cmd_nbr > 1)
 		tab_fd = create_tab_fd(cmd_nbr - 1);
@@ -100,12 +137,12 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 		if (node->token->type_redir_in >= 0)
 		{
 			if (node->token->type_redir_in == 0)
-				fd_file_in = open(node->token->redir_in, O_RDONLY, 0666);
+				fd_file_in = open(node->token->redir_in, O_RDONLY, 0644);
 			if (node->token->type_redir_in == 1)
 				fd_file_in = node->token->fd_redir_in;
 		}
 		if (node->token->redir_out)
-			fd_file_out = open(node->token->redir_out, O_WRONLY, 0666);
+			fd_file_out = open(node->token->redir_out, O_WRONLY, 0644);
 		if (fd_file_in == -1 || fd_file_out == -1)
 		{
 			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
@@ -125,6 +162,8 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 				dup2(fd_file_in, STDIN_FILENO);
 			if (node->token->redir_out)
 				dup2(fd_file_out, STDOUT_FILENO);
+			if (node->token->builtin && node->token->cmd)
+				launch_builtin(cmd_lst->token->cmd, envlst, 0, 1);
 			if (node->token->cmd)
 				execve(node->token->path, node->token->cmd, env);
 			else
@@ -148,8 +187,10 @@ int	cmd_manager(t_lst *cmd_lst, char **env)
 		close_all_fd(tab_fd, cmd_nbr - 1);
 		free(tab_fd);
 	}
-	wait_all_pid(tab_pid, cmd_nbr);
+	int	status;
+	status = wait_all_pid(tab_pid, cmd_nbr);
+
 g_signal = 0;
 	free(tab_pid);
-	return (0);
+	return (status);
 }

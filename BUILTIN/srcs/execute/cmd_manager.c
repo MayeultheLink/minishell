@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/25 18:05:38 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:18:14 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,25 @@ void	close_all_fd(int *tab_fd, int n)
 	}
 }
 
-void	wait_all_pid(int *tab, int n)
+int	wait_all_pid(int *tab, int n)
 {
 	int	i;
+	int	status;
 
 	i = 0;
-	while (i < n)
+	while (i < n - 1)
 	{
 		waitpid(tab[i], NULL, 0);
 		i++;
 	}
+	waitpid(tab[i], &status, WEXITSTATUS(status));
+	return (status);
 }
 
 int	launch_builtin(char **cmd, t_envlst **envlst, int act, int fd)
 {
-/*	if (!ft_strcmp(cmd[0], "echo"))*/
+	if (!ft_strcmp(cmd[0], "echo"))
+		return (my_echo(cmd));
 	if (!ft_strcmp(cmd[0], "cd"))
 		return (my_cd(cmd, envlst, act));
 	if (!ft_strcmp(cmd[0], "pwd"))
@@ -183,9 +187,10 @@ int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 		close_all_fd(tab_fd, cmd_nbr - 1);
 		free(tab_fd);
 	}
-	wait_all_pid(tab_pid, cmd_nbr);
+	int	status;
+	status = wait_all_pid(tab_pid, cmd_nbr);
 
 g_signal = 0;
 	free(tab_pid);
-	return (0);
+	return (status);
 }

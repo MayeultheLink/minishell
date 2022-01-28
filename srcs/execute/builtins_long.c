@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:39:20 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/28 20:18:43 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 23:11:29 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ t_envlst	*new_envnode(char *env)
 	node = NULL;
 	node = (t_envlst *)malloc(sizeof(t_envlst));
 	if (!node)
-		return (NULL);
+		return (write(2, "Failed malloc\n", 14), NULL);
 	node->env_str = ft_strdup(env);
 	split = ft_split_env(env);
 	if (!node->env_str || !split[0] || !split[1])
-		return (NULL);
+		return (write(2, "Failed malloc\n", 14), NULL);
 	node->name = split[0];
 	node->value = split[1];
 	node->next = NULL;
@@ -269,30 +269,30 @@ int	envlst_len(t_envlst *lst)
 	return (n);
 }
 
-char	**make_envtab(char **envtab, t_envlst *lst)
+char	**make_envtab(char **env, t_envlst *lst)
 {
 	int			i;
 	int			n;
 	t_envlst	*node;
 
-	if (envtab)
-		free(envtab);
+	if (env)
+		free(env);
 	n = envlst_len(lst);
 	if (!n)
 		return (NULL);
-	envtab = (char **)malloc(sizeof (char *) * (envlst_len(lst) + 1));
-	if (!envtab)
+	env = (char **)malloc(sizeof (char *) * (envlst_len(lst) + 1));
+	if (!env)
 		return (write(2, "envtab malloc error\n", 20), NULL);
 	i = 0;
 	node = lst;
 	while (i < n)
 	{
-		envtab[i] = node->env_str;
+		env[i] = node->env_str;
 		node = node->next;
 		i++;
 	}
-	envtab[i] = NULL;
-	return (envtab);
+	env[i] = NULL;
+	return (env);
 }
 
 void	write_export(t_envlst *lst, int fd)

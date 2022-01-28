@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/27 15:25:24 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:51:16 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,12 @@ int	heredoc(t_lst *lst)
 	{
 		str = readline("> ");
 		if (!str)
-			return (write(2, "\nheredoc error : ended by end-of-file\n", 38),
-				free(str), free(delim), -1);
+		{
+			close(fd[1]);
+			close(fd[0]);
+			return (write(2, "heredoc error : ended by end-of-file\n", 38),
+				free(str), free(delim), -2);
+		}
 		str = parse_str_readline(str, lst);
 		if (ft_strcmp(delim, str))
 		{

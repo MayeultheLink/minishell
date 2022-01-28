@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 20:11:21 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:45:54 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,24 @@ char	*get_name(char *str)
 	return (name);
 }
 
-void	redir_out(char *str)
+int	redir_out(char *str)
 {
 	int		fd;
 	char	*name;
 
 	name = get_name(str);
 	if (!name)
-		return ;
+		return (0);
 	fd = open(name, O_WRONLY | O_CREAT, 0644);
 	if (fd > -1)
 		close(fd);
 	else
-		write(2, "Failure to create file\n", 23);
+		return (write(2, "Failure to create file\n", 23), 0);
 	free(name);
+	return (1);
 }
 
-void	create_files(t_lst *lst)
+int	create_files(t_lst *lst)
 {
 	while (lst)
 	{
@@ -61,9 +62,11 @@ void	create_files(t_lst *lst)
 		{
 			if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
 				lst->token->fd_redir_in = heredoc(lst);
-			else if (lst->token->str[0] == '>')
-				redir_out(lst->token->str);
+			if (lst->token->str[0] == '>')
+				if (!redir_out(lst->token->str))
+					return (0);
 		}
 		lst = lst->next;
 	}
+	return (1);
 }

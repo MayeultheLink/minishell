@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/27 15:56:29 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 18:36:12 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,8 @@ int	del_spaces(t_lst *lst)
 
 t_lst	*check_redir(t_lst *lst)
 {
-	if (!error_redir(ft_lststart(lst)) || !del_spaces(ft_lststart(lst)))
-		return (freelst(lst), NULL);
-	create_files(ft_lststart(lst));
-	if (!get_redir(ft_lststart(lst)))
+	if (!error_redir(ft_lststart(lst)) || !del_spaces(ft_lststart(lst))
+		|| !create_files(ft_lststart(lst)) || !get_redir(ft_lststart(lst)))
 		return (freelst(lst), NULL);
 	lst = del_redir(ft_lststart(lst));
 	return (ft_lststart(lst));

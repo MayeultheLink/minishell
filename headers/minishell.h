@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/27 16:25:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/28 23:11:39 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <stdio.h>
 
 # define CMD 0
 # define PIPE 1
@@ -50,39 +52,71 @@ typedef struct s_lst
 	char			**env;
 }			t_lst;
 
-int		check_if_cmd(t_lst *lst);
-t_lst	*check_redir(t_lst *lst);
-int		cmd(t_lst *lst);
-int		cmd_manager(t_lst *cmd_lst, char **env);
-void	create_files(t_lst *lst);
-char	*deactivate_chars(char *str);
-int		del_pipes(t_lst *lst);
-char	*error_cmd(t_lst *lst);
-int		error_pipe(t_lst *lst);
-int		error_redir(t_lst *lst);
-int		exit_minishell(char *str);
-void	free_arg(t_lst *lst);
-void	freelst(t_lst *lst);
-void	freetoken(t_token *token);
-t_lst	*ft_lststart(t_lst *lst);
-t_lst	*get_arg(t_lst *lst);
-char	*get_cmd(t_lst *lst);
-int		get_cmd_with_arg(t_lst *lst);
-char	*get_cmd_with_path(t_lst *lst);
-int		get_redir(t_lst *lst);
-t_token	*get_token(char *str, char *control, int beg, int end);
-void	handler(void);
-int		heredoc(t_lst *lst);
-int		is_builtin(char *str);
-int		is_fake_cmd(char *cmd);
-int		launch_cmd(char *str, char **env);
-int		launch_interactive(char **env);
-int		launch_not_interactive(int ac, char **av, char **env);
-char	*my_getenv(char *str, char **env);
-t_lst	*parse_lineofcmd(char *str, char **env);
-t_lst	*parse_lst(t_lst *lst, char **env);
-int		parse_str(char **str);
-t_lst	*split_lineofcmd(char *str, char *control, char **env);
-char	*treat_dollar(char *str, char *control, char **env);
+typedef struct s_envlst
+{
+	char			*name;
+	char			*value;
+	char			*env_str;
+	struct s_envlst	*next;
+}			t_envlst;
+
+int			check_if_cmd(t_lst *lst);
+t_lst		*check_redir(t_lst *lst);
+int			cmd(t_lst *lst);
+int			cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst);
+int			create_files(t_lst *lst);
+char		*deactivate_chars(char *str);
+int			del_pipes(t_lst *lst);
+char		*error_cmd(t_lst *lst);
+int			error_pipe(t_lst *lst);
+int			error_redir(t_lst *lst);
+int			exit_minishell(char *str);
+void		free_arg(t_lst *lst);
+void		freelst(t_lst *lst);
+void		freetoken(t_token *token);
+t_lst		*ft_lststart(t_lst *lst);
+t_lst		*get_arg(t_lst *lst);
+char		*get_cmd(t_lst *lst);
+int			get_cmd_with_arg(t_lst *lst);
+char		*get_cmd_with_path(t_lst *lst);
+int			get_redir(t_lst *lst);
+t_token		*get_token(char *str, char *control, int beg, int end);
+void		handler(int keysym);
+int			heredoc(t_lst *lst);
+int			is_builtin(char *str);
+int			is_fake_cmd(char *cmd);
+int			launch_cmd(char *str, char **env);
+int			launch_not_interactive(int ac, char **av, t_envlst *lst);
+int			launch_interactive(t_envlst *lst);
+char		*my_getenv(char *str, char **env);
+t_lst		*parse_lineofcmd(char *str, char **env);
+t_lst		*parse_lst(t_lst *lst, char **env);
+int			parse_str(char **str);
+t_lst		*split_lineofcmd(char *str, char *control, char **env);
+char		*treat_dollar(char *str, char *control, char **env);
+int			launch_builtin(char **cmd, t_envlst **envlst, int act, int fd);
+char		**ft_split_env(char *str);
+int			is_envname(char *str);
+void		free_envnode(t_envlst *node);
+int			check_envname(char *str);
+t_envlst	*new_envnode(char *env);
+t_envlst	*free_envlst(t_envlst *lst, t_envlst *ret);
+t_envlst	*init_envlst(char **env);
+t_envlst	*ins_envlst(t_envlst *node, t_envlst *sorted);
+t_envlst	*sort_envlst(t_envlst *lst);
+t_envlst	*find_var(t_envlst *lst, char *var);
+t_envlst	*del_envnode(t_envlst *lst, t_envlst *node);
+int			set_env(t_envlst **lst, char *str);
+int			envlst_len(t_envlst *lst);
+char		**make_envtab(char **env, t_envlst *lst);
+void		write_export(t_envlst *lst, int fd);
+int			my_env(t_envlst *lst, int fd);
+int			my_echo(char **cmd);
+int			my_export(char **cmd, t_envlst **lst, int act, int fd);
+int			my_pwd(int fd);
+void		cd_error_message(char *str);
+int			update_pwdlst(t_envlst **lst);
+int			my_cd(char **cmd, t_envlst **lst, int act);
+int			my_unset(char **cmd, t_envlst **lst, int act);
 
 #endif
