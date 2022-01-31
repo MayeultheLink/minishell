@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:39:20 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/28 23:11:29 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:32:58 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,8 +316,6 @@ void	write_export(t_envlst *lst, int fd)
 
 int	my_echo(char **cmd)
 {
-//	char	*str;
-//	char	*control;
 	int		n;
 	int		i;
 
@@ -336,15 +334,7 @@ int	my_echo(char **cmd)
 		i = 1;
 	while (cmd[i])
 	{
-//		control = alloc_with(ft_strlen(cmd[i]), '0');
-//		if (!control)
-//			return (write(2, "Failed malloc\n", 14), 1);
-//		str = treat_dollar(cmd[i], control, env, 0);
-//		if (!str)
-//			return (write(2, "Failed malloc\n", 14), 1);
 		write(1, cmd[i], ft_strlen(cmd[i]));
-//		free(control);
-//		free(str);
 		if (cmd[++i])
 			write(1, " ", 1);
 	}
@@ -360,7 +350,7 @@ int	my_env(t_envlst *lst, int fd)
 	node = lst;
 	while (node->next)
 	{
-		if ((node->value)[0] != '\0')
+		if ((node->value)[0] != '\0' && ft_strcmp(node->name, "?"))
 		{
 			write(fd, node->env_str, ft_strlen(node->env_str));
 			write(fd, "\n", 1);

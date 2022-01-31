@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 13:22:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 19:44:04 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 19:30:46 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	fill_new2(char *new, char *tmp, int j)
 	return (j);
 }
 
-void	*fill_new(char *new, char *str, char *control, char **env)
+void	*fill_new(char *new, char **str_c, char **env, int status)
 {
 	char	*name;
 	char	*tmp;
@@ -52,27 +52,27 @@ void	*fill_new(char *new, char *str, char *control, char **env)
 
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str_c[0][i])
 	{
-		if (str[i] == '$' && control[i] == '0' && str[i + 1])
+		if (str_c[0][i] == '$' && str_c[1][i] == '0' && str_c[0][i + 1])
 		{
-			name = name_var(&str[i + 1]);
+			name = name_var(&str_c[0][i + 1]);
 			if (!name)
-				return (free(new), new = NULL);
-			tmp = my_getenv(name, env);
+				return (free(new), NULL);
+			tmp = my_getenv(name, env, status);
 			if (!tmp)
-				return (free(name), free(new), new = NULL);
+				return (free(name), free(new), NULL);
 			j = fill_new2(new, tmp, j);
 			i += ft_strlen(name) + 1;
 			free(name);
 		}
-		if (str[i])
-			new[j++] = str[i++];
+		if (str_c[0][i])
+			new[j++] = str_c[0][i++];
 	}
 	return (NULL);
 }
 
-int	init_new(char *str, char *control, char **env)
+int	init_new(char *str, char *control, char **env, int status)
 {
 	char	*name;
 	char	*tmp;
@@ -88,7 +88,7 @@ int	init_new(char *str, char *control, char **env)
 			name = name_var(&str[i + 1]);
 			if (!name)
 				return (0);
-			tmp = my_getenv(name, env);
+			tmp = my_getenv(name, env, status);
 			if (!tmp)
 				return (free(name), 0);
 			c += ft_strlen(tmp) - ft_strlen(name) - 1;
@@ -99,8 +99,9 @@ int	init_new(char *str, char *control, char **env)
 	return (c);
 }
 
-char	*treat_dollar(char *str, char *control, char **env)
+char	*treat_dollar(char *str, char *control, char **env, int status)
 {
+	char	*str_control[2];
 	char	*new;
 	int		i;
 	int		j;
@@ -113,15 +114,15 @@ char	*treat_dollar(char *str, char *control, char **env)
 			j++;
 	if (!j)
 		return (ft_strdup(str));
-	i = init_new(str, control, env);
+	i = init_new(str, control, env, status);
 	if (i)
 	{
 		new = alloc_with(i, '0');
 		if (!new)
 			return (write(2, "Failed malloc\n", 14), NULL);
-		fill_new(new, str, control, env);
-		if (!new)
-			return (NULL);
+		str_control[0] = ft_strdup(str);
+		str_control[1] = ft_strdup(control);
+		fill_new(new, str_control, env, status);
 	}
-	return (new);
+	return (free(str_control[0]), free(str_control[1]), new);
 }

@@ -6,19 +6,21 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/27 13:21:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:29:04 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*my_getenv(char *var, char **env)
+char	*my_getenv(char *var, char **env, int status)
 {
 	char	*result;
 	int		i;
 	int		j;
 
 	i = 0;
+	if (!ft_strcmp(var, "?"))
+		return (ft_itoa(status));
 	while (env[i])
 	{
 		if (!ft_strncmp(var, env[i], ft_strlen(var)))
@@ -41,10 +43,15 @@ char	*my_getenv(char *var, char **env)
 
 t_lst	*ft_lststart(t_lst *lst)
 {
-	if (!lst)
-		return (NULL);
 	while (lst && lst->previous)
 		lst = lst->previous;
+	return (lst);
+}
+
+t_lst	*ft_lstend(t_lst *lst)
+{
+	while (lst && lst->next)
+		lst = lst->next;
 	return (lst);
 }
 

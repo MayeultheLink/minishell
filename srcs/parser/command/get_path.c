@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 15:04:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/25 20:23:17 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:42:13 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_cmd_with_path(t_lst *lst)
 	}
 	if (!access(lst->token->str, F_OK) && !is_fake_cmd(lst->token->str))
 		return (ft_strdup(lst->token->str));
-	str = my_getenv("PATH", ft_lststart(lst)->env);
+	str = my_getenv("PATH", ft_lststart(lst)->env, 0);
 	if (!str)
 		return (write(2, "Failed malloc\n", 14), NULL);
 	split_path = ft_split(str, ':');

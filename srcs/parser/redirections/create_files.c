@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 22:45:54 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:39:37 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	redir_out(char *str)
 	return (1);
 }
 
-int	create_files(t_lst *lst)
+int	create_files(t_lst *lst, int status)
 {
 	while (lst)
 	{
 		if (lst->token->type == REDIR)
 		{
 			if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
-				lst->token->fd_redir_in = heredoc(lst);
+				lst->token->fd_redir_in = heredoc(lst, status);
 			if (lst->token->str[0] == '>')
 				if (!redir_out(lst->token->str))
 					return (0);

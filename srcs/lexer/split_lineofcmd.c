@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 20:30:12 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 20:21:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,31 @@ t_lst	*generate_lst(char *new, char *control, int beginning, int end)
 	return (lst);
 }
 
-t_lst	*split_lineofcmd(char *str, char *control, char **env)
+t_lst	*split_lineofcmd(char *str, char *control, char **env, int status)
 {
 	char	*new;
+	char	*new_control;
 	t_lst	*lst;
 	int		beginning;
 	int		end;
 
 	lst = NULL;
 	beginning = 0;
-	new = treat_dollar(str, control, env);
+	new = treat_dollar(str, control, env, status);
 	if (!new)
 		return (write(2, "Failed malloc\n", 14), NULL);
+	new_control = deactivate_chars(new);
+	if (!new_control)
+		return (free(new), write(2, "Failed malloc\n", 14), NULL);
 	while (new && new[beginning] && new[beginning] == ' ')
 		beginning++;
 	if (!new[beginning])
-		return (free(new), NULL);
+		return (free(new), free(new_control), NULL);
 	end = beginning;
-	lst = generate_lst(new, control, beginning, end);
+	lst = generate_lst(new, new_control, beginning, end);
 	if (!lst)
-		return (free(new), NULL);
+		return (free(new), free(new_control), NULL);
 	free(new);
+	free(new_control);
 	return (ft_lststart(lst));
 }

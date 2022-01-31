@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/01/28 22:16:40 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:37:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	wait_all_pid(int *tab, int n)
 	int	i;
 	int	status;
 
+	status = 0;
 	i = 0;
 	while (i < n - 1)
 	{
@@ -94,8 +95,9 @@ int	launch_builtin(char **cmd, t_envlst **envlst, int act, int fd)
 	return (1);
 }
 
-int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
+int	cmd_manager(t_lst *cmd_lst, char ***env, t_envlst **envlst)
 {
+	//	char	*underscore;
 	int		cmd_nbr;
 	int		*tab_fd;
 	int		*tab_pid;
@@ -106,20 +108,29 @@ int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 
 	cmd_nbr = cmd_count(cmd_lst);
 
-	if (cmd_nbr == 1 && cmd_lst->token->builtin)
+	if (cmd_nbr == 1)
 	{
-		fd_file_out = 1;
-		if (cmd_lst->token->redir_out)
-			fd_file_out = open(cmd_lst->token->redir_out, O_WRONLY, 0644);
-		if (fd_file_out == -1)
+		if (cmd_lst->token->builtin)
 		{
-			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
-			return (1); //error
+	/*	if (cmd_lst->token->path)
+		{
+			underscore = ft_strcatf("_=", cmd_lst->token->path, 0);
+			set_env(envlst, underscore);
+			*env = make_envtab(*env, *envlst);
+		}*/
+			fd_file_out = 1;
+			if (cmd_lst->token->redir_out)
+				fd_file_out = open(cmd_lst->token->redir_out, O_WRONLY, 0644);
+			if (fd_file_out == -1)
+			{
+				write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
+				return (1); //error
+			}
+			launch_builtin(cmd_lst->token->cmd, envlst, 1, fd_file_out);
+			if (cmd_lst->token->redir_out)
+				close(fd_file_out);
+			return (0); //modif pour prendre en compte la valeur de retour
 		}
-		launch_builtin(cmd_lst->token->cmd, envlst, 1, fd_file_out);
-		if (cmd_lst->token->redir_out)
-			close(fd_file_out);
-		return (0); //modif pour prendre en compte la valeur de retour
 	}
 
 	tab_fd = NULL;
@@ -148,6 +159,12 @@ int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 			write(2, "Error : cannot open file\n", ft_strlen("Error : cannot open file\n"));
 			return (1); //error
 		}
+	//	if (node->token->path)
+	//	{
+	//		underscore = ft_strcatf("_=", node->token->path, 0);
+	//		set_env(envlst, underscore);
+	//		*env = make_envtab(*env, *envlst);
+	//	}
 		tab_pid[i - 1] = fork();
 		if (tab_pid[i - 1] == -1)
 			return (1); //error
@@ -162,17 +179,21 @@ int	cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst)
 				dup2(fd_file_in, STDIN_FILENO);
 			if (node->token->redir_out)
 				dup2(fd_file_out, STDOUT_FILENO);
+			//if (node->token->builtin && node->token->cmd)
+			//	launch_builtin(node->token->cmd, envlst, 0, 1);
+			//else if (node->token->path)
+			//	execve(node->token->path, node->token->cmd, *env);
+			
+			if (!node->token->builtin && node->token->path)
+				execve(node->token->path, node->token->cmd, *env);
 			if (node->token->builtin && node->token->cmd)
-				launch_builtin(cmd_lst->token->cmd, envlst, 0, 1);
-			if (node->token->cmd)
-				execve(node->token->path, node->token->cmd, env);
-			else
-				exit(0);
+				launch_builtin(node->token->cmd, envlst, 0, 1);
+			exit(0);
 		}
 		else if (tab_pid[i - 1] > 0)
 		{
 			g_signal = 1;
-			if (!ft_strcmp(node->token->path, "./minishell"))
+			if (node->token->path && !ft_strcmp(node->token->path, "./minishell"))
 				g_signal = 2;
 		}
 		if (node->token->type_redir_in >= 0)

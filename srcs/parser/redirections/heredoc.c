@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 22:51:16 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:38:51 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*manage_quotes(char *delim)
 	return (new);
 }
 
-char	*parse_str_readline(char *str, t_lst *lst)
+char	*parse_str_readline(char *str, t_lst *lst, int status)
 {
 	char	*parsed;
 	char	*control;
@@ -94,7 +94,7 @@ char	*parse_str_readline(char *str, t_lst *lst)
 		control = alloc_with(ft_strlen(str), '0');
 		if (!control)
 			return (write(2, "Failed malloc\n", 14), free(str), NULL);
-		parsed = treat_dollar(str, control, ft_lststart(lst)->env);
+		parsed = treat_dollar(str, control, ft_lststart(lst)->env, status);
 		free(control);
 	}
 	else
@@ -105,7 +105,7 @@ char	*parse_str_readline(char *str, t_lst *lst)
 	return (parsed);
 }
 
-int	heredoc(t_lst *lst)
+int	heredoc(t_lst *lst, int status)
 {
 	int		fd[2];
 	char	*str;
@@ -117,13 +117,9 @@ int	heredoc(t_lst *lst)
 	{
 		str = readline("> ");
 		if (!str)
-		{
-			close(fd[1]);
-			close(fd[0]);
-			return (write(2, "heredoc error : ended by end-of-file\n", 38),
-				free(str), free(delim), -2);
-		}
-		str = parse_str_readline(str, lst);
+			return (close(fd[1]), free(str), free(delim),
+				write(2, "heredoc warning : ended by end-of-file\n", 40), fd[0]);
+		str = parse_str_readline(str, lst, status);
 		if (ft_strcmp(delim, str))
 		{
 			write(fd[1], str, ft_strlen(str));

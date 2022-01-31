@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 23:11:39 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 18:51:36 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,27 @@ typedef struct s_envlst
 	struct s_envlst	*next;
 }			t_envlst;
 
+typedef struct s_str
+{
+	char	*str;
+	char	*control;
+}			t_str;
+
 int			check_if_cmd(t_lst *lst);
-t_lst		*check_redir(t_lst *lst);
+t_lst		*check_redir(t_lst *lst, int status);
 int			cmd(t_lst *lst);
-int			cmd_manager(t_lst *cmd_lst, char **env, t_envlst **envlst);
-int			create_files(t_lst *lst);
+int			cmd_manager(t_lst *cmd_lst, char ***env, t_envlst **envlst);
+int			create_files(t_lst *lst, int status);
 char		*deactivate_chars(char *str);
 int			del_pipes(t_lst *lst);
 char		*error_cmd(t_lst *lst);
 int			error_pipe(t_lst *lst);
 int			error_redir(t_lst *lst);
-int			exit_minishell(char *str);
+int			exit_minishell(char *str, char **env, t_envlst *envlst);
 void		free_arg(t_lst *lst);
 void		freelst(t_lst *lst);
 void		freetoken(t_token *token);
+t_lst		*ft_lstend(t_lst *lst);
 t_lst		*ft_lststart(t_lst *lst);
 t_lst		*get_arg(t_lst *lst);
 char		*get_cmd(t_lst *lst);
@@ -82,18 +89,18 @@ char		*get_cmd_with_path(t_lst *lst);
 int			get_redir(t_lst *lst);
 t_token		*get_token(char *str, char *control, int beg, int end);
 void		handler(int keysym);
-int			heredoc(t_lst *lst);
+int			heredoc(t_lst *lst, int status);
 int			is_builtin(char *str);
 int			is_fake_cmd(char *cmd);
 int			launch_cmd(char *str, char **env);
 int			launch_not_interactive(int ac, char **av, t_envlst *lst);
 int			launch_interactive(t_envlst *lst);
-char		*my_getenv(char *str, char **env);
-t_lst		*parse_lineofcmd(char *str, char **env);
-t_lst		*parse_lst(t_lst *lst, char **env);
+char		*my_getenv(char *str, char **env, int status);
+t_lst		*parse_lineofcmd(char *str, char **env, int status);
+t_lst		*parse_lst(t_lst *lst, char **env, int status);
 int			parse_str(char **str);
-t_lst		*split_lineofcmd(char *str, char *control, char **env);
-char		*treat_dollar(char *str, char *control, char **env);
+t_lst		*split_lineofcmd(char *str, char *control, char **env, int status);
+char		*treat_dollar(char *str, char *control, char **env, int status);
 int			launch_builtin(char **cmd, t_envlst **envlst, int act, int fd);
 char		**ft_split_env(char *str);
 int			is_envname(char *str);

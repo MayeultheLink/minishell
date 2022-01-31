@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 22:52:28 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/01/31 13:24:11 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,16 @@ char	*fill_redir(t_lst *lst, int *type_redir, int *fd_redir_in, int io)
 		(*type_redir)++;
 	if (lst->token->str[1] == '<')
 	{
-		if (lst->token->fd_redir_in == -2)
-			*type_redir = -1;
 		*fd_redir_in = lst->token->fd_redir_in;
 		return (NULL);
 	}
-	redir = malloc(sizeof(char) * (ft_strlen(lst->token->str) - (*type_redir)));
+	redir = alloc_with(ft_strlen(lst->token->str) - (*type_redir) - 1, '0');
 	if (!redir)
 		return (NULL);
 	i = (*type_redir);
 	j = -1;
 	while (lst->token->str[++i])
 		redir[++j] = lst->token->str[i];
-	redir[++j] = 0;
 	return (redir);
 }
 
