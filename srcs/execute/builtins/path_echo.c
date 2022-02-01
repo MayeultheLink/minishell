@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:00:32 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 11:01:42 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:42:25 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	update_pwdlst(t_envlst **lst)
 	return (0);
 }
 
-int	my_echo(char **cmd)
+int	my_echo(char **cmd, int fd)
 {
 	int		n;
 	int		i;
@@ -103,11 +103,11 @@ int	my_echo(char **cmd)
 		i = 1;
 	while (cmd[i])
 	{
-		write(1, cmd[i], ft_strlen(cmd[i]));
+		write(fd, cmd[i], ft_strlen(cmd[i]));
 		if (cmd[++i])
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
 	if (!n)
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 	return (0);
 }

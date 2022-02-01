@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 13:22:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/31 19:30:46 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:02:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ int	init_new(char *str, char *control, char **env, int status)
 		{
 			name = name_var(&str[i + 1]);
 			if (!name)
-				return (0);
+				return (-1);
 			tmp = my_getenv(name, env, status);
 			if (!tmp)
-				return (free(name), 0);
+				return (free(name), -1);
 			c += ft_strlen(tmp) - ft_strlen(name) - 1;
 			free(tmp);
 			free(name);
@@ -115,7 +115,7 @@ char	*treat_dollar(char *str, char *control, char **env, int status)
 	if (!j)
 		return (ft_strdup(str));
 	i = init_new(str, control, env, status);
-	if (i)
+	if (i >= 0)
 	{
 		new = alloc_with(i, '0');
 		if (!new)

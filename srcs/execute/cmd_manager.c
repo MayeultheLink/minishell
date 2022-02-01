@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/01 13:08:05 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:33:07 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	cmd_manager(t_lst *node, char ***env, t_envlst **envlst)
 	{
 		redirections(&man->fd_file_in, &man->fd_file_out, node);
 		if (man->fd_file_in == -1 || man->fd_file_out == -1)
-			return (free_man(man), write(2, "Error : cannot open file\n", 25), 1);
+			return (free_man(man),
+				write(2, "Error : cannot open file\n", 25), 1);
 		man->tab_pid[man->i - 1] = fork();
 		if (man->tab_pid[man->i - 1] == -1)
 			return (free_man(man), write(2, "Failed fork\n", 12), 1);
