@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/01/28 20:31:04 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/02/01 12:48:59 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,18 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/parser/redirections/heredoc.c \
 			srcs/parser/redirections/check_error.c \
 			srcs/parser/pipe/pipe.c \
-			srcs/builtins/echo.c \
 			srcs/utils/utils.c \
 			srcs/utils/free_stuff.c \
-			srcs/execute/builtins_long.c \
-			srcs/execute/cmd_manager.c
+			srcs/execute/fd_pid.c \
+			srcs/execute/cmd_manager.c \
+			srcs/execute/cmd_manager_utils.c \
+			srcs/execute/builtins/env.c \
+			srcs/execute/builtins/launch_builtin.c \
+			srcs/execute/builtins/path_echo.c \
+			srcs/execute/env/free_stuff.c \
+			srcs/execute/env/init_env.c \
+			srcs/execute/env/mod_env.c \
+			srcs/execute/env/utils.c
 
 # Colors
 _GREY=$ \x1b[30m

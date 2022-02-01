@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/31 18:51:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 12:50:37 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,32 @@ typedef struct s_envlst
 	struct s_envlst	*next;
 }			t_envlst;
 
-typedef struct s_str
+typedef struct s_manag
 {
-	char	*str;
-	char	*control;
-}			t_str;
+	int	cmd_nbr;
+	int	*tab_fd;
+	int	*tab_pid;
+	int	fd_file_in;
+	int	fd_file_out;
+	int	i;
+}			t_manag;
 
 int			check_if_cmd(t_lst *lst);
 t_lst		*check_redir(t_lst *lst, int status);
+void		close_all_fd(int *tab_fd, int n);
 int			cmd(t_lst *lst);
+int			cmd_count(t_lst *cmd_lst);
 int			cmd_manager(t_lst *cmd_lst, char ***env, t_envlst **envlst);
 int			create_files(t_lst *lst, int status);
+int			*create_tab_fd(int n);
+int			*create_tab_pid(int n);
 char		*deactivate_chars(char *str);
 int			del_pipes(t_lst *lst);
 char		*error_cmd(t_lst *lst);
 int			error_pipe(t_lst *lst);
 int			error_redir(t_lst *lst);
 int			exit_minishell(char *str, char **env, t_envlst *envlst);
+int			free_and_wait(t_manag *man);
 void		free_arg(t_lst *lst);
 void		freelst(t_lst *lst);
 void		freetoken(t_token *token);
@@ -90,6 +99,8 @@ int			get_redir(t_lst *lst);
 t_token		*get_token(char *str, char *control, int beg, int end);
 void		handler(int keysym);
 int			heredoc(t_lst *lst, int status);
+t_manag		*init_man(void);
+int			init_tab_fd(int **tab_fd, int cmd_nbr, int **tab_pid);
 int			is_builtin(char *str);
 int			is_fake_cmd(char *cmd);
 int			launch_cmd(char *str, char **env);
@@ -99,8 +110,10 @@ char		*my_getenv(char *str, char **env, int status);
 t_lst		*parse_lineofcmd(char *str, char **env, int status);
 t_lst		*parse_lst(t_lst *lst, char **env, int status);
 int			parse_str(char **str);
+void		redirections(int *fd_file_in, int *fd_file_out, t_lst *node);
 t_lst		*split_lineofcmd(char *str, char *control, char **env, int status);
 char		*treat_dollar(char *str, char *control, char **env, int status);
+int			wait_all_pid(int *tab, int n);
 int			launch_builtin(char **cmd, t_envlst **envlst, int act, int fd);
 char		**ft_split_env(char *str);
 int			is_envname(char *str);
