@@ -6,11 +6,19 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/01 12:47:46 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 13:08:05 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_man(t_manag *man)
+{
+	close_all_fd(man->tab_fd, man->cmd_nbr - 1);
+	free(man->tab_fd);
+	free(man->tab_pid);
+	free(man);
+}
 
 void	execute_parent(t_lst *node, t_manag *man)
 {
@@ -67,17 +75,17 @@ int	cmd_manager(t_lst *node, char ***env, t_envlst **envlst)
 	man = init_man();
 	man->cmd_nbr = cmd_count(node);
 	if (man->cmd_nbr == 1 && node->token->builtin)
-		return (builtin(node, envlst));
+		return (free(man), builtin(node, envlst));
 	if (init_tab_fd(&man->tab_fd, man->cmd_nbr, &man->tab_pid))
-		return (1);
+		return (free(man), 1);
 	while (man->i <= man->cmd_nbr)
 	{
 		redirections(&man->fd_file_in, &man->fd_file_out, node);
 		if (man->fd_file_in == -1 || man->fd_file_out == -1)
-			return (write(2, "Error : cannot open file\n", 25), 1);
+			return (free_man(man), write(2, "Error : cannot open file\n", 25), 1);
 		man->tab_pid[man->i - 1] = fork();
 		if (man->tab_pid[man->i - 1] == -1)
-			return (write(2, "Failed fork\n", 12), 1);
+			return (free_man(man), write(2, "Failed fork\n", 12), 1);
 		if (man->tab_pid[man->i - 1] == 0)
 			execute_fork(man, node, *env, envlst);
 		else if (man->tab_pid[man->i - 1] > 0)
