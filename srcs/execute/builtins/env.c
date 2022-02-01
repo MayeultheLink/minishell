@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:02:36 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 11:03:11 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:44:42 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ void	write_export(t_envlst *lst, int fd)
 	}
 }
 
-int	my_env(t_envlst *lst, int fd)
+int	my_env(t_envlst **lst, int fd)
 {
 	t_envlst	*node;
 
-	node = lst;
+	node = *lst;
 	while (node->next)
 	{
-		if ((node->value)[0] != '\0' && ft_strcmp(node->name, "?"))
+		if (node->value && ft_strcmp(node->name, "?"))
 		{
 			write(fd, node->env_str, ft_strlen(node->env_str));
 			write(fd, "\n", 1);
 		}
 		node = node->next;
 	}
-	if (node->value[0] != '\0')
+	if (node->value)
 		write(fd, node->env_str, ft_strlen(node->env_str));
 	write(fd, "\n", 1);
 	return (0);

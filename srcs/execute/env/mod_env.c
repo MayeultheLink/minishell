@@ -6,22 +6,42 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:09:11 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 11:12:28 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 17:58:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_envlst	*new_envnode(char *env)
+int	export_plus(t_envlst *node, t_envlst *lst, char **split)
+{
+	node->name[ft_strlen(node->name) - 1] = 0;
+	if (find_var(lst, node->name))
+	{
+		node->value = ft_strcatf((find_var(lst, node->name))->value,
+				split[1], 2);
+		if (!node->value)
+			return (write(2, "Failed malloc\n", 14), 0);
+		free(node->env_str);
+		node->env_str = NULL;
+		node->env_str = ft_strcatf(node->name, "=", 0);
+		if (!node->env_str)
+			return (write(2, "Failed malloc\n", 14), 0);
+		node->env_str = ft_strcatf(node->env_str, node->value, 1);
+		if (!node->env_str)
+			return (write(2, "Failed malloc\n", 14), 0);
+	}
+	else
+		node->name[ft_strlen(node->name)] = '+';
+	return (1);
+}
+
+t_envlst	*new_envnode(char *env, t_envlst *lst)
 {
 	t_envlst	*node;
 	char		**split;
 
-	if (!env)
+	if (!env || check_envname(env))
 		return (NULL);
-	if (check_envname(env))
-		return (NULL);
-	node = NULL;
 	node = (t_envlst *)malloc(sizeof(t_envlst));
 	if (!node)
 		return (write(2, "Failed malloc\n", 14), NULL);
@@ -31,6 +51,9 @@ t_envlst	*new_envnode(char *env)
 		return (write(2, "Failed malloc\n", 14), NULL);
 	node->name = split[0];
 	node->value = split[1];
+	if (split[0][ft_strlen(split[0]) - 1] == '+')
+		if (!export_plus(node, lst, split))
+			return (NULL);
 	node->next = NULL;
 	free(split);
 	return (node);
@@ -60,22 +83,6 @@ t_envlst	*ins_envlst(t_envlst *node, t_envlst *sorted)
 	tmp->next = node;
 	node->next = NULL;
 	return (sorted);
-}
-
-t_envlst	*find_var(t_envlst *lst, char *var)
-{
-	t_envlst	*node;
-
-	node = lst;
-	while (node->next)
-	{
-		if (!ft_strcmp(node->name, var))
-			return (node);
-		node = node->next;
-	}
-	if (!ft_strcmp(node->name, var))
-		return (node);
-	return (NULL);
 }
 
 t_envlst	*del_envnode(t_envlst *lst, t_envlst *node)
@@ -109,7 +116,7 @@ int	set_env(t_envlst **lst, char *str)
 	t_envlst	*node;
 	t_envlst	*old;
 
-	node = new_envnode(str);
+	node = new_envnode(str, *lst);
 	if (!node)
 		return (1);
 	old = find_var(*lst, node->name);

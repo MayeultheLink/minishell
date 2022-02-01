@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:39:20 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/01 12:15:16 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 17:54:43 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,20 @@ int	envlst_len(t_envlst *lst)
 		node = node->next;
 	}
 	return (n);
+}
+
+t_envlst	*find_var(t_envlst *lst, char *var)
+{
+	t_envlst	*node;
+
+	node = lst;
+	while (node->next)
+	{
+		if (!ft_strcmp(node->name, var))
+			return (node);
+		node = node->next;
+	}
+	if (!ft_strcmp(node->name, var))
+		return (node);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:17:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 15:43:56 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:45:13 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	launch_builtin(char **cmd, t_envlst **envlst, int act, int fd)
 	if (!ft_strcmp(cmd[0], "unset"))
 		return (my_unset(cmd, envlst, act));
 	if (!ft_strcmp(cmd[0], "env"))
-		return (my_env(*envlst, fd));
+		return (my_env(envlst, fd));
 	return (1);
 }

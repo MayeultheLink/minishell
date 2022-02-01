@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 15:44:07 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:44:52 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char		**ft_split_env(char *str);
 int			is_envname(char *str);
 void		free_envnode(t_envlst *node);
 int			check_envname(char *str);
-t_envlst	*new_envnode(char *env);
+t_envlst	*new_envnode(char *env, t_envlst *lst);
 t_envlst	*free_envlst(t_envlst *lst, t_envlst *ret);
 t_envlst	*init_envlst(char **env);
 t_envlst	*ins_envlst(t_envlst *node, t_envlst *sorted);
@@ -130,7 +130,7 @@ int			set_env(t_envlst **lst, char *str);
 int			envlst_len(t_envlst *lst);
 char		**make_envtab(char **env, t_envlst *lst);
 void		write_export(t_envlst *lst, int fd);
-int			my_env(t_envlst *lst, int fd);
+int			my_env(t_envlst **lst, int fd);
 int			my_echo(char **cmd, int fd);
 int			my_export(char **cmd, t_envlst **lst, int act, int fd);
 int			my_pwd(int fd);

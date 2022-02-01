@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:06:30 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 11:08:02 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:25:35 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ t_envlst	*init_envlst(char **env)
 	t_envlst	*node;
 	int			i;
 
-	lst = new_envnode(env[0]);
+	lst = new_envnode(env[0], NULL);
 	if (!env[0] || !lst)
 		return (NULL);
 	node = lst;
 	i = 1;
 	while (env[i])
 	{
-		node->next = new_envnode(env[i]);
+		node->next = new_envnode(env[i], NULL);
 		if (!node->next)
 			return (free_envlst(lst, NULL));
 		node = node->next;
