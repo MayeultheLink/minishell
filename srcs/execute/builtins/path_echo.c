@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:00:32 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 15:42:25 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:37:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,29 +85,29 @@ int	update_pwdlst(t_envlst **lst)
 
 int	my_echo(char **cmd, int fd)
 {
-	int		n;
-	int		i;
+	int	n;
+	int	i;
+	int	j;
 
-	n = 0;
-	i = 1;
-	if (cmd[1] && !ft_strncmp(cmd[1], "-n", 2))
+	n = 1;
+	i = 0;
+	while (cmd[++i] && !ft_strncmp(cmd[i], "-n", 2))
 	{
-		while (cmd[1][i] && cmd[1][i] == 'n')
-			i++;
-		if (!cmd[1][i])
-			n = 1;
+		j = 1;
+		while (cmd[i][j] && cmd[i][j] == 'n')
+			j++;
+		if (!cmd[i][j])
+			n++;
+		else
+			break ;
 	}
-	if (n)
-		i = 2;
-	else
-		i = 1;
 	while (cmd[i])
 	{
 		write(fd, cmd[i], ft_strlen(cmd[i]));
 		if (cmd[++i])
 			write(fd, " ", 1);
 	}
-	if (!n)
+	if (n == 1)
 		write(fd, "\n", 1);
 	return (0);
 }

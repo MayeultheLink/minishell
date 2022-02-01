@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:09:11 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 17:58:59 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:38:34 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,15 @@ int	export_plus(t_envlst *node, t_envlst *lst, char **split)
 				split[1], 2);
 		if (!node->value)
 			return (write(2, "Failed malloc\n", 14), 0);
-		free(node->env_str);
-		node->env_str = NULL;
-		node->env_str = ft_strcatf(node->name, "=", 0);
-		if (!node->env_str)
-			return (write(2, "Failed malloc\n", 14), 0);
-		node->env_str = ft_strcatf(node->env_str, node->value, 1);
-		if (!node->env_str)
-			return (write(2, "Failed malloc\n", 14), 0);
 	}
-	else
-		node->name[ft_strlen(node->name)] = '+';
+	free(node->env_str);
+	node->env_str = NULL;
+	node->env_str = ft_strcatf(node->name, "=", 0);
+	if (!node->env_str)
+		return (write(2, "Failed malloc\n", 14), 0);
+	node->env_str = ft_strcatf(node->env_str, node->value, 1);
+	if (!node->env_str)
+		return (write(2, "Failed malloc\n", 14), 0);
 	return (1);
 }
 
