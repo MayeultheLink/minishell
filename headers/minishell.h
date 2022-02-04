@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 16:44:52 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:42:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int			del_pipes(t_lst *lst);
 char		*error_cmd(t_lst *lst);
 int			error_pipe(t_lst *lst);
 int			error_redir(t_lst *lst);
+void		*my_exit(t_lst *lst, t_envlst *envlst, int act);
 int			exit_minishell(char *str, char **env, t_envlst *envlst);
 int			free_and_wait(t_manag *man);
 void		free_arg(t_lst *lst);
@@ -114,7 +115,7 @@ void		redirections(int *fd_file_in, int *fd_file_out, t_lst *node);
 t_lst		*split_lineofcmd(char *str, char *control, char **env, int status);
 char		*treat_dollar(char *str, char *control, char **env, int status);
 int			wait_all_pid(int *tab, int n);
-int			launch_builtin(char **cmd, t_envlst **envlst, int act, int fd);
+int			launch_builtin(t_lst *lst, t_envlst **envlst, int act, int fd);
 char		**ft_split_env(char *str);
 int			is_envname(char *str);
 void		free_envnode(t_envlst *node);

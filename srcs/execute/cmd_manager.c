@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/04 17:50:11 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:32:44 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_fork(t_manag *man, t_lst *node, char **env, t_envlst **envlst)
 	if (!node->token->builtin && node->token->path)
 		execve(node->token->path, node->token->cmd, env);
 	if (node->token->builtin && node->token->cmd)
-		launch_builtin(node->token->cmd, envlst, 0, 1);
+		launch_builtin(node, envlst, 0, 1);
 	exit(0);
 }
 
@@ -62,7 +62,7 @@ int	builtin(t_lst *cmd_lst, t_envlst **envlst)
 				O_WRONLY | O_APPEND, 0644);
 	if (fd_file_out == -1)
 		return (write(2, "Error : cannot open file\n", 25), 1);
-	ret = launch_builtin(cmd_lst->token->cmd, envlst, 1, fd_file_out);
+	ret = launch_builtin(cmd_lst, envlst, 1, fd_file_out);
 	if (cmd_lst->token->redir_out)
 		close(fd_file_out);
 	return (ret);

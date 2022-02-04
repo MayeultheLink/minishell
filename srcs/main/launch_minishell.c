@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:29:38 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/02 19:03:44 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:25:06 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	launch_interactive2(char *str, t_envlst *envlst, char ***env, int status)
 	add_history(str);
 	*env = make_envtab(*env, envlst);
 	lst = parse_lineofcmd(str, *env, status);
+	free(str);
 	if (lst)
 		status = cmd_manager(lst, env, &envlst);
 	if (!lst || (lst->token && lst->token->path
@@ -76,11 +77,10 @@ int	launch_interactive(t_envlst *envlst)
 		else
 			write(1, "🤮 ", ft_strlen("🤮 "));
 		str = readline("minishell> ");
-		if (!str || !ft_strcmp(str, "exit"))
+		if (!str)
 			return (exit_minishell(str, env, envlst));
 		if (ft_strlen(str) > 0)
 			status = launch_interactive2(str, envlst, &env, status);
-		free(str);
 	}
 	return (0);
 }

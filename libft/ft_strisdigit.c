@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_minishell.c                                   :+:      :+:    :+:   */
+/*   ft_strisdigit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 15:55:52 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 19:39:36 by mde-la-s         ###   ########.fr       */
+/*   Created: 2022/02/04 19:45:26 by mde-la-s          #+#    #+#             */
+/*   Updated: 2022/02/04 19:49:51 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	exit_minishell(char *str, char **env, t_envlst *envlst)
+int	ft_strisdigit(char *str)
 {
-	rl_clear_history();
-	if (str)
-		free(str);
-	str = NULL;
-	if (env)
-		free(env);
-	env = NULL;
-	if (envlst)
-		free_envlst(envlst, NULL);
-	envlst = NULL;
-	write(1, "exit\n", 5);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

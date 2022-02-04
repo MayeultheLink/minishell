@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 15:42:40 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/27 16:10:02 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:48:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char			*ft_strcatf(char *str1, char *str2, int f);
 char			*ft_strchr(const char *s, int c);
 int				ft_strcmp(char *str1, char *str2);
 char			*ft_strdup(const char *s1);
+int				ft_strisdigit(char *s1);
 char			*ft_strjoin(char const *s1, char const *s2);
 int				ft_strthere(char *str, char *there);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
