@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:47:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 14:42:06 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 14:49:30 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ char	*my_getenv(char *var, char **env, int status)
 	i = 0;
 	if (!ft_strcmp(var, "?"))
 		return (ft_itoa(status));
+	if (!var[0])
+		return (ft_strdup("$"));
 	while (env[i])
 	{
-		if (!ft_strncmp(var, env[i], ft_strlen(var)))
+		if (!ft_strncmp(var, env[i], ft_strlen(var))
+			&& env[i][ft_strlen(var)] == '=')
 		{
 			result = alloc_with(ft_strlen(env[i]) - ft_strlen(var) - 1, '0');
 			if (!result)
 				return (write(2, "Failed malloc\n", 14), NULL);
-			j = 0;
-			while (env[i][j + ft_strlen(var) + 1])
-			{
+			j = -1;
+			while (env[i][++j + ft_strlen(var) + 1])
 				result[j] = env[i][j + ft_strlen(var) + 1];
-				j++;
-			}
 			return (result);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 13:22:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 15:02:03 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 13:36:37 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*name_var(char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '"')
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	name = alloc_with(i, '0');
 	if (!name)
@@ -54,7 +54,7 @@ void	*fill_new(char *new, char **str_c, char **env, int status)
 	j = 0;
 	while (str_c[0][i])
 	{
-		if (str_c[0][i] == '$' && str_c[1][i] == '0' && str_c[0][i + 1])
+		if (str_c[0][i] == '$' && str_c[1][i] == '0')
 		{
 			name = name_var(&str_c[0][i + 1]);
 			if (!name)
@@ -66,7 +66,7 @@ void	*fill_new(char *new, char **str_c, char **env, int status)
 			i += ft_strlen(name) + 1;
 			free(name);
 		}
-		if (str_c[0][i])
+		if (str_c[0][i] && str_c[0][i] != '$')
 			new[j++] = str_c[0][i++];
 	}
 	return (NULL);
@@ -110,7 +110,7 @@ char	*treat_dollar(char *str, char *control, char **env, int status)
 	i = -1;
 	j = 0;
 	while (str[++i])
-		if (str[i] == '$')
+		if (str[i] == '$' && control[i] == '0')
 			j++;
 	if (!j)
 		return (ft_strdup(str));

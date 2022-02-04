@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 18:49:17 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/02 19:18:50 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*quotes(char *str, char *control, int *i, int *j)
 	{
 		if (q == '"' && str[*i] == '$')
 			++(*j);
-		else if (str[*i + 1] != q)
+		else
 			control[++(*j)] = '1';
 	}
 	if (!str[*i])

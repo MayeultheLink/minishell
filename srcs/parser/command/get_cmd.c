@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/31 20:22:24 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/02 19:01:20 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_lst	*get_cmd_with_arg2(t_lst *lst)
 		lst = lst->next;
 	lst->token->path = get_cmd_with_path(lst);
 	lst->token->cmd = fill_cmd(lst, c);
-	if (!lst->token->cmd)
+	if (!lst->token->path || !lst->token->cmd)
 		return (NULL);
 	if (lst->next && lst->next->token->type != PIPE)
 		free_arg(lst->next);
