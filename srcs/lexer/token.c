@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:02:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 14:48:41 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:50:36 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_token	*get_token(char *str, char *control, int beg, int end)
 		token->str[c - beg] = str[c + i];
 	}
 	token->str[c - beg] = 0;
-	token->type = get_type(token, control[beg + i]);
+	if (i && (str[beg] == '"' || str[beg] == '\''))
+		beg++;
+	token->type = get_type(token, control[beg]);
 	return (token);
 }

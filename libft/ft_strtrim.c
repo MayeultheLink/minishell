@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:31:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/19 16:22:47 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:11:15 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ size_t	ft_endstring(char const *s1, char const *set)
 		}
 		j++;
 	}
-	return (i);
+	return (i + 1);
 }
 
 int	is_in_set(char c, char const *set)
@@ -92,7 +92,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		cpy[i] = 0;
 		return (cpy);
 	}
-	while (start <= end)
+	while (start < end)
 		cpy[i++] = s1[start++];
 	cpy[i] = 0;
 	return (cpy);

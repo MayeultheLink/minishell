@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/02 19:18:50 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:05:27 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	*quotes(char *str, char *control, int *i, int *j)
 	}
 	if (!str[*i])
 		return (write(2, "Error with quotes\n", 18), free(control), NULL);
+	++(*i);
+	++(*j);
 	return (control);
 }
 
@@ -86,6 +88,8 @@ char	*deactivation(char *str, char *control, int *i, int *j)
 		control = quotes(str, control, i, j);
 		if (!control)
 			return (NULL);
+		if (str[*i])
+			control = deactivation(str, control, i, j);
 	}
 	else if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
 	{
@@ -94,6 +98,8 @@ char	*deactivation(char *str, char *control, int *i, int *j)
 		control = redir(str, control, i, j);
 		if (!control)
 			return (NULL);
+		if (str[*i])
+			control = deactivation(str, control, i, j);
 	}
 	return (control);
 }

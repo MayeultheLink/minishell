@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:31:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 14:47:29 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/04 17:44:47 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ t_lst	*parse_lst(t_lst *lst, char **env, int status)
 			freelst(lst), NULL);
 	if (!error_pipe(ft_lststart(lst)))
 		return (freelst(lst), NULL);
-	if (check_if_cmd(ft_lststart(lst)) == -1)
-		return (freelst(lst), NULL);
-	else if (check_if_cmd(ft_lststart(lst)) == 0)
+	if (check_if_cmd(ft_lststart(lst)) == 0)
 		return (create_files(lst, status), lst);
+	else if (check_if_cmd(ft_lststart(lst)) == -1)
+		return (freelst(lst), NULL);
 	if (!get_cmd_with_arg(ft_lststart(lst)))
 		return (freelst(lst), NULL);
 	lst = check_redir(ft_lststart(lst), status);
