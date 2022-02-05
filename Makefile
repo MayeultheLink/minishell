@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/02/04 19:41:37 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/02/05 19:13:46 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,36 +46,27 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/execute/env/mod_env.c \
 			srcs/execute/env/utils.c
 
-# Colors
-_GREY=$ \x1b[30m
-_RED=$ \x1b[31m
-_GREEN=$ \x1b[32m
-_YELLOW=$ \x1b[33m
-_BLUE=$ \x1b[34m
-_PURPLE=$ \x1b[35m
-_CYAN=$ \x1b[36m
-_WHITE=$ \x1b[37m
-_END=$ \x1b[0m
-
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -I./headers 
+CFLAGS	=	-Wall -Wextra -Werror -I./headers
 OBJS	=	${SRCS:.c=.o}
+		
+all		:	libft ${NAME}
 
-all		:	${NAME}
+$(NAME)	:	 $(OBJS)
+		${CC} ${CFLAGS} -o ${NAME} -lreadline ${OBJS} ${LIBFT}
 
-$(NAME)	:	${OBJS}
-		${MAKE} -C ./libft
-		@echo "$(_GREEN)LIBFT OK${_END}"
-		${CC} ${CFLAGS} -o $(NAME) -lreadline ${OBJS} ${LIBFT}
-		@echo "$(_GREEN)MANDATORY OK${_END}"
+libft	:	
+			@make -C libft
 
 clean	:
 		${MAKE} clean -C libft
 		rm -f ${OBJS}
 
-fclean	:	clean
+fclean	:
+		${MAKE} fclean -C libft
+		rm -f ${OBJS}
 		rm -f ${NAME}
 
 re		:	fclean all
 
-.PHONY	:	all clean fclean re
+.PHONY	:	all clean fclean re libft

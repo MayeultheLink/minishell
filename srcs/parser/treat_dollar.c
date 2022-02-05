@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 13:22:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 13:36:37 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:56:33 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*name_var(char *str)
 
 	i = 0;
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+		i++;
+	if (i == 0 && str[0] == '?')
 		i++;
 	name = alloc_with(i, '0');
 	if (!name)

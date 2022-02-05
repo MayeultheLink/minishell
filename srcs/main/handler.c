@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:03:48 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/28 22:33:41 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/05 18:00:57 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	handler(int keysym)
 		write(1, "\n", 1);
 	else
 	{
+		g_signal = -1;
 		write(0, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);

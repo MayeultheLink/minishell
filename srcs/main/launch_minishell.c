@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:29:38 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 19:25:06 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/05 18:45:32 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,14 @@ int	launch_not_interactive(int ac, char **av, t_envlst *envlst)
 int	launch_interactive2(char *str, t_envlst *envlst, char ***env, int status)
 {
 	t_lst	*lst;
+	size_t	i;
 
 	add_history(str);
+	i = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
+	if (i == ft_strlen(str))
+		return (free(str), 0);
 	*env = make_envtab(*env, envlst);
 	lst = parse_lineofcmd(str, *env, status);
 	free(str);
@@ -77,6 +83,9 @@ int	launch_interactive(t_envlst *envlst)
 		else
 			write(1, "🤮 ", ft_strlen("🤮 "));
 		str = readline("minishell> ");
+		if (g_signal == -1)
+			status = 130;
+		g_signal = 0;
 		if (!str)
 			return (exit_minishell(str, env, envlst));
 		if (ft_strlen(str) > 0)
