@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/02/05 19:13:46 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/02/07 12:26:35 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ $(NAME)	:	 $(OBJS)
 		${CC} ${CFLAGS} -o ${NAME} -lreadline ${OBJS} ${LIBFT}
 
 libft	:	
-			@make -C libft
+		@make -C libft
 
 clean	:
 		${MAKE} clean -C libft

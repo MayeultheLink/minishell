@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:00:32 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 10:57:21 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:38:41 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	my_cd(char **cmd, t_envlst **lst, int act)
 
 	if (!cmd[1] || cmd[2])
 		return (write(2, "cd: arguments error\n", 20), 1);
-	if (!access(cmd[1], F_OK))
-		return (chdir(cmd[1]));
+	if (!chdir(cmd[1]))
+		return (update_pwdlst(lst));
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
