@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 12:17:04 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 14:43:02 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:06:17 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,4 @@ char	*error_cmd(t_lst *lst)
 	}
 	ft_freesplit(split_path);
 	return (NULL);
-}
-
-int	check_if_cmd(t_lst *lst)
-{
-	if (!lst->next && lst->token->type == REDIR)
-		return (0);
-	while (lst)
-	{
-		if (lst->token->type == CMD)
-			return (1);
-		if (!lst->next)
-		{
-			write(2, "Error : no command\n", 19);
-			return (-1);
-		}
-		lst = lst->next;
-	}
-	return (1);
 }

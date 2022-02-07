@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/05 19:13:34 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 10:49:11 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	execute_parent(t_lst *node, t_manag *man)
 
 void	execute_fork(t_manag *man, t_lst *node, char **env, t_envlst **envlst)
 {
+	signal(SIGQUIT, SIG_DFL);
 	if (man->cmd_nbr > 1 && man->i != man->cmd_nbr)
 		dup2(man->tab_fd[(man->i - 1) * 2 + 1], STDOUT_FILENO);
 	if (man->cmd_nbr > 1 && man->i != 1)

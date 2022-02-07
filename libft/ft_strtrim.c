@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:31:12 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 18:11:15 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:58:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (!s1 || !set)
 		return (NULL);
-	if (!is_in_set(s1[0], set) && !is_in_set(s1[ft_strlen(s1)], set))
+	if (!is_in_set(s1[0], set) && !is_in_set(s1[ft_strlen(s1) - 1], set))
 		return (ft_strdup(s1));
 	start = ft_startstring(s1, set);
 	end = ft_endstring(s1, set);
 	i = 0;
-	cpy = malloc(sizeof(char) * (end - start) + 2);
+	cpy = malloc(sizeof(char) * (end - start) + 1);
 	if (!cpy)
 		return (NULL);
 	if (start == end)

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:29:38 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/05 18:45:32 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 10:44:17 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int	launch_interactive(t_envlst *envlst)
 	char	*str;
 	int		status;
 
+	g_signal = 0;
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_IGN);
-	g_signal = 0;
 	status = 0;
 	env = NULL;
 	while (1)

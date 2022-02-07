@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 18:07:44 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:00:56 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,59 @@ int	redir_out(char *str)
 	return (1);
 }
 
+void	solo_redir_heredoc(char *name)
+{
+	char	*str;
+
+	while (1)
+	{
+		str = readline("> ");
+		if (!str)
+			break ;
+		if (!ft_strcmp(str, name))
+		{
+			free(str);
+			break ;
+		}
+		free(str);
+	}
+}
+
 int	solo_redir(t_lst *lst)
 {
 	char	*name;
 
-	if (lst->token->str[1] != '<' && lst->token->str[1] != '>')
-		name = ft_strtrim(&lst->token->str[1], " ");
-	else
-		name = ft_strtrim(&lst->token->str[2], " ");
-	if (!name)
-		return (write(2, "Failed malloc\n", 14), 0);
-	if (lst->token->str[0] == '<')
-		lst->token->type_redir_in = 0;
-	else
-		redir_out(name);
-	free(name);
+	while (lst)
+	{
+		if (lst->token->str[1] != '<' && lst->token->str[1] != '>')
+			name = ft_strtrim(&lst->token->str[1], " ");
+		else
+			name = ft_strtrim(&lst->token->str[2], " ");
+		if (!name)
+			return (write(2, "Failed malloc\n", 14), 0);
+		if (!name[0])
+			return (write(2, "Syntax error : redirections\n", 28));
+		if (lst->token->str[0] == '<' && lst->token->str[1] != '<')
+			lst->token->type_redir_in = 0;
+		else if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
+			solo_redir_heredoc(name);
+		else
+			redir_out(name);
+		free(name);
+		lst = lst->next;
+	}
 	return (1);
 }
 
 int	create_files(t_lst *lst, int status)
 {
-	if (!lst->previous && !lst->next && lst->token->type == REDIR)
-		return (solo_redir(lst));
+	while (lst->token->type == REDIR)
+	{
+		if (lst->next && lst->next->token->type == REDIR)
+			lst = lst->next;
+		else if (!lst->next)
+			return (solo_redir(ft_lststart(lst)));
+	}
 	while (lst)
 	{
 		if (lst->token->type == REDIR)
