@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 12:00:56 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:36:10 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	solo_redir(t_lst *lst)
 			return (write(2, "Failed malloc\n", 14), 0);
 		if (!name[0])
 			return (write(2, "Syntax error : redirections\n", 28));
-		if (lst->token->str[0] == '<' && lst->token->str[1] != '<')
+		if (lst->token->str[0] == '<' && lst->token->str[1] != '<' && access(name, F_OK))
 			lst->token->type_redir_in = 0;
 		else if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
 			solo_redir_heredoc(name);
@@ -106,6 +106,8 @@ int	create_files(t_lst *lst, int status)
 			lst = lst->next;
 		else if (!lst->next)
 			return (solo_redir(ft_lststart(lst)));
+		else
+			break ;
 	}
 	while (lst)
 	{

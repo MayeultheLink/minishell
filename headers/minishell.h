@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 11:06:24 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:39:11 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ t_lst		*parse_lineofcmd(char *str, char **env, int status);
 t_lst		*parse_lst(t_lst *lst, char **env, int status);
 int			parse_str(char **str);
 void		redirections(int *fd_file_in, int *fd_file_out, t_lst *node);
-t_lst		*split_lineofcmd(char *str, char *control, char **env, int status);
-char		*treat_dollar(char *str, char *control, char **env, int status);
+t_lst		*split_lineofcmd(char *str, char **control, char **env, int status);
+char		*treat_dollar(char **new, char **str_c, char **env, int status);
 int			wait_all_pid(int *tab, int n);
 int			launch_builtin(t_lst *lst, t_envlst **envlst, int act, int fd);
 char		**ft_split_env(char *str);

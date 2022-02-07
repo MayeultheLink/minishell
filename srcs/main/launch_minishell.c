@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:29:38 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 10:44:17 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:46:14 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	launch_not_interactive(int ac, char **av, t_envlst *envlst)
 	return (write(2, "invalid option for minishell\n", 29), 1);
 }
 
-int	launch_interactive2(char *str, t_envlst *envlst, char ***env, int status)
+int	launch_interactive2(char *str, t_envlst **envlst, char ***env, int status)
 {
 	t_lst	*lst;
 	size_t	i;
@@ -52,11 +52,11 @@ int	launch_interactive2(char *str, t_envlst *envlst, char ***env, int status)
 		i++;
 	if (i == ft_strlen(str))
 		return (free(str), 0);
-	*env = make_envtab(*env, envlst);
+	*env = make_envtab(*env, *envlst);
 	lst = parse_lineofcmd(str, *env, status);
 	free(str);
 	if (lst)
-		status = cmd_manager(lst, env, &envlst);
+		status = cmd_manager(lst, env, envlst);
 	if (!lst || (lst->token && lst->token->path
 			&& !(ft_lstend(lst)->token->path)))
 		status = 127;
@@ -89,7 +89,7 @@ int	launch_interactive(t_envlst *envlst)
 		if (!str)
 			return (exit_minishell(str, env, envlst));
 		if (ft_strlen(str) > 0)
-			status = launch_interactive2(str, envlst, &env, status);
+			status = launch_interactive2(str, &envlst, &env, status);
 	}
 	return (0);
 }

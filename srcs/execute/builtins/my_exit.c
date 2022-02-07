@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 19:16:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 19:49:32 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:24:05 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*my_exit(t_lst *lst, t_envlst *envlst, int act)
 	{
 		if (lst->token->cmd[1] && lst->token->cmd[2])
 			return (write(2, "exit : too many arguments\n", 26), NULL);
-		if (!ft_strisdigit(lst->token->cmd[1]))
+		if (lst->token->cmd[1] && !ft_strisdigit(lst->token->cmd[1]))
 			return (write(2, "exit : numeric argument required\n", 33), NULL);
 		if (lst->token->cmd[1])
 			ret = ft_atoi(lst->token->cmd[1]);

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/01 14:56:01 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 18:30:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	check_for_quotes(char *str)
 	q = 0;
 	i = 0;
 	c = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
 	while (str[i])
 	{
 		if (!q && (str[i] == '"' || str[i] == '\''))
@@ -68,41 +70,46 @@ void	del_quotes(char *new, char *delim)
 	}
 }
 
-char	*manage_quotes(char *delim)
+int	manage_quotes(char *delim, char **new)
 {
-	char	*new;
+	int	i;
 
-	if (!check_for_quotes(delim))
-		return (ft_strdup(delim));
+	i = check_for_quotes(delim);
+	if (!i)
+		return (*new = ft_strdup(delim), 0);
 	else
-		new = alloc_with(ft_strlen(delim) - check_for_quotes(delim), '0');
-	if (!new)
-		return (write(2, "Failed malloc\n", 14), NULL);
-	del_quotes(new, delim);
-	return (new);
+		*new = alloc_with(ft_strlen(delim) - i, '0');
+	if (!*new)
+		return (write(2, "Failed malloc\n", 14), -1);
+	del_quotes(*new, delim);
+	return (i);
 }
 
 char	*parse_str_readline(char *str, t_lst *lst, int status)
 {
-	char	*parsed;
-	char	*control;
+	char	*parsed_c[2];
+	char	*new;
+	char	*trash;
 	int		i;
 
+	parsed_c[0] = str;
+	parsed_c[1] = NULL;
 	i = check_for_quotes(&lst->token->str[2]);
 	if (!i)
 	{
-		control = alloc_with(ft_strlen(str), '0');
-		if (!control)
+		parsed_c[1] = alloc_with(ft_strlen(str), '0');
+		if (!parsed_c[1])
 			return (write(2, "Failed malloc\n", 14), free(str), NULL);
-		parsed = treat_dollar(str, control, ft_lststart(lst)->env, status);
-		free(control);
+		trash = treat_dollar(&new, parsed_c, ft_lststart(lst)->env, status);
+		free(trash);
+		free(parsed_c[1]);
 	}
 	else
-		parsed = ft_strdup(str);
-	if (!parsed)
+		new = ft_strdup(str);
+	if (!new)
 		return (write(2, "Failed malloc\n", 14), free(str), NULL);
 	free(str);
-	return (parsed);
+	return (new);
 }
 
 int	heredoc(t_lst *lst, int status)
@@ -110,18 +117,22 @@ int	heredoc(t_lst *lst, int status)
 	int		fd[2];
 	char	*str;
 	char	*delim;
+	int		i;
 
 	pipe(fd);
-	delim = manage_quotes(&lst->token->str[2]);
+	i = manage_quotes(&lst->token->str[2], &delim);
+	if (i == -1)
+		return (-1);
 	while (1)
 	{
 		str = readline("> ");
 		if (!str)
 			return (close(fd[1]), free(str), free(delim),
 				write(2, "heredoc warning : ended by end-of-file\n", 40), fd[0]);
-		str = parse_str_readline(str, lst, status);
 		if (ft_strcmp(delim, str))
 		{
+			if (i)
+				str = parse_str_readline(str, lst, status);
 			write(fd[1], str, ft_strlen(str));
 			write(fd[1], "\n", 1);
 			free(str);

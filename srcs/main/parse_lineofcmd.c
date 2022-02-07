@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:46:51 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/05 18:08:38 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:38:59 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_lst	*parse_lineofcmd(char *str, char **env, int status)
 	control = deactivate_chars(str);
 	if (!control)
 		return (NULL);
-	lst = split_lineofcmd(str, control, env, status);
+	lst = split_lineofcmd(str, &control, env, status);
 	free(control);
 	if (!lst)
 		return (NULL);
