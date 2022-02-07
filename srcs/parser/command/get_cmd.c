@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/02 19:01:20 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 20:40:34 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ int	get_cmd_with_arg(t_lst *lst)
 {
 	while (lst)
 	{
+		if (lst->token->str[0] == '/' && access(lst->token->str, F_OK))
+		{
+			write(2, lst->token->str, ft_strlen(lst->token->str));
+			write(2, " : ", 3);
+			write(2, "No such file or directory\n", 26);
+		}
 		lst = get_cmd_with_arg2(lst);
 		if (!lst)
 			return (0);

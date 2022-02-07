@@ -6,13 +6,13 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 13:22:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 18:33:27 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 20:16:41 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*name_var(char *str)
+int	set_name_tmp(char **tmp, char *str, char **env, int status)
 {
 	char	*name;
 	int		i;
@@ -24,10 +24,15 @@ char	*name_var(char *str)
 		i++;
 	name = alloc_with(i, '0');
 	if (!name)
-		return (write(2, "Failed malloc\n", 14), NULL);
+		return (write(2, "Failed malloc\n", 14), -1);
 	while (--i >= 0)
 		name[i] = str[i];
-	return (name);
+	*tmp = my_getenv(name, env, status);
+	if (!*tmp)
+		return (free(name), -1);
+	i = ft_strlen(name) + 1;
+	free(name);
+	return (i);
 }
 
 int	fill_new2(char *new, char *tmp, char **control, int j)
@@ -49,33 +54,28 @@ int	fill_new2(char *new, char *tmp, char **control, int j)
 
 char	*fill_new(char *new, char **str_c, char **env, int status)
 {
-	char	*name;
 	char	*tmp;
 	char	*control;
 	int		i;
-	int		j;
+	int		j[2];
 
 	control = alloc_with(ft_strlen(new), '0');
 	i = 0;
-	j = 0;
+	j[0] = 0;
 	while (str_c[0][i])
 	{
 		if (str_c[0][i] == '$' && str_c[1][i] == '0')
 		{
-			name = name_var(&str_c[0][i + 1]);
-			if (!name)
-				return (free(new), NULL);
-			tmp = my_getenv(name, env, status);
-			if (!tmp)
-				return (free(name), free(new), NULL);
-			j = fill_new2(new, tmp, &control, j);
-			i += ft_strlen(name) + 1;
-			free(name);
+			j[1] = set_name_tmp(&tmp, &str_c[0][i + 1], env, status);
+			if (j[1] == -1)
+				return (free(control), NULL);
+			i += j[1];
+			j[0] = fill_new2(new, tmp, &control, j[0]);
 		}
 		if (str_c[0][i] && str_c[0][i] != '$')
 		{
-			new[j] = str_c[0][i];
-			control[j++] = str_c[1][i++];
+			new[j[0]] = str_c[0][i];
+			control[j[0]++] = str_c[1][i++];
 		}
 	}
 	return (control);
@@ -83,10 +83,10 @@ char	*fill_new(char *new, char **str_c, char **env, int status)
 
 int	init_new(char *str, char *control, char **env, int status)
 {
-	char	*name;
 	char	*tmp;
 	int		c;
 	int		i;
+	int		set;
 
 	c = ft_strlen(str);
 	i = -1;
@@ -94,15 +94,9 @@ int	init_new(char *str, char *control, char **env, int status)
 	{
 		if (str[i] == '$' && control[i] == '0' && str[i + 1])
 		{
-			name = name_var(&str[i + 1]);
-			if (!name)
-				return (-1);
-			tmp = my_getenv(name, env, status);
-			if (!tmp)
-				return (free(name), -1);
-			c += ft_strlen(tmp) - ft_strlen(name) - 1;
+			set = set_name_tmp(&tmp, &str[i + 1], env, status);
+			c += ft_strlen(tmp) - set;
 			free(tmp);
-			free(name);
 		}
 	}
 	return (c);

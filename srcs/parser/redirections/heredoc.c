@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 18:30:26 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 18:45:50 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,7 @@ int	heredoc(t_lst *lst, int status)
 
 	pipe(fd);
 	i = manage_quotes(&lst->token->str[2], &delim);
-	if (i == -1)
-		return (-1);
-	while (1)
+	while (i >= 0)
 	{
 		str = readline("> ");
 		if (!str)
@@ -140,5 +138,5 @@ int	heredoc(t_lst *lst, int status)
 		else
 			return (free(delim), free(str), close(fd[1]), fd[0]);
 	}
-	return (fd[0]);
+	return (-1);
 }

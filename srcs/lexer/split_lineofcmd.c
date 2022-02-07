@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:07:24 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 17:43:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 18:40:45 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ t_lst	*split_lineofcmd(char *str, char **control, char **env, int status)
 
 	lst = NULL;
 	new = NULL;
-	str_c[0]= ft_strdup(str);
-	str_c[1]= ft_strdup(*control);
+	str_c[0] = ft_strdup(str);
+	str_c[1] = ft_strdup(*control);
 	free(*control);
 	*control = treat_dollar(&new, str_c, env, status);
 	free(str_c[0]);
