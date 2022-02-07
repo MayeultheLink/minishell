@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:31:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 11:19:08 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:58:13 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_lst	*parse_lst(t_lst *lst, char **env, int status)
 			lst = lst->next;
 		else if (!lst->next)
 			return (create_files(ft_lststart(lst), status), ft_lststart(lst));
+		else
+			break ;
 	}
 	if (!get_cmd_with_arg(ft_lststart(lst)))
 		return (freelst(lst), NULL);
