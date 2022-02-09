@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/09 11:26:27 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:37:06 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execute_fork(t_manag *man, t_lst *node, char **env, t_envlst **envlst)
 	if (!node->token->builtin && node->token->path)
 		execve(node->token->path, node->token->cmd, env);
 	if (node->token->builtin && node->token->cmd)
-		launch_builtin(node, envlst, 0, 1);
+		exit(launch_builtin(node, envlst, 0, 1));
 	exit(0);
 }
 
