@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:46:05 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:50:04 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:00:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,15 @@ int	free_and_wait(t_manag *man)
 {
 	int	status;
 
+	status = 0;
 	if (man->cmd_nbr > 1)
 	{	
 		close_all_fd(man->tab_fd, man->cmd_nbr - 1);
 		free(man->tab_fd);
 	}
 	status = wait_all_pid(man->tab_pid, man->cmd_nbr);
+	if (status > 255)
+		status = status >> 8;
 	g_signal = 0;
 	free(man->tab_pid);
 	free(man);

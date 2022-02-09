@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:33:03 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:00:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,54 +53,6 @@ int	redir_out(char *str)
 	free(name);
 	return (1);
 }
-
-/*void	solo_redir_heredoc(char *name)
-{
-	char	*str;
-	char	*delim;
-
-	manage_quotes(name, &delim);
-	while (1)
-	{
-		str = readline("> ");
-		if (!str)
-			break ;
-		if (!ft_strcmp(str, delim))
-		{
-			free(str);
-			break ;
-		}
-		free(str);
-	}
-	free(delim);
-}
-
-int	solo_redir(t_lst *lst)
-{
-	char	*name;
-
-	while (lst && lst->token->type != PIPE)
-	{
-		if (lst->token->str[1] != '<' && lst->token->str[1] != '>')
-			name = ft_strtrim(&lst->token->str[1], " ");
-		else
-			name = ft_strtrim(&lst->token->str[2], " ");
-		if (!name)
-			return (write(2, "Failed malloc\n", 14), 0);
-		if (!name[0])
-			return (write(2, "Syntax error : redirections\n", 28));
-		if (lst->token->str[0] == '<' && lst->token->str[1] != '<'
-			&& access(name, F_OK))
-			lst->token->type_ri = 0;
-		else if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
-			solo_redir_heredoc(name);
-		else
-			redir_out(name);
-		free(name);
-		lst = lst->next;
-	}
-	return (1);
-}*/
 
 int	create_files(t_lst *lst, int status)
 {

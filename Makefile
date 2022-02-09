@@ -6,7 +6,7 @@
 #    By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 13:42:32 by mde-la-s          #+#    #+#              #
-#    Updated: 2022/02/08 20:52:56 by mde-la-s         ###   ########.fr        #
+#    Updated: 2022/02/09 12:58:01 by mde-la-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS	=	srcs/main/minishell.c \
 			srcs/execute/fd_pid.c \
 			srcs/execute/cmd_manager.c \
 			srcs/execute/cmd_manager_utils.c \
+			srcs/execute/check_path.c \
 			srcs/execute/builtins/env.c \
 			srcs/execute/builtins/my_exit.c \
 			srcs/execute/builtins/launch_builtin.c \

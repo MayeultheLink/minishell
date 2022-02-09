@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:47:53 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:58:09 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_manag
 	int	i;
 }			t_manag;
 
+int			check_path(char *str);
 t_lst		*check_redir(t_lst *lst, int status);
 void		close_all_fd(int *tab_fd, int n);
 int			cmd(t_lst *lst);

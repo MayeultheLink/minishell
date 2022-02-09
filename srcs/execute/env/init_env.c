@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:06:30 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:48:56 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:42:25 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	**m_envp(char **env, t_envlst **envlst, t_lst *node)
 {
 	char	*str;
 
+	if (!node->token->path)
+		return (env);
 	str = ft_strcatf("_=", node->token->path, 0);
 	if (!str || set_env(envlst, str))
 		return (free(env), NULL);

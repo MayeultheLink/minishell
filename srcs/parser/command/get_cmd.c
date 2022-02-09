@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:12:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:14:26 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	get_cmd_with_arg(t_lst *lst)
 {
 	while (lst)
 	{
-		if (lst->token->str[0] == '/' && access(lst->token->str, F_OK))
+		if ((lst->token->str[0] == '/' || lst->token->str[0] == '.')
+			&& access(lst->token->str, F_OK))
 		{
 			write(2, lst->token->str, ft_strlen(lst->token->str));
 			write(2, " : ", 3);

@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   check_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 16:03:48 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 12:54:47 by mde-la-s         ###   ########.fr       */
+/*   Created: 2022/02/09 12:00:51 by jpauline          #+#    #+#             */
+/*   Updated: 2022/02/09 12:19:37 by jpauline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler(int keysym)
+int	check_path(char *str)
 {
-	(void)keysym;
-	if (g_signal == 2)
-		return ;
-	if (g_signal == 1)
-		write(1, "\n", 1);
-	else
+	struct stat		st;
+	int				ret;
+
+	if (!str)
+		return (0);
+	ret = stat(str, &st);
+	if (!ret && S_ISDIR(st.st_mode))
 	{
-		g_signal = -1;
-		write(0, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		write(1, "🤮 ", ft_strlen("🤮 "));
-		rl_redisplay();
+		write(2, str, ft_strlen(str));
+		write(2, ": is a directory\n", 17);
+		return (1);
 	}
+	return (0);
 }
