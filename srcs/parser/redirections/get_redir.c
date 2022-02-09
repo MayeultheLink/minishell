@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 17:03:10 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:30:24 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ int	get_redir(t_lst *lst)
 		find_redir(lst, &in, &out);
 		lst_cmd = lst;
 		while (lst_cmd->next && lst_cmd->token->type != CMD
-				&& lst_cmd->token->type != PIPE)
+			&& lst_cmd->token->type != PIPE)
 			lst_cmd = lst_cmd->next;
 		if ((in >= 0 || out >= 0) && lst_cmd->token->type != PIPE)
 			get_redir2(lst_cmd, lst, in, out);
-		if (lst_cmd  && lst_cmd->token->type != PIPE
+		if (lst_cmd && lst_cmd->token->type != PIPE
 			&& ((out >= 0 && !lst_cmd->token->redir_out)
 				|| (lst_cmd->token->type_ri == 0
 					&& !lst_cmd->token->redir_in)))
