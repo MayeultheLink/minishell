@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 15:19:00 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:03:10 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,17 @@ char	*fill_redir(t_lst *lst, int *type_redir, int *fd_redir_in, int io)
 	return (name);
 }
 
+void	get_redir2(t_lst *lst_cmd, t_lst *lst, int in, int out)
+{
+	if (in >= 0 && lst_cmd->token->type != PIPE)
+		lst_cmd->token->redir_in = fill_redir(ft_lststart(lst),
+				&lst_cmd->token->type_ri,
+				&lst_cmd->token->fd_redir_in, in);
+	if (out >= 0 && lst_cmd->token->type != PIPE)
+		lst_cmd->token->redir_out = fill_redir(ft_lststart(lst),
+				&lst_cmd->token->type_redir_out, 0, out);
+}
+
 int	get_redir(t_lst *lst)
 {
 	t_lst	*lst_cmd;
@@ -74,17 +85,15 @@ int	get_redir(t_lst *lst)
 	{
 		find_redir(lst, &in, &out);
 		lst_cmd = lst;
-		while (lst_cmd->next && lst_cmd->token->type != CMD)
+		while (lst_cmd->next && lst_cmd->token->type != CMD
+				&& lst_cmd->token->type != PIPE)
 			lst_cmd = lst_cmd->next;
-		if (in >= 0)
-			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst),
-					&lst_cmd->token->type_ri,
-					&lst_cmd->token->fd_redir_in, in);
-		if (out >= 0)
-			lst_cmd->token->redir_out = fill_redir(ft_lststart(lst),
-					&lst_cmd->token->type_redir_out, 0, out);
-		if (lst_cmd && ((out >= 0 && !lst_cmd->token->redir_out)
-				|| (lst_cmd->token->type_ri == 0 && !lst_cmd->token->redir_in)))
+		if ((in >= 0 || out >= 0) && lst_cmd->token->type != PIPE)
+			get_redir2(lst_cmd, lst, in, out);
+		if (lst_cmd  && lst_cmd->token->type != PIPE
+			&& ((out >= 0 && !lst_cmd->token->redir_out)
+				|| (lst_cmd->token->type_ri == 0
+					&& !lst_cmd->token->redir_in)))
 			return (write(2, "Failed malloc\n", 14), 0);
 		while (lst->next && lst->token->type != PIPE)
 			lst = lst->next;
