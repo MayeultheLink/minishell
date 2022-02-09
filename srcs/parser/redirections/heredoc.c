@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/08 15:11:31 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:55:47 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,18 @@ void	del_quotes(char *new, char *delim)
 
 int	manage_quotes(char *delim, char **new)
 {
-	int	i;
+	char	*trimmed;
+	int		i;
 
 	i = check_for_quotes(delim);
 	if (!i)
-		return (*new = ft_strdup(delim), 0);
-	else
-		*new = alloc_with(ft_strlen(delim) - i, '0');
+		return (*new = ft_strtrim(delim, " "), 0);
+	trimmed = ft_strtrim(delim, " ");
+	*new = alloc_with(ft_strlen(trimmed) - i, '0');
 	if (!*new)
-		return (write(2, "Failed malloc\n", 14), -1);
-	del_quotes(*new, delim);
+		return (write(2, "Failed malloc\n", 14), free(trimmed), -1);
+	del_quotes(*new, trimmed);
+	free(trimmed);
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 12:00:51 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/09 12:19:37 by jpauline         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:09:24 by jpauline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int	check_path(char *str)
 	{
 		write(2, str, ft_strlen(str));
 		write(2, ": is a directory\n", 17);
+		return (1);
+	}
+	if (!ret && !(st.st_mode & S_IXUSR))
+	{
+		write(2, str, ft_strlen(str));
+		write(2, ": permission denied\n", 20);
 		return (1);
 	}
 	return (0);

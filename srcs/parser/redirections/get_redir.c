@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:25:35 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:19:00 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	find_redir(t_lst *lst, int *i, int *o)
 	}
 	while (lst && lst->token->type != PIPE)
 	{
-		if (lst->token->type == REDIR && tmp->token->type == CMD)
+		if (lst->token->type == REDIR)
 		{
 			if (lst->token->str[0] == '<')
 				*i = c;
@@ -42,9 +42,7 @@ void	find_redir(t_lst *lst, int *i, int *o)
 
 char	*fill_redir(t_lst *lst, int *type_redir, int *fd_redir_in, int io)
 {
-	char	*redir;
-	int		i;
-	int		j;
+	char	*name;
 
 	*type_redir = 0;
 	while (io-- > 0 && lst->next)
@@ -57,14 +55,13 @@ char	*fill_redir(t_lst *lst, int *type_redir, int *fd_redir_in, int io)
 		*fd_redir_in = lst->token->fd_redir_in;
 		return (NULL);
 	}
-	redir = alloc_with(ft_strlen(lst->token->str) - (*type_redir) - 1, '0');
-	if (!redir)
-		return (NULL);
-	i = (*type_redir);
-	j = -1;
-	while (lst->token->str[++i])
-		redir[++j] = lst->token->str[i];
-	return (redir);
+	if (lst->token->str[1] == '<' || lst->token->str[1] == '>')
+		name = ft_strtrim(&lst->token->str[2], " ");
+	else
+		name = ft_strtrim(&lst->token->str[1], " ");
+	if (!name)
+		return (write(2, "Failed malloc\n", 14), NULL);
+	return (name);
 }
 
 int	get_redir(t_lst *lst)
@@ -77,7 +74,7 @@ int	get_redir(t_lst *lst)
 	{
 		find_redir(lst, &in, &out);
 		lst_cmd = lst;
-		while (lst_cmd && lst_cmd->token->type != CMD)
+		while (lst_cmd->next && lst_cmd->token->type != CMD)
 			lst_cmd = lst_cmd->next;
 		if (in >= 0)
 			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst),
