@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:24:57 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:47:53 by jpauline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int			get_redir(t_lst *lst);
 t_token		*get_token(char *str, char *control, int beg, int end);
 void		handler(int keysym);
 int			heredoc(t_lst *lst, int status);
-t_manag		*init_man(void);
+t_manag		*init_man(t_lst *node);
 int			init_tab_fd(int **tab_fd, int cmd_nbr, int **tab_pid);
 t_token		*init_token(char *str, char *control, int beg, int end);
 int			is_builtin(char *str);
@@ -131,6 +131,7 @@ t_envlst	*del_envnode(t_envlst *lst, t_envlst *node);
 int			set_env(t_envlst **lst, char *str);
 int			envlst_len(t_envlst *lst);
 char		**make_envtab(char **env, t_envlst *lst);
+char		**m_envp(char **env, t_envlst **envlst, t_lst *node);
 void		write_export(t_envlst *lst, int fd);
 int			my_env(t_envlst **lst, int fd);
 int			my_echo(char **cmd, int fd);

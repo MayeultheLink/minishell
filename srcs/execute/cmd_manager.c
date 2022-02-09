@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/09 11:37:06 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:56:06 by jpauline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ void	execute_fork(t_manag *man, t_lst *node, char **env, t_envlst **envlst)
 
 int	builtin(t_lst *cmd_lst, t_envlst **envlst)
 {
-	int	fd_file_out;
-	int	ret;
+	int		fd_file_out;
+	int		ret;
+	char	*str;
 
 	fd_file_out = 1;
 	if (cmd_lst->token->type_redir_out == 0)
@@ -63,6 +64,10 @@ int	builtin(t_lst *cmd_lst, t_envlst **envlst)
 				O_WRONLY | O_APPEND, 0644);
 	if (fd_file_out == -1)
 		return (write(2, "Error : cannot open file\n", 25), 1);
+	str = ft_strcatf("_=", cmd_lst->token->path, 0);
+	if (!str || set_env(envlst, str))
+		return (1);
+	free(str);
 	ret = launch_builtin(cmd_lst, envlst, 1, fd_file_out);
 	if (cmd_lst->token->redir_out)
 		close(fd_file_out);
@@ -73,8 +78,7 @@ int	cmd_manager(t_lst *node, char ***env, t_envlst **envlst)
 {
 	t_manag	*man;
 
-	man = init_man();
-	man->cmd_nbr = cmd_count(node);
+	man = init_man(node);
 	if (man->cmd_nbr == 1 && node->token->builtin)
 		return (free(man), builtin(node, envlst));
 	if (init_tab_fd(&man->tab_fd, man->cmd_nbr, &man->tab_pid))
@@ -88,7 +92,8 @@ int	cmd_manager(t_lst *node, char ***env, t_envlst **envlst)
 		man->tab_pid[man->i - 1] = fork();
 		if (man->tab_pid[man->i - 1] == -1)
 			return (free_man(man), write(2, "Failed fork\n", 12), 1);
-		if (man->tab_pid[man->i - 1] == 0)
+		*env = m_envp(*env, envlst, node);
+		if (man->tab_pid[man->i - 1] == 0 && *env)
 			execute_fork(man, node, *env, envlst);
 		else if (man->tab_pid[man->i - 1] > 0)
 			execute_parent(node, man);

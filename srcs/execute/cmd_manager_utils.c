@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:46:05 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 11:26:11 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:50:04 by jpauline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	cmd_count(t_lst *cmd_lst)
 	return (i);
 }
 
-t_manag	*init_man(void)
+t_manag	*init_man(t_lst *node)
 {
 	t_manag	*man;
 
 	man = malloc(sizeof(t_manag));
 	if (!man)
 		return (write(2, "Failed malloc\n", 14), NULL);
-	man->cmd_nbr = 0;
+	man->cmd_nbr = cmd_count(node);
 	man->tab_fd = NULL;
 	man->tab_pid = NULL;
 	man->fd_file_in = -2;
