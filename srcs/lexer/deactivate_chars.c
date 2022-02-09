@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 15:22:59 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 16:43:21 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ char	*redir(char *str, char *control, int *i, int *j)
 {
 	if (str[*i] && str[*i] == '<' && str[*i - 1] == '<')
 	{
-		++(*i);
 		++(*j);
-		while (str[*i] && str[*i] == ' ')
-		{
-			++(*i);
+		while (str[++(*i)] && str[*i] == ' ')
 			control[++(*j)] = '1';
-		}
 		control = heredoc_control(str, control, i, j);
 	}
-	if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
+	else if (str[*i] && (str[*i] == '<' || str[*i] == '>'))
 	{
-		++(*i);
 		++(*j);
+		while (str[++(*i)] && str[*i] == ' ')
+			control[++(*j)] = '1';
 	}
-	while (str[*i] && str[*i] == ' ')
+	else
 	{
-		control[++(*j)] = '1';
-		++(*i);
+		while (str[*i] && str[*i] == ' ')
+		{
+			control[++(*j)] = '1';
+			++(*i);
+		}
 	}
 	return (control);
 }
