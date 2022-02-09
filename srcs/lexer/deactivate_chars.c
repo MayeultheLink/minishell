@@ -6,38 +6,39 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:32:15 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 19:05:27 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:31:56 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*heredoc_control(char *str, char *control, int *i, int *j)
+char	*heredoc_control(char *str, char *contr, int *i, int *j)
 {
 	char	q;
 
+	while (str[*i] && str[*i] == ' ')
+	{
+		++(*i);
+		contr[++(*j)] = '1';
+	}
 	while (str[*i] && str[*i] != ' ')
 	{
 		if (str[*i] && (str[*i] == '"' || str[*i] == '\''))
 		{
 			q = str[*i];
-			control[++(*j)] = '1';
+			contr[++(*j)] = '1';
 			while (str[++(*i)] && str[*i] != q)
-				control[++(*j)] = '1';
+				contr[++(*j)] = '1';
 			if (!str[*i])
-				return (write(1, "Error with quotes\n", 18),
-					free(control), NULL);
-			(*j)++;
+				return (write(1, "Error with quotes\n", 18), free(contr), NULL);
+			contr[++(*j)] = '1';
 		}
-		if (!str[*i])
+		if (!str[++(*i)])
 			break ;
-		if (str[*i] == '$')
-			control[++(*j)] = '1';
 		else
-			++(*j);
-		(*i)++;
+			contr[++(*j)] = '0';
 	}
-	return (control);
+	return (contr);
 }
 
 char	*redir(char *str, char *control, int *i, int *j)
@@ -55,7 +56,7 @@ char	*redir(char *str, char *control, int *i, int *j)
 	}
 	while (str[*i] && str[*i] == ' ')
 	{
-		control[++(*j)] = '1';
+		control[++(*j)] = '0';
 		++(*i);
 	}
 	return (control);

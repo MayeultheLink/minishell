@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 13:47:22 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 17:39:11 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:24:57 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_token
 	char		**cmd;
 	int			builtin;
 	char		*redir_in;
-	int			type_redir_in;
+	int			type_ri;
 	int			fd_redir_in;
 	char		*redir_out;
 	int			type_redir_out;
@@ -79,7 +79,7 @@ int			create_files(t_lst *lst, int status);
 int			*create_tab_fd(int n);
 int			*create_tab_pid(int n);
 char		*deactivate_chars(char *str);
-int			del_pipes(t_lst *lst);
+t_lst		*del_pipes(t_lst *lst);
 char		*error_cmd(t_lst *lst);
 int			error_pipe(t_lst *lst);
 int			error_redir(t_lst *lst);
@@ -101,11 +101,13 @@ void		handler(int keysym);
 int			heredoc(t_lst *lst, int status);
 t_manag		*init_man(void);
 int			init_tab_fd(int **tab_fd, int cmd_nbr, int **tab_pid);
+t_token		*init_token(char *str, char *control, int beg, int end);
 int			is_builtin(char *str);
 int			is_fake_cmd(char *cmd);
 int			launch_cmd(char *str, char **env);
 int			launch_not_interactive(int ac, char **av, t_envlst *lst);
 int			launch_interactive(t_envlst *lst);
+int			manage_quotes(char *delim, char **new);
 char		*my_getenv(char *str, char **env, int status);
 t_lst		*parse_lineofcmd(char *str, char **env, int status);
 t_lst		*parse_lst(t_lst *lst, char **env, int status);

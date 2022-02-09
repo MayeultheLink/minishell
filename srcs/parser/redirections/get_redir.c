@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:43:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/01/31 13:24:11 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:25:35 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	find_redir(t_lst *lst, int *i, int *o)
 	}
 	while (lst && lst->token->type != PIPE)
 	{
-		if (lst->token->type == REDIR)
+		if (lst->token->type == REDIR && tmp->token->type == CMD)
 		{
 			if (lst->token->str[0] == '<')
 				*i = c;
@@ -77,17 +77,17 @@ int	get_redir(t_lst *lst)
 	{
 		find_redir(lst, &in, &out);
 		lst_cmd = lst;
-		while (lst_cmd->token->type != CMD)
+		while (lst_cmd && lst_cmd->token->type != CMD)
 			lst_cmd = lst_cmd->next;
 		if (in >= 0)
 			lst_cmd->token->redir_in = fill_redir(ft_lststart(lst),
-					&lst_cmd->token->type_redir_in,
+					&lst_cmd->token->type_ri,
 					&lst_cmd->token->fd_redir_in, in);
 		if (out >= 0)
 			lst_cmd->token->redir_out = fill_redir(ft_lststart(lst),
 					&lst_cmd->token->type_redir_out, 0, out);
-		if ((lst_cmd->token->type_redir_in == 0 && !lst_cmd->token->redir_in)
-			|| (out >= 0 && !lst_cmd->token->redir_out))
+		if (lst_cmd && ((out >= 0 && !lst_cmd->token->redir_out)
+				|| (lst_cmd->token->type_ri == 0 && !lst_cmd->token->redir_in)))
 			return (write(2, "Failed malloc\n", 14), 0);
 		while (lst->next && lst->token->type != PIPE)
 			lst = lst->next;

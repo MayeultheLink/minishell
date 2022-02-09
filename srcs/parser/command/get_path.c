@@ -6,7 +6,7 @@
 /*   By: mde-la-s <mde-la-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 15:04:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 20:41:32 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:19:42 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ char	*get_cmd_with_path(t_lst *lst)
 	str = NULL;
 	if (!split_path)
 		return (write(2, "Failed malloc\n", 14), NULL);
-	str = get_path(lst->token->str, split_path);
+	if (lst->token->type == CMD)
+		str = get_path(lst->token->str, split_path);
 	ft_freesplit(split_path);
 	if (!str)
 		return (NULL);

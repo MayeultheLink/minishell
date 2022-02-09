@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:02:02 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 18:50:36 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:26:34 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token	*set_all_to_null(t_token *token)
 	token->redir_in = NULL;
 	token->redir_out = NULL;
 	token->builtin = 0;
-	token->type_redir_in = -1;
+	token->type_ri = -1;
 	token->type_redir_out = -1;
 	token->fd_redir_in = -2;
 	token->type = -1;
@@ -47,6 +47,8 @@ t_token	*init_token(char *str, char *control, int beg, int end)
 	if (!token)
 		return (write(2, "Failed malloc\n", 14), NULL);
 	token = set_all_to_null(token);
+	if (!str)
+		return (token);
 	c = 0;
 	i = -1;
 	while (beg + ++i < end)

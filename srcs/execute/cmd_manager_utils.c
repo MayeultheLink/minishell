@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:46:05 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/04 17:50:57 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:26:11 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ t_manag	*init_man(void)
 
 void	redirections(int *fd_file_in, int *fd_file_out, t_lst *node)
 {
-	if (node->token->type_redir_in >= 0)
+	if (node->token->type_ri >= 0)
 	{
-		if (node->token->type_redir_in == 0)
+		if (node->token->type_ri == 0)
 			*fd_file_in = open(node->token->redir_in, O_RDONLY, 0644);
-		if (node->token->type_redir_in == 1)
+		if (node->token->type_ri == 1)
 			*fd_file_in = node->token->fd_redir_in;
 	}
 	if (node->token->type_redir_out == 0)

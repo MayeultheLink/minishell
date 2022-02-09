@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:37:41 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 20:40:34 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:12:36 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	**fill_cmd(t_lst *lst, int c)
 	char	**cmd;
 	int		i;
 
+	if (!c)
+		return (NULL);
 	cmd = malloc(sizeof(char *) * (c + 1));
 	if (!cmd)
 		return (write(2, "Failed malloc\n", 14), NULL);
@@ -57,9 +59,8 @@ char	**fill_cmd(t_lst *lst, int c)
 		if (lst->token->type == CMD)
 		{
 			cmd[i] = ft_strdup(lst->token->str);
-			if (!cmd[i])
+			if (!cmd[i++])
 				return (write(2, "Failed malloc\n", 14), NULL);
-			i++;
 		}
 		lst = lst->next;
 	}
@@ -81,12 +82,12 @@ t_lst	*get_cmd_with_arg2(t_lst *lst)
 	}
 	while (lst->previous && lst->previous->token->type != PIPE)
 		lst = lst->previous;
-	while (lst->next && lst->token->type != CMD)
+	while (lst->next && lst->token->type != CMD && lst->token->type != PIPE)
 		lst = lst->next;
+	if (lst->token->type == PIPE)
+		lst = lst->previous;
 	lst->token->path = get_cmd_with_path(lst);
 	lst->token->cmd = fill_cmd(lst, c);
-	if (!lst->token->path || !lst->token->cmd)
-		return (NULL);
 	if (lst->next && lst->next->token->type != PIPE)
 		free_arg(lst->next);
 	return (lst);

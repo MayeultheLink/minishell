@@ -6,7 +6,7 @@
 /*   By: jpauline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:14:28 by jpauline          #+#    #+#             */
-/*   Updated: 2022/02/07 20:34:16 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:26:27 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_parent(t_lst *node, t_manag *man)
 	g_signal = 1;
 	if (node->token->path && !ft_strcmp(node->token->path, "./minishell"))
 		g_signal = 2;
-	if (node->token->type_redir_in >= 0)
+	if (node->token->type_ri >= 0)
 		close(man->fd_file_in);
 	if (node->token->redir_out)
 		close(man->fd_file_out);
@@ -39,7 +39,7 @@ void	execute_fork(t_manag *man, t_lst *node, char **env, t_envlst **envlst)
 	if (man->cmd_nbr > 1 && man->i != 1)
 		dup2(man->tab_fd[(man->i - 2) * 2], STDIN_FILENO);
 	close_all_fd(man->tab_fd, man->cmd_nbr - 1);
-	if (node->token->type_redir_in >= 0)
+	if (node->token->type_ri >= 0)
 		dup2(man->fd_file_in, STDIN_FILENO);
 	if (node->token->redir_out)
 		dup2(man->fd_file_out, STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:38:13 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 18:45:50 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:11:31 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	heredoc(t_lst *lst, int status)
 				write(2, "heredoc warning : ended by end-of-file\n", 40), fd[0]);
 		if (ft_strcmp(delim, str))
 		{
-			if (i)
+			if (!i)
 				str = parse_str_readline(str, lst, status);
 			write(fd[1], str, ft_strlen(str));
 			write(fd[1], "\n", 1);

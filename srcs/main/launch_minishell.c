@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:29:38 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 16:46:14 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:02:06 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	launch_interactive2(char *str, t_envlst **envlst, char ***env, int status)
 	if (lst)
 		status = cmd_manager(lst, env, envlst);
 	if (!lst || (lst->token && lst->token->path
-			&& !(ft_lstend(lst)->token->path)))
+			&& !(ft_lstend(lst)->token->path) && (ft_lstend(lst))->token->cmd))
 		status = 127;
 	if (lst)
 		freelst(lst);

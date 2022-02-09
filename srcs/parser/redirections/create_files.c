@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 12:13:53 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/07 18:39:59 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:33:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,29 +54,32 @@ int	redir_out(char *str)
 	return (1);
 }
 
-void	solo_redir_heredoc(char *name)
+/*void	solo_redir_heredoc(char *name)
 {
 	char	*str;
+	char	*delim;
 
+	manage_quotes(name, &delim);
 	while (1)
 	{
 		str = readline("> ");
 		if (!str)
 			break ;
-		if (!ft_strcmp(str, name))
+		if (!ft_strcmp(str, delim))
 		{
 			free(str);
 			break ;
 		}
 		free(str);
 	}
+	free(delim);
 }
 
 int	solo_redir(t_lst *lst)
 {
 	char	*name;
 
-	while (lst)
+	while (lst && lst->token->type != PIPE)
 	{
 		if (lst->token->str[1] != '<' && lst->token->str[1] != '>')
 			name = ft_strtrim(&lst->token->str[1], " ");
@@ -88,7 +91,7 @@ int	solo_redir(t_lst *lst)
 			return (write(2, "Syntax error : redirections\n", 28));
 		if (lst->token->str[0] == '<' && lst->token->str[1] != '<'
 			&& access(name, F_OK))
-			lst->token->type_redir_in = 0;
+			lst->token->type_ri = 0;
 		else if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
 			solo_redir_heredoc(name);
 		else
@@ -97,30 +100,26 @@ int	solo_redir(t_lst *lst)
 		lst = lst->next;
 	}
 	return (1);
-}
+}*/
 
 int	create_files(t_lst *lst, int status)
 {
-	while (lst->token->type == REDIR)
-	{
-		if (lst->next && lst->next->token->type == REDIR)
-			lst = lst->next;
-		else if (!lst->next)
-			return (solo_redir(ft_lststart(lst)));
-		else
-			break ;
-	}
 	while (lst)
 	{
-		if (lst->token->type == REDIR)
+		while (lst && lst->token->type != PIPE)
 		{
-			if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
-				lst->token->fd_redir_in = heredoc(lst, status);
-			if (lst->token->str[0] == '>')
-				if (!redir_out(lst->token->str))
-					return (0);
+			if (lst->token->type == REDIR)
+			{
+				if (lst->token->str[0] == '<' && lst->token->str[1] == '<')
+					lst->token->fd_redir_in = heredoc(lst, status);
+				if (lst->token->str[0] == '>')
+					if (!redir_out(lst->token->str))
+						return (0);
+			}
+			lst = lst->next;
 		}
-		lst = lst->next;
+		if (lst)
+			lst = lst->next;
 	}
 	return (1);
 }
