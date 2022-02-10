@@ -6,7 +6,7 @@
 /*   By: mde-la-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:58:20 by mde-la-s          #+#    #+#             */
-/*   Updated: 2022/02/09 16:24:20 by mde-la-s         ###   ########.fr       */
+/*   Updated: 2022/02/10 12:37:03 by mde-la-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	free_redir(t_lst *lst)
 	if (lst && lst->token && lst->token->str)
 		free(lst->token->str);
 	lst->token->str = NULL;
+	if (lst && lst->token && lst->token->redir_in)
+		free(lst->token->redir_in);
+	lst->token->redir_in = NULL;
+	if (lst && lst->token && lst->token->redir_out)
+		free(lst->token->redir_out);
+	lst->token->redir_out = NULL;
 	if (lst && lst->token)
 		free(lst->token);
 	lst->token = NULL;
